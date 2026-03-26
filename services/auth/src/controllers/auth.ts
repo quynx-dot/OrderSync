@@ -10,7 +10,7 @@ export const loginUser=TryCatch(async(req,res)=>{
     const{code}=req.body;
     if(!code){
         return res.status(400).json({
-            message:"Authorixation code is required",
+            message:"Authorization code is required",
         });
     }
     const googleRes=await oauth2client.getToken(code)
