@@ -11,12 +11,12 @@ const ProtectedRoute= () => {
         return <Navigate to={'/login'} replace/>;
     }
 
-    if(!user?.role && location.pathname!=="/select-role"){
+    if(user?.role===null && location.pathname!=="/select-role"){
         return <Navigate to={"/select-role"} replace/>;
     }
-    if(user?.role && location.pathname ==="/select-role"){
-        return <Navigate to={"/"} replace/>;
-    }
+    // if(user?.role!==null && location.pathname ==="/select-role"){
+    //     return <Navigate to={"/"} replace/>;
+    // }
     return <Outlet/>
 };
 export default ProtectedRoute;

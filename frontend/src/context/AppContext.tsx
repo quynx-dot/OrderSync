@@ -39,11 +39,11 @@ export const AppProvider=({children}:AppProviderProps)=>{
     },[]);
     return (<AppContext.Provider value={{isAuth,loading,setIsAuth,setLoading,setUser,user}}>{children}</AppContext.Provider>
 );
-};
+}
 export const useAppData=(): AppContextType=>{
     const context=useContext(AppContext)
     if(!context){
         throw new Error("useAppData must be used within AppProvider")
     }
     return context;
-};
+}
