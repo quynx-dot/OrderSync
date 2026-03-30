@@ -1,15 +1,26 @@
 import { useAppData } from '../context/AppContext'
 import { CgShoppingCart} from 'react-icons/cg';
 import { useLocation, useSearchParams, Link} from 'react-router-dom';
-import { useState } from 'react';
-import { BiMapPin } from 'react-icons/bi';
+import { useState, useEffect } from 'react';
+import { BiMapPin,BiSearch } from 'react-icons/bi';
+
 
 const Navbar = () => {
-    const{isAuth} =useAppData();
+    const{isAuth, city} =useAppData();
     const currLocation=useLocation();
     const isHomePage=currLocation.pathname==='/';
     const [searchParams, setSearchParams]=useSearchParams();
     const[search,setSearch]=useState(searchParams.get("search")||"")
+    useEffect(()=>{
+        const timer=setTimeout(()=>{
+            if(search){
+                setSearchParams({search});
+            }else{
+                setSearchParams({});
+            }
+        })
+        return()=> clearTimeout(timer);
+    },[search]);
   return (
     <div className="w-full bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
@@ -26,11 +37,11 @@ const Navbar = () => {
                 </Link>
                 {
                     isAuth ? (
-                        <Link to="/account " className="font-medium text-[#E23744]">
+                        <Link to="/account" className="font-medium text-[#E23744]">
                             Account
                         </Link>
                     ): (
-                        <Link to="/Login " className="font-medium text-[#E23744]">
+                        <Link to="/login" className="font-medium text-[#E23744]">
                             Login
                         </Link>
                     )
@@ -42,10 +53,10 @@ const Navbar = () => {
         {
             isHomePage && 
             <div className="border-t px-4 py-3" >
-                <div className="mx-auto flex ma-w-7xl items-center rounded-lg border shadow-sm">
+                <div className="mx-auto flex max-w-7xl items-center rounded-lg border shadow-sm">
                     <div className="flex items-center gap-2 px-3 border-r text-gray-700">
                         <BiMapPin className=" h-4 w-4 text-[#E23744]"/>
-                        <span className="text-sm truncate  max-w-35">city</span>
+                        <span className="text-sm truncate  max-w-35">{city === "Fetching Location ..." ? "Detecting..." : city}</span>
                        </div>
                        <div className="flex flex-1 items-center gap-2 px-3">
                         <input type="text" placeholder="Search for restaurant" value={search}
