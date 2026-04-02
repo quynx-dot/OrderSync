@@ -3,6 +3,7 @@ import TryCatch from "../middlewares/trycatch.js"
 import Restaurant from "../models/Restaurant.js";
 import getBuffer from "../config/datauri.js";
 import axios from 'axios';
+import jwt from "jsonwebtoken";
 export const addRestaurant=TryCatch(async(req:AuthenticatedRequest,res)=>{
     const user=req.user;
     if(!user){
@@ -55,9 +56,42 @@ const restaurant=await Restaurant.create({
         coordinates:[Number(longitude), Number(latitude)],
         formattedAddress,
     },
+    isVerified:false,
     });
     return res.status(201).json({
         message:"Restaurant created successfully",
         restaurant,
     })
 });
+export const fetchMyRestaurant= TryCatch(async(req:AuthenticatedRequest, res)=>{
+    if(!req.user){
+        return res.status(401).json({
+            message:"Please Login",
+
+        });
+    }
+    const restaurant=await Restaurant.findOne({ownerId:req.user._id});
+    if(!restaurant){
+          return res.status(400).json({
+            message:"No Restaurant Found"
+
+        });
+    }
+    if(!req.user.restaurantId){
+        const token=jwt.sign({
+            user:{
+                ...req.user,
+                restaurantId:restaurant._id
+            },
+            
+        },
+        process.env.JWT_SEC as string,
+        {
+            expiresIn:"15d",
+        }
+    );
+    return res.json({restaurant, token})
+    }
+    res.json({restaurant});
+}
+);
