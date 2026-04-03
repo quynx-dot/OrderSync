@@ -11,7 +11,7 @@ const ProtectedRoute= () => {
         return <Navigate to={'/login'} replace/>;
     }
 
-    if(user?.role===null && location.pathname!=="/select-role"){
+    if(user && user?.role===null && location.pathname!=="/select-role"){
         return <Navigate to={"/select-role"} replace/>;
     }
     // if(user?.role!==null && location.pathname ==="/select-role"){

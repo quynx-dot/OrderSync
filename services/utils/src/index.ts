@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json({limit:"50mb"}));
 app.use(express.urlencoded({limit:"50mb", extended:true}));
 app.use(cors());
+
 const{CLOUD_NAME, CLOUD_API_KEY, CLOUD_SECRET_KEY}=process.env;
 if(!CLOUD_NAME|| !CLOUD_API_KEY ||!CLOUD_SECRET_KEY){
   throw new Error("Missing Cloudinary Environment Variables");

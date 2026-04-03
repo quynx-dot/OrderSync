@@ -13,8 +13,8 @@ app.use(express.json());
 const PORT = process.env.PORT || 5001;
 
 app.use("/api/restaurant", restaurantRoutes);
-
+ connectDB();
 app.listen(PORT, () => {
   console.log(`Restaurant service is running on port ${PORT}`);
-  connectDB();
+ 
 });
