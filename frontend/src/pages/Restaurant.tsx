@@ -5,6 +5,10 @@ import { restaurantService } from "../main";
 import AddRestaurant from "../components/AddRestaurant";
 import RestaurantProfile from "../components/RestaurantProfile";
 import toast from "react-hot-toast";
+import MenuItems from "../components/MenuItems";
+import AddMenuItem from "../components/AddMenuItem";
+
+
 
 type SellerTab = "menu" | "add-item" | "sales";
 
@@ -85,8 +89,8 @@ const Restaurant = () => {
           ))}
         </div>
         <div className="p-5">
-          {tab === "menu" && <p>Menu Page</p>}
-          {tab === "add-item" && <p>Add Item Page</p>}
+          {tab === "menu" && <MenuItems/>}
+          {tab === "add-item" && <AddMenuItem onItemAdded={()=>{}} />}
           {tab === "sales" && <p>Sales Page</p>}
         </div>
       </div>
