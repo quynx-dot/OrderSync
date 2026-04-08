@@ -45,6 +45,7 @@ export const addMenuItem = TryCatch(async(req:AuthenticatedRequest, res)=>{
         price,
         restaurantId:restaurant._id,
         image:uploadResult.url,
+        isAvailable: true,
       })
       res.json({
         message:"Item Addes Successfully",
@@ -108,8 +109,33 @@ export const toggleMenuItemAvailability=TryCatch(async(req:AuthenticatedRequest,
     }
     const{itemId}=req.params;
     if(!itemId){
-
+        return res.status(400).json({
+            message:"Id is required",
+        });
     }
+    const item=await MenuItems.findById(itemId);
+     if(!item){
+        return res.status(400).json({
+            message:"No item found",
+        });
+    }
+    const restaurant= await Restaurant.findOne({
+        _id :item.restaurantId,
+        ownerId:req.user._id,
+    });
+    if(!restaurant){
+        return res.status(404).json({
+            message:"No Restaurnt found",
+        });
+    }
+    item.isAvailable=!item.isAvailable;
+    await item.save()
+    res.json({
+        message:`Item Marked as ${
+            item.isAvailable ? "available":"unavailable"
+        }`,
+        item,
+    });
 })
 
         

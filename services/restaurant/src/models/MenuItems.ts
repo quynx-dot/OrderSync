@@ -36,8 +36,7 @@ const schema=new Schema<IMenuItem>({
     },
     isAvailable:{
         type:Boolean,
-        default:true,
-       
+        default:true,  
     },
 },{
     timestamps:true,

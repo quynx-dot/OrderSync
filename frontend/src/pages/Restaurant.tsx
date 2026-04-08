@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { IRestaurant } from "../types";
+import type{ IMenuItem, IRestaurant } from "../types";
 import axios from "axios";
 import { restaurantService } from "../main";
 import AddRestaurant from "../components/AddRestaurant";
@@ -47,6 +47,29 @@ const Restaurant = () => {
   useEffect(() => {
     fetchMyRestaurant();
   }, []);
+  
+  const [menuItems, setMenuItems]=useState<IMenuItem[]>([]);
+  const fetchMenuItems=async(restaurantId:string)=>{
+    try{
+      const{data}=await axios.get(
+        `${restaurantService}/api/item/all/${restaurantId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setMenuItems(data);
+    }catch(error){
+      console.log(error);
+    }
+  };
+
+useEffect(()=>{
+  if(restaurant?._id){
+    fetchMenuItems(restaurant._id);
+  }
+},[restaurant]);
 
   if (loading) {
     return (
@@ -56,8 +79,8 @@ const Restaurant = () => {
     );
   }
 
-  if (!restaurant) {
-    return <AddRestaurant fetchMyRestaurant={fetchMyRestaurant} />;
+  if ( !restaurant) {
+    return <  AddRestaurant fetchMyRestaurant={fetchMyRestaurant} />;
   }
 
   return (
@@ -89,8 +112,15 @@ const Restaurant = () => {
           ))}
         </div>
         <div className="p-5">
-          {tab === "menu" && <MenuItems/>}
-          {tab === "add-item" && <AddMenuItem onItemAdded={()=>{}} />}
+          {tab === "menu" && (
+            <MenuItems items={menuItems} 
+          onItemDeleted={()=> fetchMenuItems(restaurant._id)}
+          isSeller={true} />
+          )}
+          {tab === "add-item" &&(
+           <AddMenuItem onItemAdded={()=>fetchMenuItems(restaurant._id)}/>
+          )}
+         
           {tab === "sales" && <p>Sales Page</p>}
         </div>
       </div>
