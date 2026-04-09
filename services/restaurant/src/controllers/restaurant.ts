@@ -4,6 +4,7 @@ import Restaurant from "../models/Restaurant.js";
 import getBuffer from "../config/datauri.js";
 import axios from 'axios';
 import jwt from "jsonwebtoken";
+
 console.log("Calling utils at:", process.env.UTILS_SERVICE);
 export const addRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => {
   const user = req.user;
@@ -117,4 +118,55 @@ export const updateRestaurant = TryCatch(async (req: AuthenticatedRequest, res) 
   }
 
   res.json({ message: "Restaurant updated", restaurant });
+});
+
+export const getNearbyRestaurant=TryCatch(async(require,res)=>{
+  const {latitude, longitude, radius=5000, search=""}=require.query;
+  if(!latitude || !longitude){
+    return res.status(400).json({
+      message:"Latitude and longitude are required",
+    });
+  }
+  const query:any={
+    isVerified:true
+  }
+  if(search && typeof search=="string"){
+    query.name={$regex:search, $options:"i"}
+  }
+  const restaurants=await Restaurant.aggregate([
+    {
+      $geoNear:{
+        near:{
+          type:"Point",
+          coordinates:[Number(longitude),  Number(latitude)],
+        },
+        distanceField:"distance",
+        maxDistance:Number(radius),
+        spherical:true,
+        query,
+      },
+    },
+    {
+      $sort:{
+        isOpen:-1,
+        distance:-1,
+      },
+    },
+    {
+      $addFields:{
+        sistanceKm:{
+          $round:[{ $divide:["$distance", 1000]},2],
+        },
+      },
+    },
+  ]);
+  res.json({
+    success:true,
+    count:restaurants.length,
+    restaurants,
+  });
+});
+export const fetchSingleRestaurant= TryCatch(async(req, res)=>{
+  const restaurant=await Restaurant.findById(req.params.id);
+  res.json(restaurant);
 });

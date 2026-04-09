@@ -19,7 +19,7 @@ const Restaurant = () => {
 
   const fetchMyRestaurant = async () => {
     try {
-      const { data } = await axios.get(`${restaurantService}/api/restaurant/my`, {
+      const { data } = await axios.get(`${restaurantService}/api/restaurants/my`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

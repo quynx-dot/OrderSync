@@ -11,7 +11,7 @@ export const restaurantService = import.meta.env.VITE_RESTAURANT_SERVICE ?? "htt
 // ✅ Google client ID moved to env variable — was hardcoded before
 // Add VITE_GOOGLE_CLIENT_ID to your frontend/.env file
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
-
+console.log("CLIENT ID:", googleClientId);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={googleClientId}>
