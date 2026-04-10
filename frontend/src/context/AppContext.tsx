@@ -1,7 +1,7 @@
 import { createContext, type ReactNode, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { authService } from "../main";
-import { type LocationData, type AppContextType, type User } from "../types";
+import type{ LocationData, AppContextType, User,ICart } from "../types";
 import { Toaster } from "react-hot-toast";
 
 
@@ -36,11 +36,32 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       setLoading(false);
     }
   }
-
+  const [cart,setCart]=useState<ICart[]>([])
+  const [subTotal,setSubtotal]=useState(0);
+  const[quantity,setQuantity]=useState(0);
+  async function fetchCart(){
+    if(!user || user.role!=="customer") return;
+    try {
+      const {data}=await axios.get(`$restaurantService/api/cart/all`,{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+       setCart(data.cart);
+        setSubtotal(data.subTotal || 0);
+        setQuantity(data.cartLength || 0);
+    }catch(error){
+        console.log("Error fetching cart:",error);
+    }
+  }
   useEffect(() => {
     fetchuser();
   }, []);
-
+useEffect(() => {
+    if(user && user.role === "customer"){
+        fetchCart();
+    }
+}, [user]);
   useEffect(() => {
     if (!navigator.geolocation) {
       setCity("Location unavailable");
@@ -86,7 +107,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
   return (
     <AppContext.Provider
-      value={{ isAuth, loading, setIsAuth, setLoading, setUser, user, location, loadingLocation, city }}
+      value={{ isAuth, loading, setIsAuth, setLoading, setUser, user, location, loadingLocation, city, cart , fetchCart, quantity,subTotal}}
     >
       {children}
       <Toaster />

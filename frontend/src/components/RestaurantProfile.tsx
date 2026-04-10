@@ -66,8 +66,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
         <img src={restaurant.image} alt="" className="h-48 w-full object-cover" />
       )}
       <div className="p-5 space-y-4">
-
-        {/* ✅ Name + location are always visible; only the edit button is gated on isSeller */}
+      
         <div className="flex items-start justify-between">
           <div>
             {editMode ? (
@@ -84,7 +83,6 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
               {restaurant.autoLocation.formattedAddress || "Location unavailable"}
             </div>
           </div>
-          {/* ✅ Edit button only for seller */}
           {isSeller && (
             <button
               onClick={() => setEditMode(!editMode)}
@@ -93,9 +91,15 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
               <BiEdit size={18} />
             </button>
           )}
-        </div>
+            </div>
+      
+     
+        {!isSeller && (
+            <h2 className="text-xl font-semibold">{restaurant.name}</h2>
+        )}
 
-        {/* ✅ Removed stray semicolon that was rendering as text on screen */}
+        
+
         {editMode ? (
           <textarea
             value={description}
