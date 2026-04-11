@@ -1,6 +1,6 @@
 import { createContext, type ReactNode, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { authService } from "../main";
+import { authService, restaurantService } from "../main";
 import type{ LocationData, AppContextType, User,ICart } from "../types";
 import { Toaster } from "react-hot-toast";
 
@@ -42,7 +42,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   async function fetchCart(){
     if(!user || user.role!=="customer") return;
     try {
-      const {data}=await axios.get(`$restaurantService/api/cart/all`,{
+      const {data}=await axios.get(`${restaurantService}/api/cart/all`,{
         headers:{
           Authorization:`Bearer ${localStorage.getItem("token")}`,
         },

@@ -61,7 +61,7 @@ const MenuItems = ({items, onItemDeleted, isSeller}:MenuItemsProps) => {
         },
       });
       toast.success(data.message);
-      fetchCart();
+      await fetchCart();
     }catch(error: any){
       toast.error(error.response?.data?.message || "Failed to add item to cart. Please try again.");
     }finally{
@@ -73,14 +73,14 @@ const MenuItems = ({items, onItemDeleted, isSeller}:MenuItemsProps) => {
       {items.map((item)=>{
         const isLoading=loadingItemId=== item._id;
         return(
-          <div className={`relative flex gap-4 rounded-lg bg-white p-4 shadow-sm transition ${!item.isAvailable ? "opacity-70":""
+          <div key={item._id} className={`relative flex gap-4 rounded-lg bg-white p-4 shadow-sm transition ${!item.isAvailable ? "opacity-70":""
           }`}
           >
-            <div className="relative shrink-0">
+            <div  className="relative shrink-0">
               <img src={item.image} alt="" className={`h-20 w-20 rounded object-cover ${
                 !item.isAvailable ? "grayscale brightness-75":""
               }`} 
-              key={item._id}
+              
               />
               {
                 !item.isAvailable && (

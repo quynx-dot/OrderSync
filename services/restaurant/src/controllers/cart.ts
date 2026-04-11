@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 
 
+
 export const addToCart=TryCatch(async(req:AuthenticatedRequest,res)=>{
 if(!req.user){
     return res.status(401).json({
@@ -46,12 +47,10 @@ const cartItem=await Cart.findOneAndUpdate(
 return res.json({
     message:"Item added to cart ",
     cart:cartItem,
-});
-return res.json({
-    message:"Item added to cart",
-    cart:cartItem,
-})
-});
+});    
+});     
+
+
 export const fetchMyCart=TryCatch(async(req:AuthenticatedRequest,res)=>{
     if(!req.user){
         return res.status(401).json({
@@ -76,6 +75,73 @@ export const fetchMyCart=TryCatch(async(req:AuthenticatedRequest,res)=>{
         cartLength,
         subTotal,
         cart:cartItems,
-    })
+    });
 });
 
+export const incrementCartItem=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    const userId=req.user?._id;
+    const {itemId}=req.body;
+    if(!userId || !itemId){
+    return res.status(400).json({
+        message:"Invalid request",
+    });
+}
+const cartItem=await Cart.findOneAndUpdate(
+    { userId,itemId},
+    {$inc:{quantity:1}},
+    {new:true}
+);
+if(!cartItem){
+    return res.status(404).json({
+        message:"Item not found."
+    })
+}
+res.json({
+    message:"quantity increased.",
+    cartItem,
+})
+} )
+
+export const decrementCartItem=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    const userId=req.user?._id;
+    const {itemId}=req.body;
+    if(!userId || !itemId){
+    return res.status(400).json({
+        message:"Invalid request",
+    });
+}
+const cartItem=await Cart.findOne(
+    { userId,itemId},
+   
+);
+if(!cartItem){
+    return res.status(404).json({
+        message:"Item not found."
+    })
+}
+if(cartItem.quantity===1){
+    await Cart.deleteOne({userId,itemId});
+    return res.json({
+        message:"Item removed from cart."
+    });
+}
+cartItem.quantity-=1;
+await cartItem.save();
+res.json({
+    message:"quantity decreased.",
+    cartItem,
+})
+} );
+export const clearCart=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    const userId=req.user?._id;
+    if(!userId){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    await Cart.deleteMany({userId});
+    res.json({
+        message:"Cart cleared successfully."
+    });
+
+});
