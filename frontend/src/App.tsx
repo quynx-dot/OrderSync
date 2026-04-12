@@ -10,6 +10,7 @@ import { useAppData } from "./context/AppContext";
 import Restaurant from "./pages/Restaurant";
 import RestaurantPage from "./pages/RestaurantPage";
 import Cart from "./pages/Cart";
+import AddAddressPage from "./pages/Address";
 
 const App = () => {
   const { user } = useAppData();
@@ -31,6 +32,7 @@ const App = () => {
               user?.role === "seller" ? <Navigate to="/restaurant" replace /> : <Home />
             }
           />
+          <Route path="address/" element={<AddAddressPage/>}/>
           <Route path="/restaurants/:id" element={<RestaurantPage/>} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/select-role" element={<SelectRole />} />
