@@ -11,6 +11,7 @@ import Restaurant from "./pages/Restaurant";
 import RestaurantPage from "./pages/RestaurantPage";
 import Cart from "./pages/Cart";
 import AddAddressPage from "./pages/Address";
+import CheckoutPage from "./pages/Checkout";
 
 const App = () => {
   const { user } = useAppData();
@@ -32,7 +33,8 @@ const App = () => {
               user?.role === "seller" ? <Navigate to="/restaurant" replace /> : <Home />
             }
           />
-          <Route path="address/" element={<AddAddressPage/>}/>
+          <Route path="/address" element={<AddAddressPage/>}/>
+          <Route path="/checkout" element={<CheckoutPage/>}/>
           <Route path="/restaurants/:id" element={<RestaurantPage/>} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/select-role" element={<SelectRole />} />
