@@ -13,7 +13,8 @@ export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
             message:"Unauthorized",
         });
     }
-    const {paymentMethod,addressId, distance}=req.body;
+    const {paymentMethod,addressId}=req.body;
+   
     if(!addressId){
         return res.status(400).json({
             message:"Address is required",
@@ -29,6 +30,23 @@ export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
             message:"Address Not Found.",
         });
     }
+     const getDistanceKm=(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number => {
+    const R = 6371;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos((lat1 * Math.PI) / 180) *
+              Math.cos((lat2 * Math.PI) / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return +( R * c).toFixed(2);
+  };
+
     const cartItems=await Cart.find({userId:user._id}).populate<{itemId:IMenuItem}>("itemId").populate<{restaurantId:IRestaurant}>("restaurantId");
     
     if(cartItems.length===0){
@@ -53,6 +71,11 @@ export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
             message:"Sorry this restaurant is closed for now",
         });
     }
+     const distance= getDistanceKm(address.location.coordinates[1],
+        address.location.coordinates[0],
+        restaurant.autoLocation.coordinates[1],
+        restaurant.autoLocation.coordinates[0],
+     );
     let subtotal=0;
     const orderItems=cartItems.map((cart)=>{
         const item=cart.itemId;
@@ -99,7 +122,7 @@ export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
     await Cart.deleteMany({userId:user._id});
     res.json({
         message:"Order Created Successfully",
-        ownerId:order._id.toString(),
+        orderId:order._id.toString(),
         amount:totalAmount,
     });     
 });
@@ -113,6 +136,7 @@ export const fetchOrderForPayment=TryCatch(async(req, res)=>{
     if(!order){
         return res.status(404).json({
             message:"Order Not Found",
+
         });
     }
     if(order.paymentStatus!=="pending"){
@@ -120,8 +144,9 @@ export const fetchOrderForPayment=TryCatch(async(req, res)=>{
             message:"Order already paid",
         });
     }
+    
     res.json({
-        orfderId:order._id,
+        orderId:order._id,
         amount:order.totalAmount,
         currency:"INR"
     })

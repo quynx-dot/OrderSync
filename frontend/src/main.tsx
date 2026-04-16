@@ -8,6 +8,7 @@ import "leaflet/dist/leaflet.css";
 
 export const authService = import.meta.env.VITE_AUTH_SERVICE ?? "http://localhost:5000";
 export const restaurantService = import.meta.env.VITE_RESTAURANT_SERVICE ?? "http://localhost:5001";
+export const utilsService = import.meta.env.VITE_UTILS_SERVICE ?? "http://localhost:5002";
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 console.log("CLIENT ID:", googleClientId);
