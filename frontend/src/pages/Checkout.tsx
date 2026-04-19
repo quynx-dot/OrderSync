@@ -157,7 +157,7 @@ const stripePromise=loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
         setLoadingStripe(false);
         return;
       }
-       const {orderId, amount} = order;
+       const {orderId } = order;
       try{
         const stripe = await stripePromise;
         const { data } = await axios.post(
