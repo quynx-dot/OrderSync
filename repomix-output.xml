@@ -1,0 +1,4682 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+frontend/.gitignore
+frontend/eslint.config.js
+frontend/index.html
+frontend/package.json
+frontend/public/favicon.svg
+frontend/public/icons.svg
+frontend/README.md
+frontend/src/App.tsx
+frontend/src/assets/hero.png
+frontend/src/assets/react.svg
+frontend/src/assets/vite.svg
+frontend/src/components/AddMenuItem.tsx
+frontend/src/components/AddRestaurant.tsx
+frontend/src/components/MenuItems.tsx
+frontend/src/components/navbar.tsx
+frontend/src/components/protectedRoute.tsx
+frontend/src/components/publicRoutes.tsx
+frontend/src/components/RestaurantCard.tsx
+frontend/src/components/RestaurantProfile.tsx
+frontend/src/context/AppContext.tsx
+frontend/src/index.css
+frontend/src/main.tsx
+frontend/src/pages/Account.tsx
+frontend/src/pages/Address.tsx
+frontend/src/pages/Cart.tsx
+frontend/src/pages/Checkout.tsx
+frontend/src/pages/Home.tsx
+frontend/src/pages/Login.tsx
+frontend/src/pages/Restaurant.tsx
+frontend/src/pages/RestaurantPage.tsx
+frontend/src/pages/SelectRole.tsx
+frontend/src/types.ts
+frontend/tsconfig.app.json
+frontend/tsconfig.json
+frontend/tsconfig.node.json
+frontend/vite.config.ts
+package.json
+services/auth/package.json
+services/auth/src/config/db.ts
+services/auth/src/config/googleconfig.ts
+services/auth/src/controllers/auth.ts
+services/auth/src/index.ts
+services/auth/src/middlewares/isAuth.ts
+services/auth/src/middlewares/trycatch.ts
+services/auth/src/model/User.ts
+services/auth/src/routes/auth.ts
+services/auth/tsconfig.json
+services/restaurant/package.json
+services/restaurant/src/config/datauri.ts
+services/restaurant/src/config/db.ts
+services/restaurant/src/config/payment.consume.ts
+services/restaurant/src/config/rabbitmq.ts
+services/restaurant/src/controllers/address.ts
+services/restaurant/src/controllers/cart.ts
+services/restaurant/src/controllers/menuitem.ts
+services/restaurant/src/controllers/order.ts
+services/restaurant/src/controllers/restaurant.ts
+services/restaurant/src/index.ts
+services/restaurant/src/middlewares/isAuth.ts
+services/restaurant/src/middlewares/multer.ts
+services/restaurant/src/middlewares/trycatch.ts
+services/restaurant/src/models/Address.ts
+services/restaurant/src/models/Cart.ts
+services/restaurant/src/models/MenuItems.ts
+services/restaurant/src/models/Order.ts
+services/restaurant/src/models/Restaurant.ts
+services/restaurant/src/routes/address.ts
+services/restaurant/src/routes/cart.ts
+services/restaurant/src/routes/menuitem.ts
+services/restaurant/src/routes/order.ts
+services/restaurant/src/routes/restaurant.ts
+services/restaurant/tsconfig.json
+services/utils/package.json
+services/utils/src/config/payment.producer.ts
+services/utils/src/config/rabbitmq.ts
+services/utils/src/config/razorpay.ts
+services/utils/src/config/verifyRazorpay.ts
+services/utils/src/controllers/payment.ts
+services/utils/src/index.ts
+services/utils/src/routes/cloudinary.ts
+services/utils/src/routes/payment.ts
+services/utils/tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".gitignore">
+# =========================
+# Node Modules
+# =========================
+node_modules/
+**/node_modules/
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# Build / Dist
+# =========================
+dist/
+build/
+out/
+
+# =========================
+# Coverage
+# =========================
+coverage/
+
+# =========================
+# Docker
+# =========================
+docker-compose.override.yml
+
+# =========================
+# Temporary files
+# =========================
+tmp/
+temp/
+
+# =========================
+# Uploads (if any)
+# =========================
+uploads/
+public/uploads/
+
+# =========================
+# Cache
+# =========================
+.cache/
+
+# =========================
+# Optional: lock files (choose one)
+# =========================
+ package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# =========================
+# Misc
+# =========================
+*.local
+</file>
+
+<file path="frontend/.gitignore">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+dist-ssr
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Vite
+.vite
+
+# TypeScript
+*.tsbuildinfo
+
+# Testing
+coverage
+
+# Cache
+.cache
+*.cache
+
+# Package manager
+.pnpm-store
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Misc
+*.local
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+</file>
+
+<file path="frontend/eslint.config.js">
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import tseslint from 'typescript-eslint'
+import { defineConfig, globalIgnores } from 'eslint/config'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+  },
+])
+</file>
+
+<file path="frontend/index.html">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+</file>
+
+<file path="frontend/public/favicon.svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="46" fill="none" viewBox="0 0 48 46"><path fill="#863bff" d="M25.946 44.938c-.664.845-2.021.375-2.021-.698V33.937a2.26 2.26 0 0 0-2.262-2.262H10.287c-.92 0-1.456-1.04-.92-1.788l7.48-10.471c1.07-1.497 0-3.578-1.842-3.578H1.237c-.92 0-1.456-1.04-.92-1.788L10.013.474c.214-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.471c-1.07 1.498 0 3.579 1.842 3.579h11.377c.943 0 1.473 1.088.89 1.83L25.947 44.94z" style="fill:#863bff;fill:color(display-p3 .5252 .23 1);fill-opacity:1"/><mask id="a" width="48" height="46" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path fill="#000" d="M25.842 44.938c-.664.844-2.021.375-2.021-.698V33.937a2.26 2.26 0 0 0-2.262-2.262H10.183c-.92 0-1.456-1.04-.92-1.788l7.48-10.471c1.07-1.498 0-3.579-1.842-3.579H1.133c-.92 0-1.456-1.04-.92-1.787L9.91.473c.214-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.471c-1.07 1.498 0 3.578 1.842 3.578h11.377c.943 0 1.473 1.088.89 1.832L25.843 44.94z" style="fill:#000;fill-opacity:1"/></mask><g mask="url(#a)"><g filter="url(#b)"><ellipse cx="5.508" cy="14.704" fill="#ede6ff" rx="5.508" ry="14.704" style="fill:#ede6ff;fill:color(display-p3 .9275 .9033 1);fill-opacity:1" transform="matrix(.00324 1 1 -.00324 -4.47 31.516)"/></g><g filter="url(#c)"><ellipse cx="10.399" cy="29.851" fill="#ede6ff" rx="10.399" ry="29.851" style="fill:#ede6ff;fill:color(display-p3 .9275 .9033 1);fill-opacity:1" transform="matrix(.00324 1 1 -.00324 -39.328 7.883)"/></g><g filter="url(#d)"><ellipse cx="5.508" cy="30.487" fill="#7e14ff" rx="5.508" ry="30.487" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(89.814 -25.913 -14.639)scale(1 -1)"/></g><g filter="url(#e)"><ellipse cx="5.508" cy="30.599" fill="#7e14ff" rx="5.508" ry="30.599" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(89.814 -32.644 -3.334)scale(1 -1)"/></g><g filter="url(#f)"><ellipse cx="5.508" cy="30.599" fill="#7e14ff" rx="5.508" ry="30.599" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="matrix(.00324 1 1 -.00324 -34.34 30.47)"/></g><g filter="url(#g)"><ellipse cx="14.072" cy="22.078" fill="#ede6ff" rx="14.072" ry="22.078" style="fill:#ede6ff;fill:color(display-p3 .9275 .9033 1);fill-opacity:1" transform="rotate(93.35 24.506 48.493)scale(-1 1)"/></g><g filter="url(#h)"><ellipse cx="3.47" cy="21.501" fill="#7e14ff" rx="3.47" ry="21.501" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(89.009 28.708 47.59)scale(-1 1)"/></g><g filter="url(#i)"><ellipse cx="3.47" cy="21.501" fill="#7e14ff" rx="3.47" ry="21.501" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(89.009 28.708 47.59)scale(-1 1)"/></g><g filter="url(#j)"><ellipse cx=".387" cy="8.972" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(39.51 .387 8.972)"/></g><g filter="url(#k)"><ellipse cx="47.523" cy="-6.092" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(37.892 47.523 -6.092)"/></g><g filter="url(#l)"><ellipse cx="41.412" cy="6.333" fill="#47bfff" rx="5.971" ry="9.665" style="fill:#47bfff;fill:color(display-p3 .2799 .748 1);fill-opacity:1" transform="rotate(37.892 41.412 6.333)"/></g><g filter="url(#m)"><ellipse cx="-1.879" cy="38.332" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(37.892 -1.88 38.332)"/></g><g filter="url(#n)"><ellipse cx="-1.879" cy="38.332" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(37.892 -1.88 38.332)"/></g><g filter="url(#o)"><ellipse cx="35.651" cy="29.907" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(37.892 35.651 29.907)"/></g><g filter="url(#p)"><ellipse cx="38.418" cy="32.4" fill="#47bfff" rx="5.971" ry="15.297" style="fill:#47bfff;fill:color(display-p3 .2799 .748 1);fill-opacity:1" transform="rotate(37.892 38.418 32.4)"/></g></g><defs><filter id="b" width="60.045" height="41.654" x="-19.77" y="16.149" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="7.659"/></filter><filter id="c" width="90.34" height="51.437" x="-54.613" y="-7.533" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="7.659"/></filter><filter id="d" width="79.355" height="29.4" x="-49.64" y="2.03" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="e" width="79.579" height="29.4" x="-45.045" y="20.029" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="f" width="79.579" height="29.4" x="-43.513" y="21.178" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="g" width="74.749" height="58.852" x="15.756" y="-17.901" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="7.659"/></filter><filter id="h" width="61.377" height="25.362" x="23.548" y="2.284" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="i" width="61.377" height="25.362" x="23.548" y="2.284" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="j" width="56.045" height="63.649" x="-27.636" y="-22.853" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="k" width="54.814" height="64.646" x="20.116" y="-38.415" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="l" width="33.541" height="35.313" x="24.641" y="-11.323" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="m" width="54.814" height="64.646" x="-29.286" y="6.009" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="n" width="54.814" height="64.646" x="-29.286" y="6.009" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="o" width="54.814" height="64.646" x="8.244" y="-2.416" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="p" width="39.409" height="43.623" x="18.713" y="10.588" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter></defs></svg>
+</file>
+
+<file path="frontend/public/icons.svg">
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="bluesky-icon" viewBox="0 0 16 17">
+    <g clip-path="url(#bluesky-clip)"><path fill="#08060d" d="M7.75 7.735c-.693-1.348-2.58-3.86-4.334-5.097-1.68-1.187-2.32-.981-2.74-.79C.188 2.065.1 2.812.1 3.251s.241 3.602.398 4.13c.52 1.744 2.367 2.333 4.07 2.145-2.495.37-4.71 1.278-1.805 4.512 3.196 3.309 4.38-.71 4.987-2.746.608 2.036 1.307 5.91 4.93 2.746 2.72-2.746.747-4.143-1.747-4.512 1.702.189 3.55-.4 4.07-2.145.156-.528.397-3.691.397-4.13s-.088-1.186-.575-1.406c-.42-.19-1.06-.395-2.741.79-1.755 1.24-3.64 3.752-4.334 5.099"/></g>
+    <defs><clipPath id="bluesky-clip"><path fill="#fff" d="M.1.85h15.3v15.3H.1z"/></clipPath></defs>
+  </symbol>
+  <symbol id="discord-icon" viewBox="0 0 20 19">
+    <path fill="#08060d" d="M16.224 3.768a14.5 14.5 0 0 0-3.67-1.153c-.158.286-.343.67-.47.976a13.5 13.5 0 0 0-4.067 0c-.128-.306-.317-.69-.476-.976A14.4 14.4 0 0 0 3.868 3.77C1.546 7.28.916 10.703 1.231 14.077a14.7 14.7 0 0 0 4.5 2.306q.545-.748.965-1.587a9.5 9.5 0 0 1-1.518-.74q.191-.14.372-.293c2.927 1.369 6.107 1.369 8.999 0q.183.152.372.294-.723.437-1.52.74.418.838.963 1.588a14.6 14.6 0 0 0 4.504-2.308c.37-3.911-.63-7.302-2.644-10.309m-9.13 8.234c-.878 0-1.599-.82-1.599-1.82 0-.998.705-1.82 1.6-1.82.894 0 1.614.82 1.599 1.82.001 1-.705 1.82-1.6 1.82m5.91 0c-.878 0-1.599-.82-1.599-1.82 0-.998.705-1.82 1.6-1.82.893 0 1.614.82 1.599 1.82 0 1-.706 1.82-1.6 1.82"/>
+  </symbol>
+  <symbol id="documentation-icon" viewBox="0 0 21 20">
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="m15.5 13.333 1.533 1.322c.645.555.967.833.967 1.178s-.322.623-.967 1.179L15.5 18.333m-3.333-5-1.534 1.322c-.644.555-.966.833-.966 1.178s.322.623.966 1.179l1.534 1.321"/>
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="M17.167 10.836v-4.32c0-1.41 0-2.117-.224-2.68-.359-.906-1.118-1.621-2.08-1.96-.599-.21-1.349-.21-2.848-.21-2.623 0-3.935 0-4.983.369-1.684.591-3.013 1.842-3.641 3.428C3 6.449 3 7.684 3 10.154v2.122c0 2.558 0 3.838.706 4.726q.306.383.713.671c.76.536 1.79.64 3.581.66"/>
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="M3 10a2.78 2.78 0 0 1 2.778-2.778c.555 0 1.209.097 1.748-.047.48-.129.854-.503.982-.982.145-.54.048-1.194.048-1.749a2.78 2.78 0 0 1 2.777-2.777"/>
+  </symbol>
+  <symbol id="github-icon" viewBox="0 0 19 19">
+    <path fill="#08060d" fill-rule="evenodd" d="M9.356 1.85C5.05 1.85 1.57 5.356 1.57 9.694a7.84 7.84 0 0 0 5.324 7.44c.387.079.528-.168.528-.376 0-.182-.013-.805-.013-1.454-2.165.467-2.616-.935-2.616-.935-.349-.91-.864-1.143-.864-1.143-.71-.48.051-.48.051-.48.787.051 1.2.805 1.2.805.695 1.194 1.817.857 2.268.649.064-.507.27-.857.49-1.052-1.728-.182-3.545-.857-3.545-3.87 0-.857.31-1.558.8-2.104-.078-.195-.349-1 .077-2.078 0 0 .657-.208 2.14.805a7.5 7.5 0 0 1 1.946-.26c.657 0 1.328.092 1.946.26 1.483-1.013 2.14-.805 2.14-.805.426 1.078.155 1.883.078 2.078.502.546.799 1.247.799 2.104 0 3.013-1.818 3.675-3.558 3.87.284.247.528.714.528 1.454 0 1.052-.012 1.896-.012 2.156 0 .208.142.455.528.377a7.84 7.84 0 0 0 5.324-7.441c.013-4.338-3.48-7.844-7.773-7.844" clip-rule="evenodd"/>
+  </symbol>
+  <symbol id="social-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="M12.5 6.667a4.167 4.167 0 1 0-8.334 0 4.167 4.167 0 0 0 8.334 0"/>
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="M2.5 16.667a5.833 5.833 0 0 1 8.75-5.053m3.837.474.513 1.035c.07.144.257.282.414.309l.93.155c.596.1.736.536.307.965l-.723.73a.64.64 0 0 0-.152.531l.207.903c.164.715-.213.991-.84.618l-.872-.52a.63.63 0 0 0-.577 0l-.872.52c-.624.373-1.003.094-.84-.618l.207-.903a.64.64 0 0 0-.152-.532l-.723-.729c-.426-.43-.289-.864.306-.964l.93-.156a.64.64 0 0 0 .412-.31l.513-1.034c.28-.562.735-.562 1.012 0"/>
+  </symbol>
+  <symbol id="x-icon" viewBox="0 0 19 19">
+    <path fill="#08060d" fill-rule="evenodd" d="M1.893 1.98c.052.072 1.245 1.769 2.653 3.77l2.892 4.114c.183.261.333.48.333.486s-.068.089-.152.183l-.522.593-.765.867-3.597 4.087c-.375.426-.734.834-.798.905a1 1 0 0 0-.118.148c0 .01.236.017.664.017h.663l.729-.83c.4-.457.796-.906.879-.999a692 692 0 0 0 1.794-2.038c.034-.037.301-.34.594-.675l.551-.624.345-.392a7 7 0 0 1 .34-.374c.006 0 .93 1.306 2.052 2.903l2.084 2.965.045.063h2.275c1.87 0 2.273-.003 2.266-.021-.008-.02-1.098-1.572-3.894-5.547-2.013-2.862-2.28-3.246-2.273-3.266.008-.019.282-.332 2.085-2.38l2-2.274 1.567-1.782c.022-.028-.016-.03-.65-.03h-.674l-.3.342a871 871 0 0 1-1.782 2.025c-.067.075-.405.458-.75.852a100 100 0 0 1-.803.91c-.148.172-.299.344-.99 1.127-.304.343-.32.358-.345.327-.015-.019-.904-1.282-1.976-2.808L6.365 1.85H1.8zm1.782.91 8.078 11.294c.772 1.08 1.413 1.973 1.425 1.984.016.017.241.02 1.05.017l1.03-.004-2.694-3.766L7.796 5.75 5.722 2.852l-1.039-.004-1.039-.004z" clip-rule="evenodd"/>
+  </symbol>
+</svg>
+</file>
+
+<file path="frontend/README.md">
+# React + TypeScript + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+</file>
+
+<file path="frontend/src/assets/react.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
+</file>
+
+<file path="frontend/src/assets/vite.svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="77" height="47" fill="none" aria-labelledby="vite-logo-title" viewBox="0 0 77 47"><title id="vite-logo-title">Vite</title><style>.parenthesis{fill:#000}@media (prefers-color-scheme:dark){.parenthesis{fill:#fff}}</style><path fill="#9135ff" d="M40.151 45.71c-.663.844-2.02.374-2.02-.699V34.708a2.26 2.26 0 0 0-2.262-2.262H24.493c-.92 0-1.457-1.04-.92-1.788l7.479-10.471c1.07-1.498 0-3.578-1.842-3.578H15.443c-.92 0-1.456-1.04-.92-1.788l9.696-13.576c.213-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.472c-1.07 1.497 0 3.578 1.842 3.578h11.376c.944 0 1.474 1.087.89 1.83L40.153 45.712z"/><mask id="a" width="48" height="47" x="14" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path fill="#000" d="M40.047 45.71c-.663.843-2.02.374-2.02-.699V34.708a2.26 2.26 0 0 0-2.262-2.262H24.389c-.92 0-1.457-1.04-.92-1.788l7.479-10.472c1.07-1.497 0-3.578-1.842-3.578H15.34c-.92 0-1.456-1.04-.92-1.788l9.696-13.575c.213-.297.556-.474.92-.474H53.93c.92 0 1.456 1.04.92 1.788L47.37 13.03c-1.07 1.498 0 3.578 1.842 3.578h11.376c.944 0 1.474 1.088.89 1.831L40.049 45.712z"/></mask><g mask="url(#a)"><g filter="url(#b)"><ellipse cx="5.508" cy="14.704" fill="#eee6ff" rx="5.508" ry="14.704" transform="rotate(269.814 20.96 11.29)scale(-1 1)"/></g><g filter="url(#c)"><ellipse cx="10.399" cy="29.851" fill="#eee6ff" rx="10.399" ry="29.851" transform="rotate(89.814 -16.902 -8.275)scale(1 -1)"/></g><g filter="url(#d)"><ellipse cx="5.508" cy="30.487" fill="#8900ff" rx="5.508" ry="30.487" transform="rotate(89.814 -19.197 -7.127)scale(1 -1)"/></g><g filter="url(#e)"><ellipse cx="5.508" cy="30.599" fill="#8900ff" rx="5.508" ry="30.599" transform="rotate(89.814 -25.928 4.177)scale(1 -1)"/></g><g filter="url(#f)"><ellipse cx="5.508" cy="30.599" fill="#8900ff" rx="5.508" ry="30.599" transform="rotate(89.814 -25.738 5.52)scale(1 -1)"/></g><g filter="url(#g)"><ellipse cx="14.072" cy="22.078" fill="#eee6ff" rx="14.072" ry="22.078" transform="rotate(93.35 31.245 55.578)scale(-1 1)"/></g><g filter="url(#h)"><ellipse cx="3.47" cy="21.501" fill="#8900ff" rx="3.47" ry="21.501" transform="rotate(89.009 35.419 55.202)scale(-1 1)"/></g><g filter="url(#i)"><ellipse cx="3.47" cy="21.501" fill="#8900ff" rx="3.47" ry="21.501" transform="rotate(89.009 35.419 55.202)scale(-1 1)"/></g><g filter="url(#j)"><ellipse cx="14.592" cy="9.743" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(39.51 14.592 9.743)"/></g><g filter="url(#k)"><ellipse cx="61.728" cy="-5.321" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(37.892 61.728 -5.32)"/></g><g filter="url(#l)"><ellipse cx="55.618" cy="7.104" fill="#00c2ff" rx="5.971" ry="9.665" transform="rotate(37.892 55.618 7.104)"/></g><g filter="url(#m)"><ellipse cx="12.326" cy="39.103" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(37.892 12.326 39.103)"/></g><g filter="url(#n)"><ellipse cx="12.326" cy="39.103" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(37.892 12.326 39.103)"/></g><g filter="url(#o)"><ellipse cx="49.857" cy="30.678" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(37.892 49.857 30.678)"/></g><g filter="url(#p)"><ellipse cx="52.623" cy="33.171" fill="#00c2ff" rx="5.971" ry="15.297" transform="rotate(37.892 52.623 33.17)"/></g></g><path d="M6.919 0c-9.198 13.166-9.252 33.575 0 46.789h6.215c-9.25-13.214-9.196-33.623 0-46.789zm62.424 0h-6.215c9.198 13.166 9.252 33.575 0 46.789h6.215c9.25-13.214 9.196-33.623 0-46.789" class="parenthesis"/><defs><filter id="b" width="60.045" height="41.654" x="-5.564" y="16.92" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="7.659"/></filter><filter id="c" width="90.34" height="51.437" x="-40.407" y="-6.762" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="7.659"/></filter><filter id="d" width="79.355" height="29.4" x="-35.435" y="2.801" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="e" width="79.579" height="29.4" x="-30.84" y="20.8" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="f" width="79.579" height="29.4" x="-29.307" y="21.949" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="g" width="74.749" height="58.852" x="29.961" y="-17.13" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="7.659"/></filter><filter id="h" width="61.377" height="25.362" x="37.754" y="3.055" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="i" width="61.377" height="25.362" x="37.754" y="3.055" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="j" width="56.045" height="63.649" x="-13.43" y="-22.082" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="k" width="54.814" height="64.646" x="34.321" y="-37.644" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="l" width="33.541" height="35.313" x="38.847" y="-10.552" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="m" width="54.814" height="64.646" x="-15.081" y="6.78" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="n" width="54.814" height="64.646" x="-15.081" y="6.78" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="o" width="54.814" height="64.646" x="22.45" y="-1.645" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="p" width="39.409" height="43.623" x="32.919" y="11.36" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter></defs></svg>
+</file>
+
+<file path="frontend/src/components/AddMenuItem.tsx">
+import { useState } from "react"
+import { restaurantService } from "../main"
+import axios from "axios";
+import toast from "react-hot-toast";
+import { BiUpload } from "react-icons/bi";
+
+
+const AddMenuItem = ({onItemAdded}:{onItemAdded:()=> void}) => {
+    const [name, setName]=useState("");
+    const [description, setDescription]=useState("");
+    const [price, setPrice]=useState("");
+    const [image, setImage]=useState<File | null>(null);
+    const [loading, setLoading]=useState(false);
+
+    const resetForm=()=>{
+        setName("");
+        setDescription("");
+        setPrice("");
+        setImage(null);
+    };
+    const handleSubmit=async()=>{
+        if(!name || !price || !image){
+            alert("Name price and image is required");
+            return;
+        };
+        const formData=new FormData()
+        formData.append("name",name)
+        formData.append("description",description)
+        formData.append("price",price)
+        formData.append("file",image)
+
+        try{
+            setLoading(true);
+            await axios.post(`${restaurantService}/api/item/new`, formData,{
+                headers:{
+                    Authorization:`Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            toast.success("Item added successfully")
+            resetForm()
+            onItemAdded();
+
+        }catch(error){
+            console.log(error);
+            toast.error("failed to add item");
+        }finally{
+            setLoading(false);
+        }
+        
+    };
+  return (
+    <div className="max-w-md space-y-4 m-auto">
+        <h2 className="text-lg font-semibold">Add Menu Item</h2>
+        <input type="text" placeholder="Item name" value={name} onChange={(e)=>setName(e.target.value)}
+        className="w-full rounded-lg border px-4 py-2 text-sm outline-none" />
+        <textarea placeholder="Item description" value={description} onChange={(e)=>setDescription(e.target.value)}
+        className="w-full rounded-lg border px-4 py-2 text-sm outline-none" />
+        <input type="number" placeholder="price ₹" value={price} onChange={(e)=>setPrice(e.target.value)}
+        className="w-full rounded-lg border px-4 py-2 text-sm outline-none" />
+         <label className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 text-sm text-gray-600 hover:bg-gray-50">
+                  <BiUpload className="h-5 w-5 text-red-500" />
+                  {image ? image.name : "Upload restaurant image"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) => setImage(e.target.files?.[0] || null)}
+                  />
+        </label>
+        <button disabled={loading} onClick={handleSubmit} className="w-full rounded-lg text-sm text-white py-3 font-semibold transition bg-red-500 cursor-pointer">
+        {loading ? "Adding...":"Add Item"}</button>
+
+    </div>
+  );
+    
+};
+
+export default AddMenuItem;
+</file>
+
+<file path="frontend/src/components/publicRoutes.tsx">
+import {useAppData} from "../context/AppContext"
+import { Navigate, Outlet } from "react-router-dom";
+
+const PublicRoute=()=> {
+    const {isAuth, loading} = useAppData()
+    if(loading) return null;
+    return isAuth ? <Navigate to="/" replace/>:<Outlet/>
+}
+
+export default PublicRoute;
+</file>
+
+<file path="frontend/src/components/RestaurantCard.tsx">
+import { useNavigate } from "react-router-dom";
+type props={
+  id:string;
+  image:string;
+  name:string;
+  distance:string;
+  isOpen:boolean;
+}
+const RestaurantCard = ({ id, image, name, distance, isOpen }: props) => {
+  const navigate=useNavigate();
+  return (
+    <div className ={`cursor-pointer overflow-hidden rounded-xl bg-white shadow-sm transition hover:shadow-md ${!isOpen ? "opacity-80":""}`}
+    onClick={()=>navigate(`/restaurants/${id}`)}>
+      <div className="relative h-40 w-full overflow-hidden">
+        <img 
+        src={image}
+        alt=""
+        className={`h-full w-full object-cover transition duration-300 hover:scale-105 ${
+          !isOpen ? "grayscale":""
+        }`}
+        />
+        {!isOpen && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <span className="rounded-md bg-black/80 px-3 py-1 font-semibold text-white">Closed</span>
+          </div>
+        )}
+      </div>
+      <div className="p-3 space-y-1" >
+        <h3 className="truncate text-base font-semibold text-gray-800">{name}</h3>
+        <p className="text-sm text-gray-500">{distance} KM away</p>
+      </div>
+      </div>
+   );
+};
+
+export default RestaurantCard
+</file>
+
+<file path="frontend/src/index.css">
+@import "tailwindcss";
+</file>
+
+<file path="frontend/src/pages/Account.tsx">
+import {useNavigate} from "react-router-dom";
+import {useAppData} from "../context/AppContext";
+import toast from "react-hot-toast";
+import { BiMapPin, BiPackage,BiLogOut } from "react-icons/bi";
+
+export const Account = () => {
+    const {user, setUser, setIsAuth}=useAppData()
+    const firstLetter=user?.name.charAt(0).toUpperCase()
+    const navigate=useNavigate()
+    const logoutHandler=()=>{
+        localStorage.setItem("token","")
+        setUser(null)
+        setIsAuth(false);
+        navigate("/login");
+        toast.success("logout Success");
+    };
+
+  return (
+    <div className="min-h-screen bg-gray-50 px-4 py-6 ">
+        <div className="mx-auto max-w-md rounded-lg bg-white shadow-sm ">
+            <div className="flex items-center gap-4 border-b p-5">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-500 text-xl font-semibold text-white">
+                    {firstLetter}
+                </div>
+                <div >
+                    <h2 className="text-lg font-semibold">{user?.name}</h2>
+                    <p className="text-sm text-gray-500">{user?.email}</p>
+                </div>
+            </div>
+            <div className="divide-y">
+                <div className="flex cursor-pointer items-center gap-4 p-5 hover:bg-gray-50" onClick={()=>navigate("/orders")}>
+                    <BiPackage className="h-5 w-5 text-res-500"/>
+                    <span className="font-medium">Your Orders</span>
+                </div>
+                <div className="flex cursor-pointer items-center gap-4 p-5 hover:bg-gray-50" onClick={()=>navigate("/address")}>
+                    <BiMapPin className="h-5 w-5 text-res-500"/>
+                    <span className="font-medium">Addresses</span>
+                </div>
+                <div className="flex cursor-pointer items-center gap-4 p-5 hover:bg-gray-50" onClick={logoutHandler}>
+                    <BiLogOut className="h-5 w-5 text-res-500"/>
+                    <span className="font-medium">Logout</span>
+                </div>
+            </div>
+        </div>  
+    </div>
+  );
+};
+
+export default Account
+</file>
+
+<file path="frontend/src/pages/Address.tsx">
+import {
+MapContainer,
+TileLayer,
+Marker,
+useMapEvents,
+useMap,
+} from "react-leaflet";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { restaurantService } from "../main";
+import L from "leaflet";
+import { LuLocateFixed } from "react-icons/lu";
+import { BiLoader, BiPlus, BiTrash } from "react-icons/bi";
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+iconRetinaUrl:
+"https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+
+iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+
+});
+interface Address {
+_id: string;
+formattedAddress: string;
+mobile: number;
+}
+// 📍 Click-to-select location
+const LocationPicker = ({
+setLocation,
+}: {
+setLocation: (lat: number, lng: number) => void;
+}) => {
+useMapEvents({
+click(e) {
+setLocation(e.latlng.lat, e.latlng.lng);
+},
+
+});
+return null;
+};
+// 🎯 Locate me button
+const LocateMeButton = ({
+onLocate,
+}: {
+onLocate: (lat: number, lng: number) => void;
+}) => {
+const map = useMap();
+const locateUser = () => {
+if (!navigator.geolocation) {
+toast.error("Geolocation not supported");
+return;
+}
+navigator.geolocation.getCurrentPosition(
+(pos) => {
+const { latitude, longitude } = pos.coords;
+map.flyTo([latitude, longitude], 16, { animate: true });
+onLocate(latitude, longitude);
+},
+() => toast.error("Location permission denied")
+);
+};
+return (
+<button
+onClick={locateUser}
+className="absolute right-3 top-3 z-1000 flex items-center gap-2
+rounded-lg bg-white px-3 py-2 text-sm shadow hover:bg-gray-100"
+>
+<LuLocateFixed size={16} />
+Use current location
+</button>
+);
+};
+const AddAddressPage = () => {
+const [addresses, setAddresses] = useState<Address[]>([]);
+
+const [loading, setLoading] = useState(true);
+const [adding, setAdding] = useState(false);
+const [deletingId, setDeletingId] = useState<string | null>(null);
+// 📋 Form state
+const [mobile, setMobile] = useState("");
+const [formattedAddress, setFormattedAddress] = useState("");
+const [latitude, setLatitude] = useState<number | null>(null);
+const [longitude, setLongitude] = useState<number | null>(null);
+const fetchFormattedAddress = async (lat: number, lng: number) => {
+try {
+const res = await fetch(
+`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+);
+const data = await res.json();
+setFormattedAddress(data.display_name || "");
+} catch {
+toast.error("Failed to fetch address");
+}
+};
+const setLocation = (lat: number, lng: number) => {
+setLatitude(lat);
+setLongitude(lng);
+fetchFormattedAddress(lat, lng);
+};
+// 📡 Fetch addresses
+const fetchAddresses = async () => {
+try {
+const { data } = await
+axios.get(`${restaurantService}/api/address/all`, {
+headers: {
+Authorization: `Bearer ${localStorage.getItem("token")}`,
+},
+});
+setAddresses(data || []);
+} catch {
+toast.error("Failed to load addresses");
+
+} finally {
+setLoading(false);
+}
+};
+useEffect(() => {
+fetchAddresses();
+}, []);
+// ➕ Add address
+const addAddress = async () => {
+if (
+!mobile ||
+!formattedAddress ||
+latitude === null ||
+longitude === null
+) {
+toast.error("Please select location on map");
+return;
+}
+try {
+setAdding(true);
+await axios.post(
+`${restaurantService}/api/address/new`,
+{
+formattedAddress,
+mobile,
+latitude,
+longitude,
+},
+{
+headers: {
+Authorization: `Bearer ${localStorage.getItem("token")}`,
+},
+}
+);
+toast.success("Address added");
+setMobile("");
+setFormattedAddress("");
+
+setLatitude(null);
+setLongitude(null);
+fetchAddresses();
+} catch (error: any) {
+toast.error(error.response?.data?.message || "Failed");
+} finally {
+setAdding(false);
+}
+};
+// 🗑 Delete address
+const deleteAddress = async (id: string) => {
+if (!window.confirm("Delete this address?")) return;
+try {
+setDeletingId(id);
+await axios.delete(`${restaurantService}/api/address/${id}`, {
+headers: {
+Authorization: `Bearer ${localStorage.getItem("token")}`,
+},
+});
+toast.success("Address deleted");
+fetchAddresses();
+} catch {
+toast.error("Failed to delete address");
+} finally {
+setDeletingId(null);
+}
+};
+return (
+<div className="mx-auto max-w-4xl px-4 py-6 space-y-6">
+<h1 className="text-2xl font-bold">Select Delivery Address</h1>
+{/* 🗺 Map */}
+<div className="relative h-100 w-full overflow-hidden rounded-lg
+border">
+<MapContainer
+center={[latitude || 28.6139, longitude || 77.209]}
+zoom={13}
+
+className="h-full w-full"
+style={{ height: "100%", width: "100%" }}
+>
+<TileLayer
+url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+attribution='&copy; <a
+href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+/>
+<LocationPicker setLocation={setLocation} />
+<LocateMeButton onLocate={setLocation} />
+{latitude && longitude && <Marker position={[latitude,
+longitude]} />}
+</MapContainer>
+</div>
+{/* 📍 Selected address */}
+{formattedAddress && (
+<div className="rounded-lg border bg-green-50 p-3 text-sm">
+📍 {formattedAddress}
+</div>
+)}
+{/* 📱 Mobile */}
+<input
+type="number"
+placeholder="Mobile number"
+value={mobile}
+onChange={(e) => setMobile(e.target.value)}
+className="w-full rounded-lg border px-4 py-2"
+/>
+{/* ➕ Save */}
+<button
+disabled={adding}
+onClick={addAddress}
+className="flex items-center justify-center gap-2 rounded-lg
+
+bg-[#E23744] px-4 py-3 text-white hover:bg-[#d32f3a] disabled:opacity-
+50"
+
+>
+{adding ? <BiLoader className="animate-spin" /> : <BiPlus />}
+Save Address
+</button>
+
+{/* 📋 Saved Addresses */}
+<div className="space-y-3">
+<h2 className="text-lg font-semibold">Saved Addresses</h2>
+{loading ? (
+<p className="text-sm text-gray-500">Loading...</p>
+) : addresses.length === 0 ? (
+<p className="text-sm text-gray-500">No addresses saved</p>
+) : (
+addresses.map((addr) => (
+<div
+key={addr._id}
+className="flex items-center justify-between rounded-lg
+border bg-white p-3"
+>
+<div>
+
+<p className="text-sm font-
+medium">{addr.formattedAddress}</p>
+
+<p className="text-xs text-gray-500">📞
+{addr.mobile}</p>
+</div>
+<button
+onClick={() => deleteAddress(addr._id)}
+disabled={deletingId === addr._id}
+className="rounded-lg p-2 text-red-500 hover:bg-red-50
+disabled:opacity-50"
+>
+{deletingId === addr._id ? (
+<BiLoader size={16} className="animate-spin" />
+) : (
+<BiTrash size={16} />
+)}
+</button>
+</div>
+))
+)}
+</div>
+</div>
+);
+};
+
+export default AddAddressPage;
+</file>
+
+<file path="frontend/src/pages/Cart.tsx">
+import  { useState } from 'react'
+import { useAppData } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
+import type { ICart, IMenuItem, IRestaurant } from '../types';
+import { restaurantService } from '../main';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import { VscLoading } from 'react-icons/vsc';
+import { BiMinus, BiPlus} from 'react-icons/bi';
+import { TbTrash } from 'react-icons/tb';
+
+
+
+ 
+const Cart = () => {
+  const {cart, subTotal, quantity, fetchCart}=useAppData();
+  const navigate=useNavigate();
+  const [loadingItemId, setLoadingItemId]=useState<string|null>(null);
+  const [clearingCart, setClearingCart]=useState(false);
+  if(!cart || cart.length===0){
+    return(
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-gray-500 text--lg"> Your Cart is Empty</p>
+      </div>
+    );
+  }
+  const restaurant=cart[0].restaurantId as IRestaurant;
+  const deliveryFee=subTotal <250 ? 49:0;
+  const platformFee=7;
+  const grandTotal=subTotal+deliveryFee+platformFee;
+  const increaseQty=async(itemId:string)=>{
+    try{
+      setLoadingItemId(itemId);
+      await axios.put(
+        `${restaurantService}/api/cart/inc`,
+        {itemId},
+        {headers:{
+          Authorization:`Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+      );
+      await fetchCart();
+
+    } catch(error){
+      toast.error('Failed to increase quantity');
+    } finally{
+      setLoadingItemId(null);
+    }
+  }
+  
+  const decreaseQty=async(itemId:string)=>{
+    try{
+      setLoadingItemId(itemId);
+      await axios.put(
+        `${restaurantService}/api/cart/dec`,
+        {itemId},
+        {headers:{
+          Authorization:`Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+      );
+      await fetchCart();
+
+    } catch(error){
+      toast.error('Failed to increase quantity');
+    } finally{
+      setLoadingItemId(null);
+    }
+  }
+  const clearCart=async()=>{
+    const confirmClear=window.confirm('Are you sure you want to clear the cart?');
+    if(!confirmClear) return;
+    try{
+      setClearingCart(true);
+      
+      await axios.delete(
+        `${restaurantService}/api/cart/clear`,
+        {headers:{
+          Authorization:`Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+      );
+      await fetchCart();
+
+    } catch(error){
+      toast.error('Failed to increase quantity');
+    } finally{
+      setClearingCart(false);
+    }
+  };
+  const checkout=()=>{
+    navigate('/checkout');
+  }
+  return (<div className="mx-auto max-w-5xl px-4 py-6 space-y-6">
+      <div className="rounded-xl bg-white p-4 shadow-sm">
+        <h2 className="text-xl font-semibold">{restaurant.name}</h2>
+        <p className="text-gray-500 text-sm">{restaurant.autoLocation.formattedAddress}</p>
+      </div>
+      <div className="space-y-4">
+        {cart.map((cartItem:ICart)=>{
+          const item=cartItem.itemId as IMenuItem;
+          const isLoading=loadingItemId===item._id;
+          return( 
+          <div key={item._id} className="flex items-center rounded-xl bg-white p-4 shadow-sm"
+          >
+              <img src={item.image} alt="" className="h-20 w-20 object-cover rounded-md" 
+              />
+              <div className="flex-1 px-2">
+                <h3 className="font-semibold">{item.name}</h3>
+                <p className="text-sm  text-gry-500">₹{item.price * cartItem.quantity}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <button className="rounded-full border p-2 hover:bg-gray-100 disabled:opacity-50"
+                disabled={isLoading}
+                onClick={()=>decreaseQty(item._id)}
+                >
+                  {isLoading?(
+                    <VscLoading size={16} className="animate-spin"/>
+                  ):(
+                    <BiMinus size={16}/>
+                  )}
+                </button>
+                <button>
+                  <span className="font-medium">{cartItem.quantity}</span>
+                </button>
+                <button className="rounded-full border p-2 hover:bg-gray-100 disabled:opacity-50"
+                disabled={isLoading}
+                onClick={()=>increaseQty(item._id)}
+                >
+                  {isLoading?(
+                    <VscLoading size={16} className="animate-spin"/>
+                  ):(
+                    <BiPlus size={16}/>
+                  )}
+                </button>
+              </div>
+              <p className="w-20 text-right font-medium">₹{item.price * cartItem.quantity}</p>
+          </div>
+          );
+        })}
+      </div>
+      <div className="rounded-xl bg-white p-4 shadow-sm">
+        <div className="flex justify-between font-semibold">
+          <span>Total Items:</span>
+          <span>{quantity}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          
+          <span>Subtotal:</span>
+          <span>₹{subTotal}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span>Delivery Fee:</span>
+          <span>₹{deliveryFee}</span>
+        </div>
+        <div className="flex justify-between font-semibold">
+          <span>Platform Fee:</span>
+          <span>₹{platformFee}</span>
+        </div>
+        {
+          subTotal<250 && (
+            <p className="mt-2 text-sm text-gray-500">
+              Add Item worth ₹{250-subTotal} more for free delivery
+            </p>
+          )}
+          <div className="flex justify-between text-base font-semibold border-t pt-2">
+            <span>Grand Total</span>
+            <span>₹{grandTotal}</span>
+          </div>
+          <button onClick={checkout} className={`mt-3 w-full rounded-lg bg-[#E23744] py-3 text-sm font-semibold text-white hover:bg-red-800 ${!restaurant.isOpen? "opacity-50 cursor-not-allowed":"" } justify-center items-center gap-50`}
+          disabled={!restaurant.isOpen}>
+           {!restaurant.isOpen ? "Restaurant is Closed": "Proceed to Checkout"}
+            
+          </button>
+          <button onClick={clearCart} className="mt-3 w-full rounded-lg bg-[#222222] py-3 text-sm font-semibold text-white hover:bg-gray-800 disabled:opacity-50 justify-center items-center gap-50">
+            Clear Cart <TbTrash size={16} className="inline"/>
+          </button>
+        </div>
+      </div>
+  );
+};
+
+export default Cart;
+</file>
+
+<file path="frontend/src/pages/RestaurantPage.tsx">
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import type {IMenuItem, IRestaurant} from "../types"
+import axios from "axios";
+import { restaurantService } from "../main";
+import RestaurantProfile from "../components/RestaurantProfile";
+import MenuItems from "../components/MenuItems";
+
+const RestaurantPage = () => {
+    const {id}=useParams();
+    const [restaurant, setRestaurant]=useState<IRestaurant | null>(null);
+    const [menuItems, setMenuItems]=useState<IMenuItem[]>([]);
+    const [loading, setLoading]=useState(true);
+
+    const fetchRestaurant=async()=>{
+        try {
+            const {data}=await axios.get(`${restaurantService}/api/restaurants/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+            setRestaurant(data || null);
+        } catch (error) {
+            console.log(error);
+        }finally{
+            setLoading(false);
+        }
+    };
+      const fetchMenuItems=async(restaurantId:string)=>{
+    try{
+      const{data}=await axios.get(
+        `${restaurantService}/api/item/all/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setMenuItems(data);
+    }catch(error){
+      console.log(error);
+    }
+  };
+  useEffect(()=>{
+    if(id){
+        fetchRestaurant();
+        fetchMenuItems(id);
+    }
+  }, [id]);
+if(loading){
+    return( 
+    <div className="flex h-[60vh] items-center justify-center">
+    <p className="text-gray-500">Loading Restaurant...</p>
+  </div>
+  );
+
+}
+  return(
+    <div className="min-h-screen bg-gray-50 px-4 py-6 space-y-6">
+        <RestaurantProfile
+        restaurant={restaurant!}
+        onUpdate={setRestaurant}
+        isSeller={false}
+        />
+        <div className="rounded-xl bg-white shadow-sm p-4">
+          <MenuItems
+          isSeller={false}
+          items={menuItems}
+          onItemDeleted={()=>{}}
+          />
+        </div>
+    </div>
+  )
+}
+export default RestaurantPage;
+</file>
+
+<file path="frontend/tsconfig.app.json">
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2023",
+    "useDefineForClassFields": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src"]
+}
+</file>
+
+<file path="frontend/tsconfig.json">
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+</file>
+
+<file path="frontend/tsconfig.node.json">
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "types": ["node"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["vite.config.ts"]
+}
+</file>
+
+<file path="frontend/vite.config.ts">
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(),tailwindcss()],
+})
+</file>
+
+<file path="package.json">
+{
+  "dependencies": {
+    "datauri": "^4.1.0"
+  }
+}
+</file>
+
+<file path="services/auth/src/config/db.ts">
+import mongoose from 'mongoose';
+const connectDB=async()=>{
+    try {
+        await mongoose.connect(process.env.MONGO_URI as string, {
+            dbName:"Zomato_Clone",
+        });
+        console.log("MongoDB connected successfully");
+    } catch (error) {
+        console.log(error);
+
+    }
+}
+
+export default connectDB;
+</file>
+
+<file path="services/auth/src/middlewares/isAuth.ts">
+import{Request, Response,NextFunction} from 'express';
+import jwt,{JwtPayload} from 'jsonwebtoken'
+import{IUser} from '../model/User.js'
+
+export interface AuthenticatedRequest extends Request{
+    user?:IUser |null;
+    
+}
+export const isAuth=async(req:AuthenticatedRequest,res:Response,next:NextFunction):Promise<void>=>{
+    try{
+        const authHeader=req.headers.authorization;
+        if(!authHeader || !authHeader.startsWith("Bearer ")){
+            res.status(401).json({
+                message:"Please Login-No auth header",
+            });
+            return;
+        }
+        const token=authHeader.split(" ")[1];
+        if(!token){
+            res.status(401).json({
+                message:"Please Login-Token missing",
+            });
+            return;
+        }
+        const decodedValue=jwt.verify(
+            token,
+            process.env.JWT_SEC as string
+        ) as JwtPayload;
+        if(!decodedValue || !decodedValue.user){
+            res.status(401).json({
+                message:"Invalid token",
+            });
+            return;
+        } 
+        req.user=decodedValue.user;
+        next();
+    }
+    
+    catch(error){
+        res.status(500).json({
+            message:"Please Login- Jwt error",
+        });
+    }
+}
+</file>
+
+<file path="services/auth/src/model/User.ts">
+import mongoose, { Document, Schema } from 'mongoose';
+
+export interface IUser extends Document {
+  name: string;
+  email: string;
+    image: string;
+    role: string;
+}
+
+const schema: Schema<IUser>= new Schema({
+    name: { type: String, required: true }, 
+    email: { type: String, required: true, unique: true },
+    image: { type: String , required: true },
+    role: { type: String, default: null },
+}, { timestamps: true });
+
+const User = mongoose.model<IUser>('User', schema);
+
+export default User;
+</file>
+
+<file path="services/auth/tsconfig.json">
+{  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "ES2020",
+  
+    "lib": ["ES2020"],
+    "types": ["node"],
+  
+    "sourceMap": false,
+    "declaration": false,
+    "declarationMap": false,
+
+   
+    "strict": true,
+    
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true
+  }
+}
+</file>
+
+<file path="services/restaurant/src/config/datauri.ts">
+import DataUriParser from "datauri/parser.js";
+import path from 'path';
+import { buffer } from "stream/consumers";
+
+const getBuffer=(file:any)=>{
+    const parser=new DataUriParser()
+    const extName=path.extname(file.originalname).toString();
+    return parser.format(extName, file.buffer)
+}
+export default getBuffer;
+</file>
+
+<file path="services/restaurant/src/config/db.ts">
+import mongoose from 'mongoose';
+const connectDB=async()=>{
+    try {
+        await mongoose.connect(process.env.MONGO_URI as string, {
+            dbName:"Zomato_Clone",
+        });
+        console.log("MongoDB connected successfully");
+    } catch (error) {
+        console.log(error);
+
+    }
+}
+
+export default connectDB;
+</file>
+
+<file path="services/restaurant/src/config/payment.consume.ts">
+import Order from '../models/Order.js';
+import {getChannel} from './rabbitmq.js'
+export const startPaymentConsumer=async()=>{
+    const channel=getChannel()
+    channel.consume(process.env.PAYMENT_QUEUE!, async(msg)=>{
+        if(!msg) return;
+        try {
+            const event=JSON.parse(msg.content.toString())
+            if(event.type!=="PAYMENT_SUCCESS"){
+                channel.ack(msg);
+                return;
+            }
+            const{orderId}=event.data;
+            const order=await Order.findOneAndUpdate({
+                _id:orderId,
+                paymentStatus:{$ne:"paid"},
+            },
+            {
+            $set:{
+                paymentStatus:"paid",
+                status:"placed",
+            },
+            $unset:{
+                expiresAt:1,
+            },
+            },{new:true}
+        );
+        if(!order){
+            channel.ack(msg);
+            return;
+        }
+        console.log("✅Order Placed:", order._id);
+//socket work
+        channel.ack(msg);
+
+        } catch (error) {
+            console.log("❌Payment consumer error :", error);
+        }
+    });
+}
+</file>
+
+<file path="services/restaurant/src/config/rabbitmq.ts">
+import ampq from 'amqplib'
+
+
+let channel:ampq.Channel;
+
+export const connectRabbitMQ=async()=>{
+    const connection=await ampq.connect(process.env.RABBITMQ_URL!);
+    channel=await connection.createChannel();
+    await channel.assertQueue(process.env.PAYMENT_QUEUE!,{
+        durable:true,
+    });
+    console.log("🐇 connected to Rabbitmq(restaurant service");
+};
+export const getChannel=()=>channel;
+</file>
+
+<file path="services/restaurant/src/controllers/address.ts">
+import { AuthenticatedRequest } from "../middlewares/isAuth.js";
+import TryCatch from "../middlewares/trycatch.js";
+import Address from "../models/Address.js";
+Address
+
+
+export const addAddress=TryCatch(async(req:AuthenticatedRequest, res)=>{
+    const user=req.user;
+    if(!user){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    const {mobile, formattedAddress,latitude, longitude}=req.body;
+    if(!mobile || !formattedAddress || latitude==undefined || longitude==undefined){
+        return res.status(400).json({
+            message:"Please give all fields",
+        });
+    }
+
+    const newAddress=await Address.create({
+        userId:user._id.toString(),
+        mobile,
+        formattedAddress,
+        location:{
+            type:"Point",
+            coordinates:[Number(longitude),Number(latitude)],
+        },
+    });
+    res.json({
+        message:"Address Added Successfully",
+        address:newAddress,
+    })
+})
+export const deleteAddress=TryCatch(async(req:AuthenticatedRequest, res)=>{
+    const user=req.user;
+    if(!user){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    const{id}=req.params;
+    if(!id){
+        return res.status(400).json({
+            message:"id is required",
+        });
+    }
+    const address=await Address.findOne({
+        _id:id,
+        userid:user._id.toString(),
+    });
+    if(!address){
+        return res.status(400).json({
+            message:"Address ot found",
+        });
+    }
+    await address.deleteOne()
+    res.json({
+        message:"Address deleted successfully"
+    });
+
+    
+});
+export const getMyAddress=TryCatch(async(req:AuthenticatedRequest, res)=>{
+    const user=req.user;
+    if(!user){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    const addresses=await Address.find({
+        userId:user._id.toString(),
+    }).sort({createdAt:-1});
+    res.json(addresses);
+})
+</file>
+
+<file path="services/restaurant/src/middlewares/multer.ts">
+import multer from "multer";
+const storage=multer.memoryStorage();
+
+const uploadFile=multer({storage}).single("file")
+export default uploadFile;
+</file>
+
+<file path="services/restaurant/src/models/Address.ts">
+import mongoose, {Schema, Document} from "mongoose";
+export  interface IAddress extends Document{
+    userId:string;
+    mobile: number;
+    formattedAddress:string;
+    location:{
+        type:"Point";
+        coordinates:[number, number];
+    };
+    createdAt:Date;
+    updatedAt:Date;
+
+}
+const schema=new Schema<IAddress>({
+    userId:{
+        type:String,
+        required:true,
+    },
+    mobile:{
+        type:Number,
+        required:true,
+    },
+    formattedAddress:{
+        type:String,
+        required:true,
+    },
+    location:{
+        type:{
+            type:String,
+            enum:["Point"],
+            default:"Point",
+        },
+            coordinates:{
+            type:[Number],
+            required:true,
+        }
+    } 
+},{
+    timestamps:true,
+    }
+);
+schema.index({location:"2dsphere"});
+
+export default mongoose.model<IAddress>("Address", schema);
+</file>
+
+<file path="services/restaurant/src/models/Cart.ts">
+import mongoose, {Schema, Document} from "mongoose";
+export interface ICart extends Document{
+    userId:mongoose.Types.ObjectId;
+    restaurantId:mongoose.Types.ObjectId;
+    itemId:mongoose.Types.ObjectId;
+    quantity:number;
+    createdAt:Date;
+    updatedAt:Date;
+
+}
+const schema=new Schema<ICart>({
+    userId:{
+        type:Schema.Types.ObjectId,
+        ref:"User",
+        required:true,
+        index:true,
+    },
+    restaurantId:{
+        type:Schema.Types.ObjectId,
+        ref:"Restaurant",
+        required:true,
+        index:true
+    },
+    itemId:{
+        type:Schema.Types.ObjectId,
+        ref:"MenuItem",
+        required:true,
+        index:true,
+    },
+    quantity:{
+        type:Number,
+        default:1,
+        min:1,
+    },
+},{
+    timestamps:true,
+}
+);
+schema.index({userId:1,restaurantId:1, itemId:1},{unique:true});
+
+export default mongoose.model<ICart>("Cart",schema);
+</file>
+
+<file path="services/restaurant/src/models/Order.ts">
+import mongoose,{Schema, Document} from "mongoose";
+export interface IOrder extends Document{
+    userId:string;
+    restaurantId:string;
+    restaurantName:string;
+    riderId?:string | null;
+    riderPhone:Number|null;
+    riderName:String|null;
+    distance:number;
+    riderAmount:number;
+    items:{
+        itemId:string;
+        name:string;
+        price:number;
+        quantity:number;
+    }[];
+    subtotal:number;
+    deliveryFee:number;
+    platformFee:number;
+    totalAmount:number;
+    addressId:string;
+
+    deliveryAddress:{
+        formattedAddress:string;
+        mobile:number;
+        latitude:number;
+        longitude:number;
+    };
+    status:|"placed"|"accepted"|"preparing"|"ready_for_rider"|"rider_assigned"|"picked_up"|"delivered"|"cancelled";
+    paymentMethod:"razorpay"|"stripe";
+    paymentStatus:"pending"|"paid"|"failed";
+    expiresAt:Date;
+    createdAt:Date;
+    updatedAt:Date;
+}
+
+const OrderSchema=new  Schema<IOrder>(
+    {
+        userId:{
+            type:String,
+            required:true,
+        },
+        restaurantId:{
+            type:String,
+            required:true,
+        },
+        restaurantName:{
+            type:String,
+            required:true,
+        },
+        riderId:{
+            type:String,
+            default:null,
+        },
+        riderName:{
+            type:String,
+            default:null,
+        },
+        riderPhone:{
+            type:String,
+            default:null,
+        },
+        riderAmount:{
+            type:Number,
+            required:true,
+        },
+        distance:{
+            type:Number,
+            required:true,
+        },
+        items:[
+            {
+               itemId:String,
+               name:String,
+               price:Number,
+               quantity:Number, 
+            },
+        ],
+    subtotal:Number,
+    deliveryFee:Number,
+    platformFee:Number,
+    totalAmount:Number,
+    addressId:{
+        type:String,
+        required:true,
+    },
+    deliveryAddress:{
+        formattedAddress:{
+            type:String, required:true
+        },
+        mobile:{
+            type:Number, required:true
+        },
+        latitude:Number,
+        longitude:Number,
+    },
+    status:{
+        type:String,
+        enum:["placed","accepted","preparing","ready_for_rider","rider_assigned","picked_up","delivered","cancelled"],
+        default:"placed",
+    },
+    paymentMethod:{
+        type:String,
+        required:true,
+    },
+    paymentStatus:{
+        type:String,
+        enum:["pending","paid","failed"],
+        default:"pending",
+    },
+    expiresAt:{
+        type:Date,
+        index:{expireAfterSeconds:0},
+    },
+    },
+    {timestamps:true},
+);
+export default mongoose.model<IOrder>("Order",OrderSchema);
+</file>
+
+<file path="services/restaurant/src/models/Restaurant.ts">
+import mongoose,  {Schema, Document} from "mongoose";
+export interface IRestaurant extends Document{
+    name:string;
+    description?:string;
+    image:string;
+    ownerId:string;
+    phone:number;
+    isVerified:boolean;
+    autoLocation:{
+        type:"Point";
+        coordinates:[number,number];
+        formattedAddress:string;
+    };
+    isOpen:boolean;
+    createdAt:Date;
+}
+
+const schema=new Schema<IRestaurant>({
+    name:{
+        type:String,
+        required:true,
+        trim:true,
+    },
+    description:String,
+    image:{
+        type:String,
+        required:true,
+    },
+    ownerId:{
+        type:String,
+        required:true,
+    },
+    phone:{
+        type:Number,
+        required:true,
+    },
+    isVerified:{
+        type:Boolean,
+        required:true,
+    },
+    autoLocation:{
+        type:{
+        type:String,
+        enum:["Point"],
+        required:true,
+        },
+        coordinates:{
+            type:[Number],
+            required:true,
+        },
+        formattedAddress:{
+            type:String,
+        },
+    },
+    isOpen:{
+        type:Boolean,
+        default:false
+    },
+},{
+    timestamps:true,
+});
+schema.index({autoLocation:"2dsphere"});
+export default mongoose.model<IRestaurant>("Restaurant", schema);
+</file>
+
+<file path="services/restaurant/src/routes/order.ts">
+import express from "express";
+import { isAuth } from "../middlewares/isAuth.js";
+import { createOrder, fetchOrderForPayment } from "../controllers/order.js";
+
+const router= express.Router();
+
+router.post("/new",isAuth,createOrder);
+router.get("/payment/:id", fetchOrderForPayment);
+
+export default router;
+//API KEY=rzp_test_SdLSQPZrJw32u4
+//KEY SECRET=0KppjLbQKPlBUS973FvK9ZM2
+</file>
+
+<file path="services/restaurant/tsconfig.json">
+{  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "ES2020",
+  
+    "lib": ["ES2020"],
+    "types": ["node"],
+  
+    "sourceMap": false,
+    "declaration": false,
+    "declarationMap": false,
+
+   
+    "strict": true,
+    
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true
+  }
+}
+</file>
+
+<file path="services/utils/src/config/payment.producer.ts">
+import { getChannel } from "./rabbitmq.js";
+export const publishPaymentSuccess=async(payload:{
+    orderId:string;
+    paymentId:string;
+    provider:"razorpay"|"stripe";
+})=>{
+    const channel=getChannel();
+    channel.sendToQueue(
+        process.env.PATMENT_QUEUE!,
+        Buffer.from(
+            JSON.stringify({
+                type:"PAYMENT_SUCCESS",
+                data:payload,
+            })
+        ),
+        {
+            persistent:true
+        }
+    );
+};
+</file>
+
+<file path="services/utils/src/config/rabbitmq.ts">
+import ampq from 'amqplib'
+
+
+let channel:ampq.Channel;
+
+export const connectRabbitMQ=async()=>{
+    const connection=await ampq.connect(process.env.RABBITMQ_URL!);
+    channel=await connection.createChannel();
+    await channel.assertQueue(process.env.PAYMENT_QUEUE!,{
+        durable:true,
+    });
+    console.log("🐇 connected to Rabbitmq");
+};
+export const getChannel=()=>channel;
+</file>
+
+<file path="services/utils/src/config/razorpay.ts">
+import Razorpay from "razorpay"
+import dotenv from "dotenv"
+dotenv.config()
+
+export const razorpay =new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID!,
+    key_secret:process.env.RAZORPAY_KEY_SECRET!,
+});
+</file>
+
+<file path="services/utils/src/config/verifyRazorpay.ts">
+import crypto  from "crypto"
+export const verifyRazorpaySignature=(
+    orderId:string,
+    paymentId:string,
+    signature:string
+)=>{
+    const body=`${orderId}|${paymentId}`;
+    const expectedSignature=crypto
+    .createHmac("sha256",process.env.RAZORPAY_KEY_SECRET!)
+    .update(body)
+    .digest("hex");
+
+return expectedSignature===signature;
+}
+</file>
+
+<file path="services/utils/src/controllers/payment.ts">
+import { Request, Response } from "express"
+
+import axios from "axios"
+import { razorpay } from "../config/razorpay.js";
+import { verifyRazorpaySignature } from "../config/verifyRazorpay.js";
+import { publishPaymentSuccess } from "../config/payment.producer.js";
+
+
+
+export const createRazorpayOrder=async(req:Request,res:Response)=>{
+    const {orderId}=req.body;
+    const {data}=await axios.get(
+        `${process.env.RESTAURANT_SERVICE}/api/order/payment/${orderId}`,
+        {
+            headers:{
+                "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
+
+            },
+        }
+    );
+    const razorpayOrder=await razorpay.orders.create({
+        amount:data.amount*100,
+        currency:"INR",
+        receipt:"orderId",
+    });
+    res.json({
+        razorpayOrderId:razorpayOrder.id,
+        key:process.env.RAZORPAY_KEY_ID
+    });
+};
+export const verifyRazorpayPayment=async(req:Request,res:Response)=>{
+    const {razorpay_order_id, razorpay_payment_id, razorpay_signature,orderId}=req.body;
+    const isValid=verifyRazorpaySignature(razorpay_order_id,razorpay_payment_id,razorpay_signature);
+    if(!isValid){
+        return res.status(400).json({
+            message:"Payment Verification failed",
+        });
+    }
+    await publishPaymentSuccess({
+        orderId,
+        paymentId:razorpay_payment_id,
+        provider:"razorpay",
+  
+    });
+    res.json({
+        message:"Payment Verified Successfully."
+    });
+}
+</file>
+
+<file path="services/utils/src/routes/payment.ts">
+import express from "express";
+import { createRazorpayOrder, verifyRazorpayPayment } from "../controllers/payment.js";
+const router=express.Router();
+
+router.post("/create", createRazorpayOrder);
+router.post("/verify", verifyRazorpayPayment);
+export default router;
+</file>
+
+<file path="services/utils/tsconfig.json">
+{  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "ES2020",
+  
+    "lib": ["ES2020"],
+    "types": ["node"],
+  
+    "sourceMap": false,
+    "declaration": false,
+    "declarationMap": false,
+
+   
+    "strict": true,
+    
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true
+  }
+}
+</file>
+
+<file path="frontend/package.json">
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-oauth/google": "^0.13.4",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/leaflet": "^1.9.21",
+    "axios": "^1.13.6",
+    "leaflet": "^1.9.4",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.6.0",
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.13.2",
+    "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^24.12.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.57.0",
+    "vite": "^8.0.1"
+  }
+}
+</file>
+
+<file path="frontend/src/pages/Checkout.tsx">
+import { useState,useEffect } from "react";
+import { useAppData } from "../context/AppContext";
+import { restaurantService, utilsService } from "../main";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import type { ICart, IMenuItem, IRestaurant } from "../types";
+import { toast } from "react-hot-toast/headless";
+import { BiCreditCard, BiLoader } from "react-icons/bi";
+
+interface Address{
+  _id:string,
+  formattedAddress:string,
+  mobile:number;
+}
+
+const CheckoutPage = () => {
+  const {cart, subTotal, quantity} =useAppData();
+  const [addresses,setAddresses]=useState<Address[]>([]);
+  const [selectedAddressId,setSelectedAddressId]=useState<string | null>(null);
+  const [loadingAddress, setLoadingAddress] = useState(true);  
+  const [loadingRazorpay, setLoadingRazorpay] = useState(false);
+  const [loadingStripe, setLoadingStripe] = useState(false);
+  const [creatingOrder, setCreatingOrder] = useState(false);
+
+  useEffect(()=>{
+    const fetchAddresses=async()=>{
+      if(!cart || cart.length===0) {
+        setLoadingAddress(false);
+        return;
+      }
+      try{
+        const {data}=await axios.get(`${restaurantService}/api/address/all`,{
+          headers:{
+            Authorization:`Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setAddresses(data || []);
+      }catch(error){
+        console.log(error);
+      }finally{
+        setLoadingAddress(false);
+      }
+    };
+    fetchAddresses();
+  },[cart]); 
+    const navigate=useNavigate(); 
+  if(!cart || cart.length===0){
+    return <div className="flex min-h-[60vh] item-center justify-center">
+      <p className="text-gray-500 text-lg">Your cart is empty.</p> </div>
+  }
+
+  const restaurant=cart[0].restaurantId as IRestaurant;
+  const deliveryFee=subTotal<250?49:0;
+  const platformFee=7;
+  const grandTotal=subTotal+deliveryFee+platformFee;
+  const createOrder=async(paymentMethod:"razorpay" | "stripe")=>{
+    if(!selectedAddressId) return null;
+    setCreatingOrder(true);
+    try {
+      const {data}=await axios.post(`${restaurantService}/api/order/new`,{
+        paymentMethod,
+        addressId:selectedAddressId,
+      },
+      {
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      return data;
+    } catch (error) {
+      toast.error("Failed to create order. Please try again.");
+    } finally{
+      setCreatingOrder(false);
+    }
+  };
+  const payWithRazorpay = async () => {
+  try {
+    setLoadingRazorpay(true);
+    const order = await createOrder("razorpay");
+    if (!order) {
+      setLoadingRazorpay(false);
+      return;
+    }
+
+    const { orderId, amount } = order;
+
+    const { data } = await axios.post(`${utilsService}/api/payment/create`, {
+      orderId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+    const { razorpayOrderId, key } = data;
+
+    const options = {
+      key,
+      amount: amount * 100,
+      currency: "INR",
+      name: "OrderSync",
+      description: "Order Payment",
+      order_id: razorpayOrderId,
+      handler: async (response: any) => {
+        try {
+          await axios.post(`${utilsService}/api/payment/verify`, {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            orderId,
+          });
+
+          toast.success("Payment successful!");
+          navigate("/paymentsuccess/" + response.razorpay_payment_id);
+        } catch (error) {
+          toast.error("Payment verification failed.");
+        }
+      },
+      theme: {
+        color: "#E23744",
+      },
+    };
+
+    const razorpay = new (window as any).Razorpay(options);
+    razorpay.open();
+
+  } catch (error) {
+    toast.error("Failed to initiate Razorpay payment.");
+  } finally {
+    setLoadingRazorpay(false);
+  }
+};
+const payWithStripe=async()=>{
+  setLoadingStripe(true);
+  try {
+    const order=await createOrder("stripe");
+    if(!order){
+      setLoadingStripe(false);
+      return;
+    }
+    const {data}=await axios.post(`${utilsService}/api/payment/create-stripe-session`,{
+      orderId:order.orderId,
+    });
+    const {sessionId}=data;
+    const stripe= (window as any).Stripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+    await stripe.redirectToCheckout({sessionId});
+  }
+
+    catch (error) {
+      toast.error("Failed to initiate Stripe payment.");
+    } finally{
+      setLoadingStripe(false);
+    }
+}
+
+  return( <div className="mx-auto max-w-4xl px-4 py-6 space-y-6">
+      <h1 className="text-2xl font-bold">Checkout</h1>
+      <div className="rounded-xl bg-white p-4 shadow-sm">
+        <h2 className="text-lg font-semibold mb-4">{restaurant.name}</h2>
+        <p className=" tet-sm text-gray-600">{restaurant.autoLocation.formattedAddress}</p>
+      </div>
+      <div className="rounded-xl bg-white p-4 shadow-sm">
+        <h2 className="text-lg font-semibold mb-4">Delivery Address</h2>
+        {loadingAddress ?<p className="text-sm text-gray-500">Loading addresses...
+        </p>: addresses.length === 0 ?<p className="text-sm text-gray-500">No addresses found. Please add one</p>:addresses.map((add) => (
+              <label key={add._id}
+                className={`flex gap-3 border p-3 rounded-lg cursor-pointer transition ${
+                  selectedAddressId === add._id
+                    ? "border-[#e23744] bg-red-50"
+                    : "border-gray-300"
+                }`}
+              >
+              <input
+                type="radio"
+                name="address"
+                checked={selectedAddressId === add._id}
+                onChange={() => setSelectedAddressId(add._id)}
+              />
+              <div >
+                <p className="font-medium text-sm">{add.formattedAddress}</p>
+                <p className="text-xs text-gray-500">{add.mobile}</p>
+              </div>
+              </label>
+            ))
+          }
+        </div>
+        <div className="rounded-xl bg-white p-4 shadow-sm space-y-4">
+          <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+         {  
+          cart.map((cartItem: ICart)=>{
+          const item=cartItem.itemId as IMenuItem;
+          return( <div className="flex justify-between text-sm" key={cartItem._id}>
+            <span>
+              {item.name} x {cartItem.quantity}
+            </span>
+            <span>
+              ₹{item.price * cartItem.quantity} 
+            </span>
+          </div>
+          );
+        })
+      }
+      <hr />
+      <div className="flex justify-between text-sm">
+        <span>Items ({quantity})</span>
+        <span>₹{subTotal}</span>
+      </div>
+      <div className="flex justify-between text-sm">
+        <span>Delivery Fee</span>
+        <span>{deliveryFee===0?"Free":`₹${deliveryFee}`}</span>
+      </div>
+      <div className="flex justify-between text-sm">
+        <span>Platform Fee</span>
+        <span>₹{platformFee}</span>
+      </div>
+      <div className="flex justify-between text-lg font-semibold">
+    </div>
+    <div className="flex justify-between text-lg font-semibold">      
+    </div>
+    {subTotal<250 &&(
+      <p className="text-sm text-gray-500">Add ₹{250-subTotal} more to get free delivery</p>        
+    )}
+    <div className="flex justify-between text-base font-semibold border-t pt-2">
+      <span>Grand Total</span>
+      <span>₹{grandTotal}</span>
+    </div>
+  </div>
+  <div className="rounded-xl bg-white  p-4 shadow-sm space-y-3">
+    <h3 className="font-semibold">Payment Method</h3>
+    <button disabled={!selectedAddressId || loadingRazorpay ||creatingOrder }
+    onClick={payWithRazorpay}
+    className=" flex w-full items-center justify-center gap-2 bg-[#2d7ff9] py-2 px-4 text-sm text-white hover:bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed opacity-50" 
+    >
+      {loadingRazorpay ?(
+        <BiLoader size={18} className="animate-spin"/>
+        
+      ):(
+        <BiCreditCard size={18} />  
+      )}
+      Pay with Razorpay
+    </button>
+    <button disabled={!selectedAddressId || loadingRazorpay ||creatingOrder }
+    onClick={payWithRazorpay}
+    className=" flex w-full items-center justify-center gap-2 bg-black py-2 px-4 text-sm text-white hover:bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed opacity-50" 
+    >
+      {loadingRazorpay ?(
+        <BiLoader size={18} className="animate-spin"/>
+        
+      ):(
+        <BiCreditCard size={18} />  
+      )}
+      Pay with Stripe
+    </button>
+  </div>
+  </div>
+  );
+  
+};
+
+export default CheckoutPage;
+</file>
+
+<file path="frontend/src/pages/Home.tsx">
+import { useSearchParams } from "react-router-dom"
+import { useAppData } from "../context/AppContext"
+import type { IRestaurant } from "../types";
+import {  useEffect, useState } from "react";
+import { restaurantService } from "../main";
+import axios from "axios";
+import RestaurantCard from "../components/RestaurantCard";
+
+const Home = () => {
+  const {location} = useAppData();
+  const [searchParams]=useSearchParams();
+  const search= searchParams.get("search") || "";
+  const[restaurants, setRestaurants]=useState<IRestaurant[]>([]);
+  const [loading, setLoading]=useState(true);
+  const getDistanceKm=(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number => {
+    const R = 6371;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos((lat1 * Math.PI) / 180) *
+              Math.cos((lat2 * Math.PI) / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
+
+  const fetchRestaurants=async()=>{
+    if(!location?.latitude || !location?.longitude){
+      return;
+    }
+    try {
+        setLoading(true);
+        const {data}=await axios.get(`${restaurantService}/api/restaurants/all`, {
+          params: {
+            latitude:location.latitude,
+            longitude:location.longitude,
+            search
+          },
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+      setRestaurants(data.restaurants ?? []);
+    } catch (error) {
+      console.error("Error fetching restaurants:", error);
+    } finally {
+      setLoading(false);
+    } 
+  };
+useEffect(()=>{
+  fetchRestaurants();
+}, [location, search]);
+if(loading || !location){
+  return( <div className="flex h-[60vh] items-center justify-center">
+    <p className="text-gray-500">Finding restaurants near you...</p>
+  </div>
+   );
+}
+  return <div className="mx-auto max-w-7xl px-4 py-6">
+    {
+      restaurants.length > 0 ? (<div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4  ">
+        {
+          restaurants.map((res)=>{
+            const [resLng, resLat]=res.autoLocation.coordinates;
+            const distance= getDistanceKm(location.latitude, location.longitude, resLat, resLng);
+            return <RestaurantCard key={res._id} id={res._id} name={res.name} image={res.image ?? ""} distance={`${distance} km`} isOpen={res.isOpen} />
+          })
+        }
+        </div>
+         ):( <p className="text-gray-500 text-center">No restaurants found near you.</p>
+          )
+    }
+  </div>
+}
+export default Home;
+</file>
+
+<file path="frontend/src/pages/Login.tsx">
+import axios from"axios";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import { authService } from "../main";
+import toast from "react-hot-toast";
+import { useGoogleLogin } from '@react-oauth/google';
+import { FcGoogle } from "react-icons/fc";
+import { useAppData } from "../context/AppContext";
+
+const Login = () => {
+    const [loading, setLoading]= useState(false)
+    const navigate=useNavigate();
+    const {setUser, setIsAuth}=useAppData();
+    const responseGoogle=async(authResult:any)=>{
+        setLoading(true)
+        try{
+            const result=await axios.post(`${authService}/api/auth/login`,{
+                code:authResult["code"]
+            });
+            localStorage.setItem("token",result.data.token);
+            toast.success(result.data.message);
+            setLoading(false);
+            setUser(result.data.user);
+            setIsAuth(true);
+            navigate("/");
+        }catch(error){
+            console.log(error);
+            toast.error("Problem while login");
+            setLoading(false);
+        }
+        
+    };
+    const googleLogin=useGoogleLogin({
+        onSuccess:responseGoogle,
+        onError:responseGoogle,
+        flow:"auth-code",
+    });
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-white px-4">
+        <div className="w-full max-w-sm space-y-6">
+            <h1 className="text-center text-3xl font-bold text-[#E23774]">
+                OrderSync
+            </h1>
+            <p className="text-center text-sm text-gray-500">
+                Log in or sign up to continue
+            </p>
+            <button onClick={googleLogin} disabled={loading} className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white px-4 py-3">
+                <FcGoogle size={20}/>
+                {loading ? "Signing in ...":"Continue with Google"}
+                </button>
+                <p className="text-center text-xs text-gray-400">
+                    By Continuing, you agree with our {""}
+                    <span className="text-[#E23774]">Terms of Service</span>&{""}
+                    <span className="text-[#E23774]">Privacy Policy</span>
+                </p>
+        </div>
+
+      
+    </div>
+  )
+}
+
+export default Login
+</file>
+
+<file path="services/auth/package.json">
+{
+  "name": "auth",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"tsc --watch\" \"node --watch dist/index.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.13.6",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "googleapis": "^171.4.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.3.2"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongoose": "^5.11.96",
+    "concurrently": "^9.2.1",
+    "typescript": "^6.0.2"
+  }
+}
+</file>
+
+<file path="services/auth/src/middlewares/trycatch.ts">
+import { Request, Response, RequestHandler, NextFunction } from "express";
+
+const TryCatch = (handler: RequestHandler): RequestHandler => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            await handler(req, res, next);
+        } catch (err: any) {
+            console.error("ERROR:", err);
+
+            res.status(err?.statusCode || 500).json({
+                message: err?.message || "Internal Server Error",
+            });
+        }
+    };
+};
+
+export default TryCatch;
+</file>
+
+<file path="services/restaurant/src/controllers/cart.ts">
+import { AuthenticatedRequest } from "../middlewares/isAuth.js";
+import TryCatch from "../middlewares/trycatch.js";
+import Cart from "../models/Cart.js";
+import mongoose from "mongoose";
+
+
+
+
+export const addToCart=TryCatch(async(req:AuthenticatedRequest,res)=>{
+if(!req.user){
+    return res.status(401).json({
+        message:"Please Login",
+    });
+}
+const userId=req.user._id;
+const{restaurantId,itemId}=req.body;
+if(!mongoose.Types.ObjectId.isValid(restaurantId)||
+    !mongoose.Types.ObjectId.isValid(itemId)
+){
+    return res.status(400).json({
+        message:"Invalid restaurant and item id",
+    })
+}
+const cartFromDifferentRestaurant=await Cart.findOne({
+    userId,
+    restaurantId:{$ne:restaurantId},
+});
+if(cartFromDifferentRestaurant){
+    return res.status(400).json({
+        message:" You can order from only one restaurant at a time. Please clear your cart first to add items from this restaurant.",
+    });
+
+}
+const cartItem=await Cart.findOneAndUpdate(
+    {userId,restaurantId, itemId},
+    {
+        $inc:{quantity:1},
+        $setOnInsert:{userId, restaurantId, itemId},
+
+    },
+    {
+        upsert:true,
+        new:true,
+        setDefaultsOnInsert:true
+    }
+);
+return res.json({
+    message:"Item added to cart ",
+    cart:cartItem,
+});    
+});     
+
+
+export const fetchMyCart=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    if(!req.user){
+        return res.status(401).json({
+            message:"Please Login",
+        });
+
+    }
+    const userId=req.user._id;
+    const cartItems=await Cart.find({userId})
+    .populate("itemId")
+    .populate("restaurantId");
+    let subTotal=0;
+    let cartLength=0;
+    for(const cartItem of cartItems){
+        const item:any=cartItem.itemId;
+        subTotal += item.price*cartItem.quantity;
+        cartLength += cartItem.quantity;
+
+    }
+    return res.json({
+        success:true,
+        cartLength,
+        subTotal,
+        cart:cartItems,
+    });
+});
+
+export const incrementCartItem=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    const userId=req.user?._id;
+    const {itemId}=req.body;
+    if(!userId || !itemId){
+    return res.status(400).json({
+        message:"Invalid request",
+    });
+}
+const cartItem=await Cart.findOneAndUpdate(
+    { userId,itemId},
+    {$inc:{quantity:1}},
+    {new:true}
+);
+if(!cartItem){
+    return res.status(404).json({
+        message:"Item not found."
+    })
+}
+res.json({
+    message:"quantity increased.",
+    cartItem,
+})
+} )
+
+export const decrementCartItem=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    const userId=req.user?._id;
+    const {itemId}=req.body;
+    if(!userId || !itemId){
+    return res.status(400).json({
+        message:"Invalid request",
+    });
+}
+const cartItem=await Cart.findOne(
+    { userId,itemId},
+   
+);
+if(!cartItem){
+    return res.status(404).json({
+        message:"Item not found."
+    })
+}
+if(cartItem.quantity===1){
+    await Cart.deleteOne({userId,itemId});
+    return res.json({
+        message:"Item removed from cart."
+    });
+}
+cartItem.quantity-=1;
+await cartItem.save();
+res.json({
+    message:"quantity decreased.",
+    cartItem,
+})
+} );
+export const clearCart=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    const userId=req.user?._id;
+    if(!userId){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    await Cart.deleteMany({userId});
+    res.json({
+        message:"Cart cleared successfully."
+    });
+
+});
+</file>
+
+<file path="services/restaurant/src/controllers/menuitem.ts">
+import getBuffer from "../config/datauri.js";
+import { AuthenticatedRequest } from "../middlewares/isAuth.js"
+import TryCatch from "../middlewares/trycatch.js"
+import Restaurant from "../models/Restaurant.js"
+import MenuItems from "../models/MenuItems.js";
+import axios from "axios";
+
+export const addMenuItem = TryCatch(async(req:AuthenticatedRequest, res)=>{
+    if(!req.user){
+        return res.status(401).json({
+            message:"Please Login",
+        });
+    }
+    const restaurant= await Restaurant.findOne({ ownerId:req.user._id});
+    if(!restaurant){
+        return res.status(404).json({
+            message:"No Restaurant Found",
+        });
+    }
+    const {name, description, price}=req.body;
+    if(!name || !price){
+        return res.status(400).json({
+            message:"Name and Price are required",
+        });
+    };
+    
+    const file = req.file;
+      if (!file) {
+        return res.status(400).json({ message: "Please provide an image" });
+      }
+    
+      const fileBuffer = getBuffer(file);
+      if (!fileBuffer?.content) {
+        return res.status(500).json({ message: "Failed to create file buffer" });
+      }
+    
+      const { data: uploadResult } = await axios.post(
+        `${process.env.UTILS_SERVICE}/api/upload`,
+        { buffer: fileBuffer.content },
+        { headers: { 'x-internal-secret': process.env.INTERNAL_SECRET } }
+      );
+      const item=await MenuItems.create({
+        name,
+        description,
+        price,
+        restaurantId:restaurant._id,
+        image:uploadResult.url,
+        isAvailable: true,
+      })
+      res.json({
+        message:"Item Addes Successfully",
+        item
+      });
+    
+});
+export const getAllItems=TryCatch(async(req:AuthenticatedRequest, res)=>{
+    const {id}=req.params;
+    if(!id){
+        return res.status(400).json({
+            message:"Id is required",
+        });
+
+    }
+
+    const items=await MenuItems.find({restaurantId:id})
+    res.json(items);
+
+})
+
+export const deleteMenuItem=TryCatch(async(req:AuthenticatedRequest, res)=>{
+    if(!req.user){
+        return res.status(401).json({
+            message:"Please Login",
+        });
+    }
+
+    const {itemId}= req.params;
+    if(!itemId){
+        return res.status(400).json({
+            message:"Id is required",
+        });
+    }
+    const item=await MenuItems.findById(itemId);
+    if(!item){
+        return res.status(404).json({
+            message:"No item found",
+        });
+    }
+    const restaurant=await Restaurant.findOne({
+        _id:item?.restaurantId,
+        ownerId:req.user._id,
+    });
+     if(!restaurant){
+        return res.status(404).json({
+            message:"No Restaurant Found",
+        });
+    }
+    await item.deleteOne()
+    res.json({
+        message:"Menu item deleted successfully"
+    });
+}
+);
+export const toggleMenuItemAvailability=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    if(!req.user){
+        return res.status(401).json({
+            message:"Please login",
+        });
+    }
+    const{itemId}=req.params;
+    if(!itemId){
+        return res.status(400).json({
+            message:"Id is required",
+        });
+    }
+    const item=await MenuItems.findById(itemId);
+     if(!item){
+        return res.status(400).json({
+            message:"No item found",
+        });
+    }
+    const restaurant= await Restaurant.findOne({
+        _id :item.restaurantId,
+        ownerId:req.user._id,
+    });
+    if(!restaurant){
+        return res.status(404).json({
+            message:"No Restaurnt found",
+        });
+    }
+    item.isAvailable=!item.isAvailable;
+    await item.save()
+    res.json({
+        message:`Item Marked as ${
+            item.isAvailable ? "available":"unavailable"
+        }`,
+        item,
+    });
+})
+</file>
+
+<file path="services/restaurant/src/controllers/order.ts">
+import{AuthenticatedRequest} from "../middlewares/isAuth.js";
+import TryCatch from "../middlewares/trycatch.js";
+import Address from "../models/Address.js";
+import Cart from "../models/Cart.js";
+import { IMenuItem } from "../models/MenuItems.js";
+import Order from "../models/Order.js";
+import Restaurant,{IRestaurant} from "../models/Restaurant.js";
+
+export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    const user=req.user;
+    if(!user){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    const {paymentMethod,addressId}=req.body;
+   
+    if(!addressId){
+        return res.status(400).json({
+            message:"Address is required",
+
+        });
+    }
+    const address=await Address.findOne({
+        _id:addressId,
+        userId:user._id,
+    });
+    if(!address){
+        return res.status(404).json({
+            message:"Address Not Found.",
+        });
+    }
+     const getDistanceKm=(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number => {
+    const R = 6371;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos((lat1 * Math.PI) / 180) *
+              Math.cos((lat2 * Math.PI) / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return +( R * c).toFixed(2);
+  };
+
+    const cartItems=await Cart.find({userId:user._id}).populate<{itemId:IMenuItem}>("itemId").populate<{restaurantId:IRestaurant}>("restaurantId");
+    
+    if(cartItems.length===0){
+        return res.status(400).json({message:"cart is empty"});
+    }
+    const firstCartItem=cartItems[0];
+    if(!firstCartItem || !firstCartItem.restaurantId){
+        return res.status(400).json({
+            message:"Invalid cart data."
+        });
+    }
+    const restaurantId=firstCartItem.restaurantId._id;
+    const restaurant=await Restaurant.findById(restaurantId);
+    if(!restaurant){
+        return res.status(404).json({
+            message:"No restaurant with this id",
+
+        });
+    }
+    if(!restaurant.isOpen){
+        return res.status(404).json({
+            message:"Sorry this restaurant is closed for now",
+        });
+    }
+     const distance= getDistanceKm(
+        address.location.coordinates[1],
+        address.location.coordinates[0],
+        restaurant.autoLocation.coordinates[1],
+        restaurant.autoLocation.coordinates[0],
+     );
+    let subtotal=0;
+    const orderItems=cartItems.map((cart)=>{
+        const item=cart.itemId;
+        if(!item){
+            throw new Error("Invalid cart item")
+        }
+        const itemTotal=item.price*cart.quantity;
+        subtotal+=itemTotal;
+        return {
+            itemId:item._id.toString(),
+            name:item.name,
+            price:item.price,
+            quantity:cart.quantity,
+        };
+    });
+    const deliveryFee=subtotal<250 ?49:0;
+    const platformFee=7;
+    const totalAmount=subtotal+deliveryFee+platformFee;
+    const expiresAt=new Date(Date.now()+15*60*1000);
+    const [longitude, latitude]=address.location.coordinates;
+    const riderAmount=Math.ceil(distance)*17;
+    const order=await Order.create({
+        userId:user._id.toString(),
+        restaurantId:restaurantId.toString(),
+        restaurantName:restaurant.name,
+        distance,
+        riderAmount,  
+        riderId:null,
+        items:orderItems,
+        subtotal,
+        deliveryFee,
+        platformFee,
+        totalAmount,
+        addressId:address._id.toString(),
+        deliveryAddress:{
+            formattedAddress:address.formattedAddress,
+            mobile:address.mobile,
+            latitude,
+            longitude,
+        },
+        paymentMethod,
+        paymentStatus:"pending",
+        status:"placed",
+        expiresAt,
+    });
+    await Cart.deleteMany({userId:user._id});
+    res.json({
+        message:"Order Created Successfully",
+        orderId:order._id.toString(),
+        amount:totalAmount,
+    });     
+});
+export const fetchOrderForPayment=TryCatch(async(req, res)=>{
+    if(req.headers["x-internal-key"]!==process.env.INTERNAL_SERVICE_KEY){
+        return res.status(403).json({
+            message:"Forbidden",
+        });
+    }
+    const order=await Order.findById(req.params.id);
+    if(!order){
+        return res.status(404).json({
+            message:"Order Not Found",
+
+        });
+    }
+    if(order.paymentStatus!=="pending"){
+        return res.status(404).json({
+            message:"Order already paid",
+        });
+    }
+    
+    res.json({
+        orderId:order._id,
+        amount:order.totalAmount,
+        currency:"INR"
+    })
+})
+</file>
+
+<file path="services/restaurant/src/middlewares/trycatch.ts">
+import { Request, Response, RequestHandler, NextFunction } from "express";
+
+const TryCatch = (handler: RequestHandler): RequestHandler => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            await handler(req, res, next);
+        } catch (err: any) {
+            console.error("ERROR:", err);
+
+            res.status(err?.statusCode || 500).json({
+                message: err?.message || "Internal Server Error",
+            });
+        }
+    };
+};
+
+export default TryCatch;
+</file>
+
+<file path="services/restaurant/src/models/MenuItems.ts">
+import mongoose,{Schema, Document} from "mongoose";
+
+export interface IMenuItem extends Document{
+    restaurantId:mongoose.Types.ObjectId;
+    name:string;
+    description:string;
+    image?:string;
+    price:number;
+    isAvailable:boolean;
+    createdAt:Date;
+    updatedAt:Date;
+}
+const schema=new Schema<IMenuItem>({
+    restaurantId:{
+        type:Schema.Types.ObjectId,
+        ref:"Restaurant",
+        required:true,
+        index:true,
+    },
+    name:{
+        type:String,
+        required:true,
+        trim:true,
+    },
+    description:{
+        type:String,
+        trim:true,
+    },
+    price:{
+        type:Number,
+        required:true,
+    },
+   image:{
+        type:String,
+        required:true,
+    },
+    isAvailable:{
+        type:Boolean,
+        default:true,  
+    },
+},{
+    timestamps:true,
+}
+);
+export default mongoose.model<IMenuItem>("MenuItem",schema);
+</file>
+
+<file path="services/restaurant/src/routes/address.ts">
+import express from 'express';
+import { isAuth } from '../middlewares/isAuth.js';
+import { addAddress, deleteAddress, getMyAddress } from '../controllers/address.js';
+
+const router=express.Router();
+router.post("/new",isAuth,addAddress);
+router.delete("/:id",isAuth,deleteAddress);
+router.get("/all",isAuth,getMyAddress);
+
+export default router;
+</file>
+
+<file path="services/restaurant/src/routes/cart.ts">
+import express from "express";
+import { addToCart, fetchMyCart, decrementCartItem, incrementCartItem,clearCart } from "../controllers/cart.js";
+import { isAuth } from "../middlewares/isAuth.js";
+
+const router=express.Router();
+router.post("/add",isAuth, addToCart);
+router.get("/all", isAuth, fetchMyCart)
+router.put("/inc", isAuth, incrementCartItem);
+router.put("/dec", isAuth,decrementCartItem);
+router.delete("/clear",isAuth, clearCart);
+
+export default router;
+</file>
+
+<file path="services/restaurant/src/routes/menuitem.ts">
+import express from "express";
+import {isAuth, isSeller} from "../middlewares/isAuth.js";
+import {addMenuItem, deleteMenuItem, getAllItems, toggleMenuItemAvailability} from "../controllers/menuitem.js"
+import uploadFile from "../middlewares/multer.js";
+
+const router=express.Router();
+router.post("/new", isAuth, isSeller,uploadFile, addMenuItem);
+router.get("/all/:id", isAuth, getAllItems);
+router.delete("/:itemId", isAuth, isSeller, deleteMenuItem);
+router.put("/status/:itemId", isAuth, isSeller, toggleMenuItemAvailability);
+
+export default router;
+</file>
+
+<file path="services/utils/src/routes/cloudinary.ts">
+import express from 'express';
+import cloudinary from 'cloudinary';
+
+const router = express.Router();
+
+// ✅ Internal secret check — upload endpoint was completely open before.
+// The restaurant service must send this header when calling the utils service.
+// Set INTERNAL_SECRET in both services' .env files to the same value.
+const verifyInternalSecret = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const secret = req.headers['x-internal-secret'];
+  if (!secret || secret !== process.env.INTERNAL_SECRET) {
+    res.status(403).json({ message: "Forbidden" });
+    return;
+  }
+  next();
+};
+
+router.post('/upload', verifyInternalSecret, async (req, res) => {
+  try {
+    const { buffer } = req.body;
+    if (!buffer) {
+      res.status(400).json({ message: "No buffer provided" });
+      return;
+    }
+    const cloud = await cloudinary.v2.uploader.upload(buffer);
+    res.json({ url: cloud.secure_url });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+export default router;
+</file>
+
+<file path="frontend/src/components/AddRestaurant.tsx">
+import { useState } from "react";
+import { useAppData } from "../context/AppContext";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { restaurantService } from "../main";
+import { BiUpload, BiMapPin } from "react-icons/bi";
+
+interface Props {
+  fetchMyRestaurant: () => Promise<void>;
+}
+
+const AddRestaurant = ({ fetchMyRestaurant }: Props) => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [phone, setPhone] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const { loadingLocation, location } = useAppData();
+
+  const handleSubmit = async () => {
+    // ✅ phone added to validation check — was missing before
+    if (!name || !phone || !image || !location) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("latitude", String(location.latitude));
+    formData.append("longitude", String(location.longitude));
+    formData.append("formattedAddress", location.formattedAddress);
+    formData.append("file", image);
+    formData.append("phone", phone);
+
+    try {
+      setSubmitting(true);
+      await axios.post(`${restaurantService}/api/restaurants/new`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      toast.success("Restaurant added successfully");
+      fetchMyRestaurant();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 px-4 py-6">
+      <div className="mx-auto max-w-lg rounded-xl bg-white p-6 shadow-sm space-y-5">
+        <h1 className="text-xl font-semibold">Add Your Restaurant</h1>
+
+        <input
+          type="text"
+          placeholder="Restaurant name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full rounded-lg border px-4 py-2 text-sm outline-none"
+        />
+
+        <input
+          type="number"
+          placeholder="Contact number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="w-full rounded-lg border px-4 py-2 text-sm outline-none"
+        />
+
+        <textarea
+          placeholder="Restaurant Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full rounded-lg border px-4 py-2 text-sm outline-none"
+        />
+
+        <label className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 text-sm text-gray-600 hover:bg-gray-50">
+          <BiUpload className="h-5 w-5 text-red-500" />
+          {image ? image.name : "Upload restaurant image"}
+          <input
+            type="file"
+            accept="image/*"
+            hidden
+            onChange={(e) => setImage(e.target.files?.[0] || null)}
+          />
+        </label>
+
+        <div className="flex items-start gap-3 rounded-lg border p-4">
+          <BiMapPin className="mt-0.5 h-5 w-5 text-red-500" />
+          <div className="text-sm">
+            {loadingLocation
+              ? "Fetching your location..."
+              : location?.formattedAddress || "Location not available"}
+          </div>
+        </div>
+
+        <button
+          className="w-full rounded-lg py-3 text-sm font-semibold text-white bg-[#e23744] disabled:opacity-60"
+          disabled={submitting || loadingLocation || !location}
+          onClick={handleSubmit}
+        >
+          {submitting ? "Submitting..." : "Add Restaurant"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default AddRestaurant;
+</file>
+
+<file path="frontend/src/components/protectedRoute.tsx">
+import {useAppData} from "../context/AppContext"
+import { useLocation, Navigate, Outlet} from "react-router-dom";
+
+
+const ProtectedRoute= () => {
+    const {isAuth, user, loading }= useAppData()
+    const location= useLocation();
+    if(loading) return null
+    
+    if(!isAuth){
+        return <Navigate to={'/login'} replace/>;
+    }
+
+    if(user && user?.role===null && location.pathname!=="/select-role"){
+        return <Navigate to={"/select-role"} replace/>;
+    }
+    // if(user?.role!==null && location.pathname ==="/select-role"){
+    //     return <Navigate to={"/"} replace/>;
+    // }
+    return <Outlet/>
+};
+export default ProtectedRoute;
+</file>
+
+<file path="frontend/src/pages/SelectRole.tsx">
+import { useState } from "react";
+import axios from "axios";
+import { useAppData } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
+import { authService } from "../main";
+import toast from "react-hot-toast";
+
+type Role = "customer" | "rider" | "seller" | null;
+
+const SelectRole = () => {
+  const [role, setRole] = useState<Role>(null);
+  const { setUser } = useAppData();
+  const navigate = useNavigate();
+  const roles: Role[] = ["customer", "rider", "seller"];
+
+  const addRole = async () => {
+    try {
+      const { data } = await axios.put(
+        `${authService}/api/auth/add/role`,
+        { role },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      localStorage.setItem("token", data.token);
+      setUser(data.user);
+      navigate("/", { replace: true });
+    } catch (error) {
+      // ✅ Replaced alert() with toast.error() to stay consistent with the rest of the app
+      toast.error("Something went wrong. Please try again.");
+      console.log(error);
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-white px-4">
+      <div className="w-full max-w-sm space-y-6">
+        <h1 className="text-center text-2xl font-bold">Choose your role</h1>
+        <div className="space-y-4">
+          {roles.map((r) => (
+            <button
+              key={r}
+              onClick={() => setRole(r)}
+              className={`w-full rounded-xl border px-4 py-3 text-sm font-medium capitalize transition ${
+                role === r
+                  ? "border-[#E23744] bg-[#E23744] text-white"
+                  : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+              }`}
+            >
+              Continue as {r}
+            </button>
+          ))}
+        </div>
+        <button
+          disabled={!role}
+          onClick={addRole}
+          className={`w-full rounded-xl px-4 py-3 text-sm font-semibold transition ${
+            role
+              ? "border-[#E23744] bg-[#E23744] text-white hover:bg-[#d32f3a]"
+              : "bg-gray-300 text-gray-400 cursor-not-allowed"
+          }`}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default SelectRole;
+</file>
+
+<file path="services/auth/src/config/googleconfig.ts">
+import{google} from "googleapis";
+import dotenv from "dotenv";
+dotenv.config();
+
+const GOOGLE_CLIENT_ID=process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET=process.env.GOOGLE_CLIENT_SECRET;
+
+export const oauth2client=new google.auth.OAuth2(
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    "postmessage"
+);
+</file>
+
+<file path="services/auth/src/routes/auth.ts">
+import express from 'express';
+import {addUserRole,loginUser,myProfile} from "../controllers/auth.js";
+import {isAuth} from "../middlewares/isAuth.js"
+const router = express.Router();
+
+router.post("/login", loginUser);
+router.put("/add/role", isAuth, addUserRole);
+router.get("/me",isAuth,myProfile);
+export default router;
+</file>
+
+<file path="services/restaurant/package.json">
+{
+  "name": "restaurant",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"tsc --watch\" \"node --watch dist/index.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/amqplib": "^0.10.8",
+    "amqplib": "^1.0.3",
+    "axios": "^1.14.0",
+    "cors": "^2.8.6",
+    "datauri": "^4.1.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.3.3",
+    "multer": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongoose": "^5.11.96",
+    "@types/multer": "^2.1.0",
+    "concurrently": "^9.2.1",
+    "typescript": "^6.0.2"
+  }
+}
+</file>
+
+<file path="services/restaurant/src/middlewares/isAuth.ts">
+import{Request, Response,NextFunction} from 'express';
+import jwt,{JwtPayload} from 'jsonwebtoken';
+export interface IUser{
+    _id:string;
+    name: string;
+    email: string;
+    image: string;
+    role: string;
+    restaurantId:string;
+}
+
+
+export interface AuthenticatedRequest extends Request{
+    user?:IUser |null;
+    
+}
+export const isAuth=async(req:AuthenticatedRequest,res:Response,next:NextFunction):Promise<void>=>{
+    try{
+        const authHeader=req.headers.authorization;
+        if(!authHeader || !authHeader.startsWith("Bearer ")){
+            res.status(401).json({
+                message:"Please Login-No auth header",
+            });
+            return;
+        }
+        const token=authHeader.split(" ")[1];
+        if(!token){
+            res.status(401).json({
+                message:"Please Login-Token missing",
+            });
+            return;
+        }
+        const decodedValue=jwt.verify(
+            token,
+            process.env.JWT_SEC as string
+        ) as JwtPayload;
+        if(!decodedValue || !decodedValue.user){
+            res.status(401).json({
+                message:"Invalid token",
+            });
+            return;
+        } 
+        req.user=decodedValue.user;
+        next();
+    }
+    
+    catch(error){
+        res.status(500).json({
+            message:"Please Login- Jwt error",
+        });
+    }
+};
+
+export const isSeller=async(req:AuthenticatedRequest,res:Response,next:NextFunction):Promise<void>=>{
+    const user=req.user
+    if(user&& user.role!=="seller"){
+        res.status(401).json({
+            message:"You are not authorized seller",
+        });
+        return;
+    }
+    next();
+};
+</file>
+
+<file path="services/utils/package.json">
+{
+  "name": "utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"tsc --watch\" \"node --watch dist/index.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/amqplib": "^0.10.8",
+    "@types/axios": "^0.9.36",
+    "amqplib": "^1.0.3",
+    "axios": "^1.15.0",
+    "cloudinary": "^2.9.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "razorpay": "^2.9.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.6",
+    "concurrently": "^9.2.1",
+    "typescript": "^6.0.2"
+  }
+}
+</file>
+
+<file path="frontend/src/components/MenuItems.tsx">
+import { useState } from "react";
+import type{IMenuItem} from "../types";
+import { BiTrash} from "react-icons/bi";
+import { VscLoading } from "react-icons/vsc";
+import { BsCartPlus, BsEye} from "react-icons/bs";
+import { FiEyeOff } from "react-icons/fi";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { restaurantService } from "../main";
+import { useAppData } from "../context/AppContext";
+
+interface MenuItemsProps{
+  items:IMenuItem[];
+  onItemDeleted:()=>void;
+  isSeller: boolean
+}
+
+
+const MenuItems = ({items, onItemDeleted, isSeller}:MenuItemsProps) => {
+  const [loadingItemId, setLoadingItemId]=useState<string | null>(null);
+  const handleDelete=async(itemId:string)=>{
+    const confirm =window.confirm("Are you sure you want to delete this item");
+    if(!confirm)return;
+    try{
+     await axios.delete(`${restaurantService}/api/item/${itemId}`,{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      toast.success("Item deleted successfully");
+      onItemDeleted();
+    }catch(error){
+      console.error("Error deleting item:", error);
+      toast.error("Failed to delete item. Please try again.");
+    }
+  }
+  const toggleAvailability=async(itemId:string)=>{
+
+    try{
+      const {data} = await axios.put(`${restaurantService}/api/item/status/${itemId}`,{},{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      toast.success(data.message);
+      onItemDeleted();
+    }catch(error){
+      console.error("error");
+      toast.error("Failed to toggle availability.");
+    }
+  };
+  const {fetchCart}=useAppData();
+  const addToCart=async(restaurantId:string, itemId:string)=>{
+    try{
+      setLoadingItemId(itemId);
+      const {data}=await axios.post(`${restaurantService}/api/cart/add`,
+      {restaurantId,itemId},
+      {
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      toast.success(data.message);
+      await fetchCart();
+    }catch(error: any){
+      toast.error(error.response?.data?.message || "Failed to add item to cart. Please try again.");
+    }finally{
+      setLoadingItemId(null);
+    }
+  };
+  return(
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {items.map((item)=>{
+        const isLoading=loadingItemId=== item._id;
+        return(
+          <div key={item._id} className={`relative flex gap-4 rounded-lg bg-white p-4 shadow-sm transition ${!item.isAvailable ? "opacity-70":""
+          }`}
+          >
+            <div  className="relative shrink-0">
+              <img src={item.image} alt="" className={`h-20 w-20 rounded object-cover ${
+                !item.isAvailable ? "grayscale brightness-75":""
+              }`} 
+              
+              />
+              {
+                !item.isAvailable && (
+                  <span className = "absolute inset-0 flex items-center justify-center rounded bg-black/60 text-xs font-semibold text-white">
+                    Not Available
+                  </span>
+                )}
+            </div>
+            <div className="flex flex-1 flex-col justify-between">
+              <div>
+                <h3 className="font-semibold">{item.name}</h3>
+                {item.description && (
+                  <p className="text-sm text-gray-500 line-clamp-2">
+                    {item.description}
+                  </p>
+                )}
+              </div>
+              <div className="flex items-center justify-between ">
+                <p className="font-medium">₹{item.price}</p>
+                {
+                  isSeller && (
+                    <div className="flex gap-2">
+                    <button
+                      onClick={() => toggleAvailability(item._id)} className="rounded-lg p-2 text-gray-600 hover:bg-gray-100">
+                      {item.isAvailable ? (
+                        <BsEye size={18} />
+                      ) : (
+                        <FiEyeOff size={18} />
+                      )}
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      className="rounded-lg p-2 text-red-500 hover:bg-red-50"
+                    >
+                      <BiTrash size={18} />
+                    </button>
+                  </div>
+                )}
+                {!isSeller && (
+                <button
+                   disabled={!item.isAvailable || isLoading}
+                    onClick={()=>addToCart(item.restaurantId, item._id)}
+                    className={`flex items-center justify-center rounded-lg p-2 ${!item.isAvailable || isLoading
+                      ? "curssor-not-allowed text-gray-400"
+                      : "text-red-500 hover:bg-red-50"
+                    }`}>{isLoading ? (
+                      <VscLoading size={18} className="animate-spin"/>
+                    ):(
+                      <BsCartPlus size={18}/>
+                    )}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+           );
+      } )};
+      </div>
+      );
+    };
+
+
+export default MenuItems;
+</file>
+
+<file path="frontend/src/components/navbar.tsx">
+import { useAppData } from '../context/AppContext';
+import { CgShoppingCart } from 'react-icons/cg';
+import { useLocation, useSearchParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BiMapPin } from 'react-icons/bi';
+
+
+const Navbar = () => {
+  const { isAuth, city,quantity } = useAppData();
+  const currLocation = useLocation();
+  const isHomePage = currLocation.pathname === '/';
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("search") || "");
+
+  useEffect(() => {
+    // ✅ Added 400ms debounce delay — was missing before (fired at 0ms = no debounce)
+    const timer = setTimeout(() => {
+      if (search) {
+        setSearchParams({ search });
+      } else {
+        setSearchParams({});
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  return (
+    <div className="w-full bg-white shadow-sm">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+        <Link
+          to={"/"}
+          className="text-2xl font-bold text-[#E23744] cursor-pointer"
+        >
+          OrderSync
+        </Link>
+
+        <div className="flex items-center gap-4">
+          <Link to={"/cart"} className="relative">
+            <CgShoppingCart className="h-6 w-6 text-[#E23744]" />
+            <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#E23744] text-xs font-semibold text-white">
+              {quantity}
+            </span>
+          </Link>
+          {isAuth ? (
+            <Link to="/account" className="font-medium text-[#E23744]">
+              Account
+            </Link>
+          ) : (
+            <Link to="/login" className="font-medium text-[#E23744]">
+              Login
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* Search bar — only on home page */}
+      {isHomePage && (
+        <div className="border-t px-4 py-3">
+          <div className="mx-auto flex max-w-7xl items-center rounded-lg border shadow-sm">
+            <div className="flex items-center gap-2 px-3 border-r text-gray-700">
+              <BiMapPin className="h-4 w-4 text-[#E23744]" />
+              <span className="text-sm truncate max-w-35">
+                {city === "Fetching Location ..." ? "Detecting..." : city}
+              </span>
+            </div>
+            <div className="flex flex-1 items-center gap-2 px-3">
+              <input
+                type="text"
+                placeholder="Search for restaurant"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full py-2 text-sm outline-none"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Navbar;
+</file>
+
+<file path="frontend/src/components/RestaurantProfile.tsx">
+import { useState } from "react";
+import type { IRestaurant } from "../types";
+import axios from "axios";
+import { restaurantService } from "../main";
+import toast from "react-hot-toast";
+import { BiMapPin, BiEdit, BiSave } from "react-icons/bi";
+
+interface Props {
+  restaurant: IRestaurant;
+  isSeller: boolean;
+  onUpdate: (restaurant: IRestaurant) => void;
+}
+
+const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
+  const [editMode, setEditMode] = useState(false);
+  const [name, setName] = useState(restaurant.name);
+  const [description, setDescription] = useState(restaurant.description);
+  const [isOpen, setIsOpen] = useState(restaurant.isOpen);
+  const [loading, setLoading] = useState(false);
+
+  const toggleOpenStatus = async () => {
+    try {
+      const { data } = await axios.put(
+        `${restaurantService}/api/restaurants/status`,
+        { status: !isOpen },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      toast.success(data.message);
+      setIsOpen(data.restaurant.isOpen);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response?.data?.message || "Failed to update status");
+    }
+  };
+
+  const saveChanges = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.put(
+        `${restaurantService}/api/restaurants/edit`,
+        { name, description },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      toast.success(data.message);
+      onUpdate(data.restaurant);
+      setEditMode(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mx-auto max-w-xl rounded-xl bg-white shadow-sm overflow-hidden">
+      {restaurant.image && (
+        <img src={restaurant.image} alt="" className="h-48 w-full object-cover" />
+      )}
+      <div className="p-5 space-y-4">
+      
+        <div className="flex items-start justify-between">
+          <div>
+            {editMode ? (
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full rounded border px-2 py-1 text-lg font-semibold"
+              />
+            ) : (
+              <h2 className="text-xl font-semibold">{restaurant.name}</h2>
+            )}
+            <div className="mt-1 flex items-center gap-2 text-sm text-gray-500">
+              <BiMapPin className="h-4 w-4 text-red-500" />
+              {restaurant.autoLocation.formattedAddress || "Location unavailable"}
+            </div>
+          </div>
+          {isSeller && (
+            <button
+              onClick={() => setEditMode(!editMode)}
+              className="text-gray-500 hover:text-black"
+            >
+              <BiEdit size={18} />
+            </button>
+          )}
+            </div>
+      
+     
+        {!isSeller && (
+            <h2 className="text-xl font-semibold">{restaurant.name}</h2>
+        )}
+
+        
+
+        {editMode ? (
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full rounded border px-3 py-2 text-sm"
+          />
+        ) : (
+          <p className="text-sm text-gray-600">
+            {restaurant.description || "No description added"}
+          </p>
+        )}
+
+        <div className="flex items-center justify-between pt-3 border-t">
+          <span
+            className={`text-sm font-medium ${isOpen ? "text-green-600" : "text-red-500"}`}
+          >
+            {isOpen ? "OPEN" : "CLOSED"}
+          </span>
+          <div className="flex gap-3">
+            {editMode && (
+              <button
+                onClick={saveChanges}
+                disabled={loading}
+                className="flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700"
+              >
+                <BiSave size={16} />
+                Save
+              </button>
+            )}
+            {isSeller && (
+              <button
+                onClick={toggleOpenStatus}
+                className={`rounded-lg px-4 py-1.5 text-sm font-medium text-white ${
+                  isOpen
+                    ? "bg-red-600 hover:bg-red-700"
+                    : "bg-green-600 hover:bg-green-700"
+                }`}
+              >
+                {isOpen ? "Close Restaurant" : "Open Restaurant"}
+              </button>
+            )}
+          </div>
+        </div>
+
+        <p className="text-xs text-gray-400">
+          Created on {new Date(restaurant.createdAt).toLocaleString()}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default RestaurantProfile;
+</file>
+
+<file path="services/auth/src/index.ts">
+import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+import authRoute from './routes/auth.js';
+import cors from 'cors';
+dotenv.config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.use("/api/auth",authRoute);
+const PORT = process.env.PORT || 5000;
+connectDB();
+app.listen(PORT, () => {
+  console.log(`Auth service is running on port ${PORT}`);
+  
+});
+</file>
+
+<file path="services/restaurant/src/controllers/restaurant.ts">
+import { AuthenticatedRequest } from "../middlewares/isAuth.js";
+import TryCatch from "../middlewares/trycatch.js";
+import Restaurant from "../models/Restaurant.js";
+import getBuffer from "../config/datauri.js";
+import axios from 'axios';
+import jwt from "jsonwebtoken";
+
+console.log("Calling utils at:", process.env.UTILS_SERVICE);
+export const addRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const existingRestaurant = await Restaurant.findOne({ ownerId: user._id });
+  if (existingRestaurant) {
+    return res.status(400).json({ message: "You already have a restaurant" });
+  }
+
+  const { name, description, latitude, longitude, formattedAddress, phone } = req.body;
+  if (!name || !latitude || !longitude || !phone) {
+    return res.status(400).json({ message: "Please provide all details" });
+  }
+
+  const file = req.file;
+  if (!file) {
+    return res.status(400).json({ message: "Please provide an image" });
+  }
+
+  const fileBuffer = getBuffer(file);
+  if (!fileBuffer?.content) {
+    return res.status(500).json({ message: "Failed to create file buffer" });
+  }
+
+  // ✅ Now sends the internal secret header so utils service can verify the caller
+  const { data: uploadResult } = await axios.post(
+    `${process.env.UTILS_SERVICE}/api/upload`,
+    { buffer: fileBuffer.content },
+    { headers: { 'x-internal-secret': process.env.INTERNAL_SECRET } }
+  );
+
+  const restaurant = await Restaurant.create({
+    name,
+    description,
+    phone,
+    image: uploadResult.url,
+    ownerId: user._id,
+    autoLocation: {
+      type: "Point",
+      coordinates: [Number(longitude), Number(latitude)],
+      formattedAddress,
+    },
+    isVerified: false,
+  });
+
+  return res.status(201).json({ message: "Restaurant created successfully", restaurant });
+});
+
+export const fetchMyRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Please Login" });
+  }
+
+  const restaurant = await Restaurant.findOne({ ownerId: req.user._id });
+  if (!restaurant) {
+    return res.status(400).json({ message: "No Restaurant Found" });
+  }
+
+  if (!req.user.restaurantId) {
+    const token = jwt.sign(
+      { user: { ...req.user, restaurantId: restaurant._id } },
+      process.env.JWT_SEC as string,
+      { expiresIn: "15d" }
+    );
+    return res.json({ restaurant, token });
+  }
+
+  res.json({ restaurant });
+});
+
+export const updateStatusRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => {
+  if (!req.user) {
+    return res.status(403).json({ message: "Please Login" });
+  }
+
+  const { status } = req.body;
+  if (typeof status !== "boolean") {
+    return res.status(400).json({ message: "Status must be boolean" });
+  }
+
+  const restaurant = await Restaurant.findOneAndUpdate(
+    { ownerId: req.user._id },
+    { isOpen: status },
+    { new: true }
+  );
+
+  if (!restaurant) {
+    return res.status(404).json({ message: "Restaurant not found" });
+  }
+
+  res.json({ message: "Restaurant status updated", restaurant });
+});
+
+export const updateRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => {
+  if (!req.user) {
+    return res.status(403).json({ message: "Please Login." });
+  }
+
+  const { name, description } = req.body;
+  const restaurant = await Restaurant.findOneAndUpdate(
+    { ownerId: req.user._id },
+    { name, description },
+    { new: true }
+  );
+
+  if (!restaurant) {
+    return res.status(404).json({ message: "Restaurant not found" });
+  }
+
+  res.json({ message: "Restaurant updated", restaurant });
+});
+
+export const getNearbyRestaurant=TryCatch(async(require,res)=>{
+  const {latitude, longitude, radius=5000, search=""}=require.query;
+  if(!latitude || !longitude){
+    return res.status(400).json({
+      message:"Latitude and longitude are required",
+    });
+  }
+  const query:any={
+    isVerified:true
+  }
+  if(search && typeof search=="string"){
+    query.name={$regex:search, $options:"i"}
+  }
+  const restaurants=await Restaurant.aggregate([
+    {
+      $geoNear:{
+        near:{
+          type:"Point",
+          coordinates:[Number(longitude),  Number(latitude)],
+        },
+        distanceField:"distance",
+        maxDistance:Number(radius),
+        spherical:true,
+        query,
+      },
+    },
+    {
+      $sort:{
+        isOpen:-1,
+        distance:-1,
+      },
+    },
+    {
+      $addFields:{
+        sistanceKm:{
+          $round:[{ $divide:["$distance", 1000]},2],
+        },
+      },
+    },
+  ]);
+  res.json({
+    success:true,
+    count:restaurants.length,
+    restaurants,
+  });
+});
+export const fetchSingleRestaurant= TryCatch(async(req, res)=>{
+  const restaurant=await Restaurant.findById(req.params.id);
+  res.json(restaurant);
+});
+</file>
+
+<file path="services/restaurant/src/routes/restaurant.ts">
+import express from "express";
+import {isAuth, isSeller} from "../middlewares/isAuth.js"
+import { addRestaurant, fetchMyRestaurant, updateStatusRestaurant, updateRestaurant, getNearbyRestaurant, fetchSingleRestaurant} from "../controllers/restaurant.js";
+import uploadFile from "../middlewares/multer.js";
+    const router=express.Router();
+    router.post("/new", isAuth, isSeller, uploadFile, addRestaurant);
+    router.get("/my", isAuth, isSeller, fetchMyRestaurant);
+    router.put("/status", isAuth, isSeller, updateStatusRestaurant);
+    router.put("/edit", isAuth, isSeller, updateRestaurant);
+    router.get("/all",isAuth,getNearbyRestaurant);
+    router.get("/:id", isAuth, fetchSingleRestaurant);
+
+export default router;
+</file>
+
+<file path="services/utils/src/index.ts">
+import express from 'express';
+import dotenv from 'dotenv';
+import cloudinary from "cloudinary";
+import cors from 'cors'
+import uploadRoutes from './routes/cloudinary.js'
+import paymentRoutes from './routes/payment.js'
+
+import { connectRabbitMQ } from './config/rabbitmq.js';
+
+
+dotenv.config();
+connectRabbitMQ();
+const app = express();
+app.use(express.json({limit:"50mb"}));
+app.use(express.urlencoded({limit:"50mb", extended:true}));
+app.use(cors());
+
+const{CLOUD_NAME, CLOUD_API_KEY, CLOUD_SECRET_KEY}=process.env;
+if(!CLOUD_NAME|| !CLOUD_API_KEY ||!CLOUD_SECRET_KEY){
+  throw new Error("Missing Cloudinary Environment Variables");
+
+}
+cloudinary.v2.config({
+  cloud_name:CLOUD_NAME,
+  api_key:CLOUD_API_KEY,
+  api_secret:CLOUD_SECRET_KEY,
+})
+
+app.use("/api", uploadRoutes)
+app.use("/api/payment", paymentRoutes)
+
+const PORT = process.env.PORT || 5002;
+
+app.listen(PORT, () => {
+  console.log(`Utils service is running on port ${PORT}`);
+});
+</file>
+
+<file path="services/auth/src/controllers/auth.ts">
+import User from '../model/User.js';
+import jwt from 'jsonwebtoken';
+import TryCatch from '../middlewares/trycatch.js';
+import { AuthenticatedRequest } from "../middlewares/isAuth.js";
+import { oauth2client } from "../config/googleconfig.js";
+import axios from "axios";
+
+// ✅ Helper: sign only the fields we actually need — not the full Mongoose document
+// (avoids leaking __v, createdAt, etc. and keeps the JWT payload clean)
+const signToken = (user: { _id: any; name: string; email: string; image: string; role: string }) => {
+  return jwt.sign(
+    {
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        role: user.role,
+      },
+    },
+    process.env.JWT_SEC as string,
+    { expiresIn: "15d" }
+  );
+};
+
+export const loginUser = TryCatch(async (req, res) => {
+  const { code } = req.body;
+  if (!code) {
+    return res.status(400).json({ message: "Authorization code is required" });
+  }
+
+  const googleRes = await oauth2client.getToken(code);
+  oauth2client.setCredentials(googleRes.tokens);
+
+  const userRes = await axios.get(
+    `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
+  );
+  const { email, name, picture } = userRes.data;
+
+  let user = await User.findOne({ email });
+  if (!user) {
+    user = await User.create({ name, email, image: picture });
+  }
+
+  const token = signToken(user);
+  res.status(200).json({ message: "Logged Success", token, user });
+});
+
+const allowedRoles = ["customer", "rider", "seller"] as const;
+type Role = (typeof allowedRoles)[number];
+
+export const addUserRole = TryCatch(async (req: AuthenticatedRequest, res) => {
+  if (!req.user?._id) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const { role } = req.body as { role: Role };
+  if (!allowedRoles.includes(role)) {
+    return res.status(400).json({ message: "Invalid role" });
+  }
+
+  const user = await User.findByIdAndUpdate(req.user._id, { role }, { new: true });
+  if (!user) {
+    return res.status(404).json({ message: "User Not Found" });
+  }
+
+  const token = signToken(user);
+  res.json({ user, token });
+});
+
+export const myProfile = TryCatch(async (req: AuthenticatedRequest, res) => {
+  const user = req.user;
+  res.json(user);
+});
+</file>
+
+<file path="frontend/src/pages/Restaurant.tsx">
+import { useState, useEffect } from "react";
+import type{ IMenuItem, IRestaurant } from "../types";
+import axios from "axios";
+import { restaurantService } from "../main";
+import AddRestaurant from "../components/AddRestaurant";
+import RestaurantProfile from "../components/RestaurantProfile";
+import toast from "react-hot-toast";
+import MenuItems from "../components/MenuItems";
+import AddMenuItem from "../components/AddMenuItem";
+
+
+
+type SellerTab = "menu" | "add-item" | "sales";
+
+const Restaurant = () => {
+  const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [tab, setTab] = useState<SellerTab>("menu");
+
+  const fetchMyRestaurant = async () => {
+    try {
+      const { data } = await axios.get(`${restaurantService}/api/restaurants/my`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setRestaurant(data.restaurant || null);
+      // Re-issue token if restaurantId wasn't in the JWT yet
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        window.location.reload();
+      }
+    } catch (error: any) {
+      // ✅ 400 = no restaurant yet — this is expected, just show the AddRestaurant form
+      if (error.response?.status === 400) {
+        setRestaurant(null);
+      } else {
+        // Any other error (network, 500, etc.) — surface it to the user
+        console.error(error);
+        toast.error("Failed to load restaurant. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMyRestaurant();
+  }, []);
+  
+  const [menuItems, setMenuItems]=useState<IMenuItem[]>([]);
+  const fetchMenuItems=async(restaurantId:string)=>{
+    try{
+      const{data}=await axios.get(
+        `${restaurantService}/api/item/all/${restaurantId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setMenuItems(data);
+    }catch(error){
+      console.log(error);
+    }
+  };
+
+useEffect(()=>{
+  if(restaurant?._id){
+    fetchMenuItems(restaurant._id);
+  }
+},[restaurant]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-gray-500">Loading your restaurant...</p>
+      </div>
+    );
+  }
+
+  if ( !restaurant) {
+    return <  AddRestaurant fetchMyRestaurant={fetchMyRestaurant} />;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 px-4 py-6 space-y-6">
+      <RestaurantProfile
+        restaurant={restaurant}
+        onUpdate={setRestaurant}
+        isSeller={true}
+      />
+
+      <div className="rounded-xl bg-white shadow-sm">
+        <div className="flex border-b">
+          {[
+            { key: "menu", label: "Menu Items" },
+            { key: "add-item", label: "Add Item" },
+            { key: "sales", label: "Sales" },
+          ].map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key as SellerTab)}
+              className={`flex-1 px-4 py-3 text-sm font-medium transition ${
+                tab === t.key
+                  ? "border-b-2 border-red-500 text-red-500"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+        <div className="p-5">
+          {tab === "menu" && (
+            <MenuItems items={menuItems} 
+          onItemDeleted={()=> fetchMenuItems(restaurant._id)}
+          isSeller={true} />
+          )}
+          {tab === "add-item" &&(
+           <AddMenuItem onItemAdded={()=>fetchMenuItems(restaurant._id)}/>
+          )}
+         
+          {tab === "sales" && <p>Sales Page</p>}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Restaurant;
+</file>
+
+<file path="frontend/src/types.ts">
+export interface User{
+    _id:string;
+    name:string;
+    email:string;
+    image:string;
+    role:string;
+}
+export interface LocationData{
+    latitude:number;
+    longitude:number;
+    formattedAddress:string;
+
+}
+export interface AppContextType{
+    user:User|null;
+    loading:boolean;
+    isAuth:boolean;
+    setUser:React.Dispatch<React.SetStateAction<User | null>>;
+    setIsAuth:React.Dispatch<React.SetStateAction<boolean>>;
+    setLoading:React.Dispatch<React.SetStateAction<boolean>>;
+    location:LocationData | null;
+    loadingLocation:boolean;
+    city:string;
+    cart:ICart[]|null;
+    fetchCart:()=>Promise<void>;
+    subTotal:number;
+    quantity:number
+}
+export interface IRestaurant {
+    _id:string;
+    name:string;
+    description?:string;
+    image:string;
+    ownerId:string;
+    phone:number;
+    isVerified:boolean;
+    autoLocation:{
+        type:"Point";
+        coordinates:[number,number];
+        formattedAddress:string;
+    };
+    isOpen:boolean;
+    createdAt:Date;
+}
+export interface IMenuItem {
+    _id:string;
+    restaurantId:string;
+    name:string;
+    description:string;
+    image?:string;
+    price:number;
+    isAvailable:boolean;
+    createdAt:Date;
+    updatedAt:Date;
+}
+export interface ICart{
+    _id:string;
+    userId:string;
+    restaurantId:string|IRestaurant;
+    itemId:string|IMenuItem;
+    quantity:number;
+    createdAt:Date;
+    updatedAt:Date;
+
+}
+</file>
+
+<file path="frontend/src/main.tsx">
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.tsx';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AppProvider } from './context/AppContext.tsx';
+import "leaflet/dist/leaflet.css";
+
+export const authService = import.meta.env.VITE_AUTH_SERVICE ?? "http://localhost:5000";
+export const restaurantService = import.meta.env.VITE_RESTAURANT_SERVICE ?? "http://localhost:5001";
+export const utilsService ="http://localhost:5002";
+
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
+console.log("CLIENT ID:", googleClientId);
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <GoogleOAuthProvider clientId={googleClientId}>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </GoogleOAuthProvider>
+  </StrictMode>,
+);
+</file>
+
+<file path="frontend/src/context/AppContext.tsx">
+import { createContext, type ReactNode, useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { authService, restaurantService } from "../main";
+import type{ LocationData, AppContextType, User,ICart } from "../types";
+import { Toaster } from "react-hot-toast";
+
+
+const AppContext = createContext<AppContextType | undefined>(undefined);
+
+interface AppProviderProps {
+  children: ReactNode;
+}
+
+export const AppProvider = ({ children }: AppProviderProps) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuth, setIsAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [location, setLocation] = useState<LocationData | null>(null);
+  const [loadingLocation, setLoadingLocation] = useState(false);
+  const [city, setCity] = useState("Fetching Location ...");
+
+  async function fetchuser() {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return; // no token, skip the request entirely
+      const { data } = await axios.get(`${authService}/api/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(data);
+      setIsAuth(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  const [cart,setCart]=useState<ICart[]>([])
+  const [subTotal,setSubtotal]=useState(0);
+  const[quantity,setQuantity]=useState(0);
+  async function fetchCart(){
+    if(!user || user.role!=="customer") return;
+    try {
+      const {data}=await axios.get(`${restaurantService}/api/cart/all`,{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+       setCart(data.cart);
+        setSubtotal(data.subTotal || 0);
+        setQuantity(data.cartLength || 0);
+    }catch(error){
+        console.log("Error fetching cart:",error);
+    }
+  }
+  useEffect(() => {
+    fetchuser();
+  }, []);
+useEffect(() => {
+    if(user && user.role === "customer"){
+        fetchCart();
+    }
+}, [user]);
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setCity("Location unavailable");
+      return;
+    }
+    setLoadingLocation(true);
+
+    navigator.geolocation.getCurrentPosition(
+      // ✅ success callback
+      async (position) => {
+        const { longitude, latitude } = position.coords;
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          );
+          const data = await res.json();
+          setLocation({
+            latitude,
+            longitude,
+            formattedAddress: data.display_name || "Current location",
+          });
+          setCity(
+            data.address.city ||
+            data.address.town ||
+            data.address.village ||
+            "Your location"
+          );
+        } catch (error) {
+          setLocation({ latitude, longitude, formattedAddress: "Current Location" });
+          setCity("Location error");
+        } finally {
+          setLoadingLocation(false);
+        }
+      },
+      // ✅ error callback — was completely missing before
+      (err) => {
+        console.warn("Geolocation error:", err.message);
+        setCity("Location denied");
+        setLoadingLocation(false);
+      }
+    );
+  }, []);
+
+  return (
+    <AppContext.Provider
+      value={{ isAuth, loading, setIsAuth, setLoading, setUser, user, location, loadingLocation, city, cart , fetchCart, quantity,subTotal}}
+    >
+      {children}
+      <Toaster />
+    </AppContext.Provider>
+  );
+};
+
+export const useAppData = (): AppContextType => {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error("useAppData must be used within AppProvider");
+  }
+  return context;
+};
+</file>
+
+<file path="services/restaurant/src/index.ts">
+import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+import restaurantRoutes from "./routes/restaurant.js"
+import itemRoutes from "./routes/menuitem.js"
+import cartRoutes from "./routes/cart.js"
+import addressRoutes from "./routes/address.js";
+import orderRoutes from "./routes/order.js"
+import { connectRabbitMQ } from './config/rabbitmq.js';
+
+import cors from 'cors';
+import { startPaymentConsumer } from './config/payment.consume.js';
+
+dotenv.config();
+await connectRabbitMQ();
+startPaymentConsumer();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+
+const PORT = process.env.PORT || 5001;
+
+app.use("/api/restaurants", restaurantRoutes);
+app.use("/api/item", itemRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/address", addressRoutes);
+app.use("/api/order", orderRoutes);
+ connectDB();
+app.listen(PORT, () => {
+  console.log(`Restaurant service is running on port ${PORT}`);
+ 
+});
+</file>
+
+<file path="frontend/src/App.tsx">
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import ProtectedRoute from './components/protectedRoute';
+import PublicRoute from './components/publicRoutes';
+import SelectRole from "./pages/SelectRole";
+import Navbar from "./components/navbar";
+import Account from "./pages/Account";
+import { useAppData } from "./context/AppContext";
+import Restaurant from "./pages/Restaurant";
+import RestaurantPage from "./pages/RestaurantPage";
+import Cart from "./pages/Cart";
+import AddAddressPage from "./pages/Address";
+import CheckoutPage from "./pages/Checkout";
+
+const App = () => {
+  const { user } = useAppData();
+
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        {/* Public routes */}
+        <Route element={<PublicRoute />}>
+          <Route path="/login" element={<Login />} />
+        </Route>
+
+        {/* Protected routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/"
+            element={
+              user?.role === "seller" ? <Navigate to="/restaurant" replace /> : <Home />
+            }
+          />
+          <Route path="/address" element={<AddAddressPage/>}/>
+          <Route path="/checkout" element={<CheckoutPage/>}/>
+          <Route path="/restaurants/:id" element={<RestaurantPage/>} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/select-role" element={<SelectRole />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/restaurant" element={<Restaurant />} />
+
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
+</file>
+
+</files>

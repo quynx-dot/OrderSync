@@ -6,6 +6,8 @@ import { useNavigate } from "react-router";
 import type { ICart, IMenuItem, IRestaurant } from "../types";
 import toast from "react-hot-toast";
 import { BiCreditCard, BiLoader } from "react-icons/bi";
+import { loadStripe } from "@stripe/stripe-js";
+
 
 interface Address {
   _id: string;
@@ -14,7 +16,7 @@ interface Address {
 }
 
 const CheckoutPage = () => {
-  const { cart, subTotal, quantity } = useAppData();
+  const { cart, subTotal, quantity  } = useAppData();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
   const [loadingAddress, setLoadingAddress] = useState(true);
@@ -127,6 +129,7 @@ const CheckoutPage = () => {
             });
             toast.success("Payment successful!");
             navigate("/paymentsuccess/" + response.razorpay_payment_id);
+          
           } catch (error) {
             console.error("Verify error:", error);
             toast.error("Payment verification failed.");
@@ -144,15 +147,33 @@ const CheckoutPage = () => {
       setLoadingRazorpay(false);
     }
   };
-
+const stripePromise=loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
   const payWithStripe = async () => {
     setLoadingStripe(true);
     try {
       const order = await createOrder("stripe");
+
       if (!order) {
         setLoadingStripe(false);
         return;
       }
+       const {orderId, amount} = order;
+      try{
+        const stripe = await stripePromise;
+        const { data } = await axios.post(
+          `${utilsService}/api/payment/create-stripe-session`,
+          { orderId },
+        );
+        if(data.url)  {
+          window.location.href = data.url;
+        } else {
+          toast.error("Failed to create Stripe session.");
+        } 
+      } catch (error) {
+        console.error("Stripe error:", error);
+        toast.error("Failed to initiate Stripe payment.");
+      }
+
       const { data } = await axios.post(
         `${utilsService}/api/payment/create-stripe-session`,
         { orderId: order.orderId }
