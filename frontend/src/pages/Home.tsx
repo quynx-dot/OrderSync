@@ -68,7 +68,7 @@ if(loading || !location){
           restaurants.map((res)=>{
             const [resLng, resLat]=res.autoLocation.coordinates;
             const distance= getDistanceKm(location.latitude, location.longitude, resLat, resLng);
-            return <RestaurantCard key={res._id} id={res._id} name={res.name} image={res.image ?? ""} distance={`${distance} km`} isOpen={res.isOpen} />
+            return <RestaurantCard key={res._id} id={res._id} name={res.name} image={res.image ?? ""} distance={`${distance.toFixed(1)} km`} isOpen={res.isOpen} />
           })
         }
         </div>

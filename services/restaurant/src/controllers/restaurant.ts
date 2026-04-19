@@ -149,7 +149,7 @@ export const getNearbyRestaurant=TryCatch(async(require,res)=>{
     {
       $sort:{
         isOpen:-1,
-        distance:-1,
+        distance:1,
       },
     },
     {

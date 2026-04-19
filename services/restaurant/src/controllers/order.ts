@@ -5,6 +5,7 @@ import Cart from "../models/Cart.js";
 import { IMenuItem } from "../models/MenuItems.js";
 import Order from "../models/Order.js";
 import Restaurant,{IRestaurant} from "../models/Restaurant.js";
+import mongoose from "mongoose";
 
 export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
     const user=req.user;
@@ -25,6 +26,8 @@ export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
         _id:addressId,
         userId:user._id,
     });
+
+    console.log("address lookup:", { addressId, userId: user._id, found: !!address });
     if(!address){
         return res.status(404).json({
             message:"Address Not Found.",
@@ -47,11 +50,15 @@ export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
     return +( R * c).toFixed(2);
   };
 
-    const cartItems=await Cart.find({userId:user._id}).populate<{itemId:IMenuItem}>("itemId").populate<{restaurantId:IRestaurant}>("restaurantId");
-    
-    if(cartItems.length===0){
-        return res.status(400).json({message:"cart is empty"});
-    }
+   const cartItems = await Cart.find({ userId: user._id })
+    .populate<{ itemId: IMenuItem }>("itemId")
+    .populate<{ restaurantId: IRestaurant }>("restaurantId");
+
+console.log("Cart lookup:", { userId: user._id, cartCount: cartItems.length });
+
+if(cartItems.length === 0){
+    return res.status(400).json({ message: "cart is empty" });
+}
     const firstCartItem=cartItems[0];
     if(!firstCartItem || !firstCartItem.restaurantId){
         return res.status(400).json({
@@ -61,17 +68,18 @@ export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
     const restaurantId=firstCartItem.restaurantId._id;
     const restaurant=await Restaurant.findById(restaurantId);
     if(!restaurant){
-        return res.json(404).json({
+        return res.status(404).json({
             message:"No restaurant with this id",
 
         });
     }
     if(!restaurant.isOpen){
-        return res.json(404).json({
+        return res.status(404).json({
             message:"Sorry this restaurant is closed for now",
         });
     }
-     const distance= getDistanceKm(address.location.coordinates[1],
+     const distance= getDistanceKm(
+        address.location.coordinates[1],
         address.location.coordinates[0],
         restaurant.autoLocation.coordinates[1],
         restaurant.autoLocation.coordinates[0],
@@ -101,6 +109,8 @@ export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
         userId:user._id.toString(),
         restaurantId:restaurantId.toString(),
         restaurantName:restaurant.name,
+        distance,
+        riderAmount,  
         riderId:null,
         items:orderItems,
         subtotal,
@@ -119,7 +129,7 @@ export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
         status:"placed",
         expiresAt,
     });
-    await Cart.deleteMany({userId:user._id});
+  
     res.json({
         message:"Order Created Successfully",
         orderId:order._id.toString(),

@@ -10,7 +10,7 @@ import { publishPaymentSuccess } from "../config/payment.producer.js";
 export const createRazorpayOrder=async(req:Request,res:Response)=>{
     const {orderId}=req.body;
     const {data}=await axios.get(
-        `{$process.env.RESTAURANT_SERVICE}/api/order/payment/${orderId}`,
+        `${process.env.RESTAURANT_SERVICE}/api/order/payment/${orderId}`,
         {
             headers:{
                 "x-internal-key":process.env.INTERNAL_SERVICE_KEY,

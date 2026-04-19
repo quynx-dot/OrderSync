@@ -47,7 +47,7 @@ export const deleteAddress=TryCatch(async(req:AuthenticatedRequest, res)=>{
     }
     const address=await Address.findOne({
         _id:id,
-        userid:user._id.toString(),
+        userId:user._id.toString(),
     });
     if(!address){
         return res.status(400).json({
