@@ -1,3 +1,4 @@
+import axios from "axios";
 import{AuthenticatedRequest} from "../middlewares/isAuth.js";
 import TryCatch from "../middlewares/trycatch.js";
 import Address from "../models/Address.js";
@@ -160,4 +161,119 @@ export const fetchOrderForPayment=TryCatch(async(req, res)=>{
         amount:order.totalAmount,
         currency:"INR"
     })
+})
+
+export const fetchRestaurantOrders=TryCatch(async( req:AuthenticatedRequest,res)=>{
+    const user=req.user;
+    const {restaurantId}=req.params;
+    if(!user){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    if(!restaurantId){
+        return res.status(400).json({
+            message:"Restaurant id id required",
+        });
+    }
+    const limit=req.query.limit ? Number(req.query.limit):0;
+
+    const orders=await Order.find({restaurantId, paymentStatus:"paid"}).sort({
+        createdAt: -1
+    }).limit(limit);
+    return res.json({
+        success:true,
+        count:orders.length,
+        orders,
+    });
+}
+);
+const ALLOWED_STATUSES=["accepted", "preparing", "ready_for_rider"] as const;
+export const updateOrderStatus=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    const user=req.user;
+    const {orderId}=req.params;
+    const {status}=req.body;
+    if(!user){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    if(!ALLOWED_STATUSES.includes(status)){
+        return res.status(400).json({
+            message:"Invalid order status",
+        });
+    }
+    const order=await Order.findById(orderId)
+    if(!order){
+        return res.status(404).json({
+            message:"Order Not Found",
+        })
+    }
+    if(order.paymentStatus!=="paid"){
+        return res.status(404).json({
+            message:"Order Not Completed",
+        });
+    }
+    const restaurant=await Restaurant.findById(order.restaurantId);
+    if(!restaurant){
+        return res.status(404).json({
+            message:"Restaurant Not Found",
+        });
+    }
+    if(restaurant.ownerId!==user._id.toString()){
+        return res.status(401).json({
+            message:"You are not allowed to update this order."
+        });
+    }
+    order.status=status;
+    await order.save()
+    await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
+        event:"order:update",
+        room:`user:${order.userId}`,
+        payload:{
+            orderId:order._id,
+            status:order.status,
+        },
+    },{
+        headers:{
+            "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
+        },
+    });
+    //NOW ASSIGN RIDERS
+    res.json({
+        message:"order status updated successfully",
+        order,
+    });
+}
+)
+export const getMyOrders=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    if(!req.user){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    const orders=await Order.find({
+        userId:req.user._id.toString(),
+        paymentStatus:"paid",
+    }).sort({createdAt:-1});
+    res.json({orders});
+});
+export const fetchSingleOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
+    if(!req.user){
+        return res.status(401).json({
+            message:"Unauthorized",
+        });
+    }
+    const order=await Order.findById(req.params.id);
+    if(!order){
+        return res.status(404).json({
+            message:"Order not found",
+        });
+    }
+    if(order.userId !== req.user._id.toString()){
+        return res.status(401).json({
+            message:"You are not allowed to view this order",
+        });
+    }
+    res.json(order);
 })
