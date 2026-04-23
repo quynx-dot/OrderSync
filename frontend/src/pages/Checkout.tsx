@@ -161,7 +161,7 @@ const stripePromise=loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
       try{
         const stripe = await stripePromise;
         const { data } = await axios.post(
-          `${utilsService}/api/payment/create-stripe-session`,
+          `${utilsService}/api/payment/stripe/create`,
           { orderId },
         );
         if(data.url)  {

@@ -1,6 +1,7 @@
 import Order from '../models/Order.js';
 import { getChannel } from './rabbitmq.js';
 import Cart from '../models/Cart.js';
+import axios from 'axios';
 
 export const startPaymentConsumer = async () => {
     const channel = getChannel();
@@ -27,6 +28,20 @@ export const startPaymentConsumer = async () => {
             }
             await Cart.deleteMany({ userId: order.userId });
             console.log("✅Order Placed:", order._id);
+            
+            await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
+                event:"order:new",
+                room:`restaurant:${order.restaurantId}`,
+                payload:{
+                    orderId:order._id,
+                },
+            },{
+                headers:{
+                    "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
+                },
+            });
+           
+
             channel.ack(msg);
         } catch (error) {
             console.log("❌Payment consumer error:", error);

@@ -94,9 +94,9 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
             </div>
       
      
-        {!isSeller && (
+        {/* {!isSeller && (
             <h2 className="text-xl font-semibold">{restaurant.name}</h2>
-        )}
+        )} */}
 
         
 

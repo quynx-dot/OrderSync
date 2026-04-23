@@ -34,7 +34,7 @@ export const initSocket=(server:http.Server)=>{
         }
         const userId=user._id;
         socket.join(`user:${userId}`)
-        if(!user.restaurantId){
+        if(user.restaurantId){
             socket.join(`restaurant:${user.restaurantId}`);
         }
         console.log(`User connected: ${userId}`);

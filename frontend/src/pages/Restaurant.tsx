@@ -7,6 +7,7 @@ import RestaurantProfile from "../components/RestaurantProfile";
 import toast from "react-hot-toast";
 import MenuItems from "../components/MenuItems";
 import AddMenuItem from "../components/AddMenuItem";
+import RestaurantOrders from "../components/RestaurantOrders";
 
 
 
@@ -90,7 +91,7 @@ useEffect(()=>{
         onUpdate={setRestaurant}
         isSeller={true}
       />
-
+      <RestaurantOrders restaurantId={restaurant._id} />
       <div className="rounded-xl bg-white shadow-sm">
         <div className="flex border-b">
           {[
