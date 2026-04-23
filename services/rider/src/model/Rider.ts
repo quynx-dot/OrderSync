@@ -30,7 +30,6 @@ const schema=new Schema<IRider>(
         phoneNumber:{
             type:String,
             required:true,
-            unique:true,
             trim:true,
         },
         aadharNumber:{
