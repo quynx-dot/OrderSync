@@ -72,6 +72,18 @@ useEffect(()=>{
     socket.off("order:new", onNewOrder)
   }
 },[socket,audioUnlocked]);
+
+useEffect(()=>{
+  if(!socket)return;
+  const onUpdateOrder=()=>{
+    fetchOrders()
+  }
+  socket.on("order:rider_assigned",onUpdateOrder)
+  return()=>{
+      socket.off("order:rider_assigned",onUpdateOrder)
+
+  };
+},[socket]);
 if(loading){
   return <p className="tet-gray-500">Loading Orders</p>
 }

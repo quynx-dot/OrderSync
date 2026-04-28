@@ -192,7 +192,7 @@ export const fetchMyCurrentOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
         });
     }
     const rider=await  Rider.findOne({
-        userId:riderUserId, isAvailable:true
+        userId:riderUserId, isVerified:true,
     });
     if(!rider){
         return res.status(404).json({
@@ -210,9 +210,9 @@ export const fetchMyCurrentOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
         res.json({
             order:data,
         });
-    } catch (error) {
+    } catch (error:any) {
         res.status(500).json({
-            message:"internal server error",
+            message:error.response.data.message,
         });
     }
 }
@@ -234,7 +234,7 @@ export const updateOrderStatus=TryCatch(async(req:AuthenticatedRequest,res)=>{
     }
     const {orderId}=req.params;
     try{
-        const {data}=await axios.put(`${process.env.RESTAURANT_SERVICE}/api/order/update/rider`,
+        const {data}=await axios.put(`${process.env.RESTAURANT_SERVICE}/api/order/update/status/rider`,
             {orderId},
             {headers:{
                 "x-internal-key":process.env.INTERNAL_SERVICE_KEY,

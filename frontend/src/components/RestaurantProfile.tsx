@@ -4,6 +4,7 @@ import axios from "axios";
 import { restaurantService } from "../main";
 import toast from "react-hot-toast";
 import { BiMapPin, BiEdit, BiSave } from "react-icons/bi";
+import { useAppData } from "../context/AppContext";
 
 interface Props {
   restaurant: IRestaurant;
@@ -59,7 +60,22 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
       setLoading(false);
     }
   };
-
+  const{setIsAuth, setUser}=useAppData()
+  const logoutHandler=async()=>{
+    await axios.put(
+        `${restaurantService}/api/restaurants/status`,
+        { status: false },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      localStorage.setItem("token","");
+      setIsAuth(false);
+      setUser(null);
+      toast.success("logged Out Successfully")
+  };
   return (
     <div className="mx-auto max-w-xl rounded-xl bg-white shadow-sm overflow-hidden">
       {restaurant.image && (
@@ -132,13 +148,23 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
             {isSeller && (
               <button
                 onClick={toggleOpenStatus}
+                className={`rounded-lg px-4 py-1.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700
+                    : "bg-green-600 hover:bg-green-700"
+                }`}
+              >
+                {isOpen ? "Close Restaurant" : "Open Restaurant"}
+              </button>
+            )}
+            {isSeller && (
+              <button
+                onClick={logoutHandler}
                 className={`rounded-lg px-4 py-1.5 text-sm font-medium text-white ${
                   isOpen
                     ? "bg-red-600 hover:bg-red-700"
                     : "bg-green-600 hover:bg-green-700"
                 }`}
               >
-                {isOpen ? "Close Restaurant" : "Open Restaurant"}
+                Logout
               </button>
             )}
           </div>

@@ -10,5 +10,5 @@ router.get("/myprofile",isAuth,fetchMyProfile)
 router.patch("/toggle",isAuth,toggleRiderAvailability)
 router.post("/accept/:orderId",isAuth,acceptOrder);
 router.get("/order/current",isAuth, fetchMyCurrentOrder);
-router.put("order/update/:orderid",isAuth, updateOrderStatus);
+router.put("/order/update/:orderid",isAuth, updateOrderStatus);
 export default router;
