@@ -151,7 +151,7 @@ useEffect(()=>{
             const formData=new FormData()
             formData.append("phoneNumber",phoneNumber);
             formData.append("aadharNumber",aadharNumber);
-            formData.append("drivingLicenseNumbe",drivingLicenseNumber);
+            formData.append("drivingLicenseNumber",drivingLicenseNumber);
             formData.append("latitude",pos.coords.latitude.toString());
             formData.append("longitude",pos.coords.longitude.toString());
             if(image){formData.append("file",image)}

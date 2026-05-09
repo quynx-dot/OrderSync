@@ -5,8 +5,10 @@ import type { IOrder } from '../types'
 import axios from 'axios'
 import { restaurantService } from '../main'
 import UserOrderMap from '../components/UserOrderMap'
+import { useAppData } from '../context/AppContext'
 
 const OrderPage = () => {
+  const {user}=useAppData()
   const {id}=useParams()
   const {socket}=useSocket()
 
@@ -49,12 +51,12 @@ const OrderPage = () => {
   );
   const [riderLocation, setRiderLocation]=useState<[number, number]|null>(null)
   useEffect(()=>{
-    if(!socket || !id) return;
-    socket.emit("join", `user:${id}`);
+    if(!socket || !user?._id) return;
+    socket.emit("join", `user:${user._id}`);
     return()=>{
-      socket.emit("leave",`user:${id}`)
+      socket.emit("leave",`user:${user._id}`)
     }
-  },[socket, id]);
+    },[socket, user?._id]);
   useEffect(()=>{
       if(!socket) return;
       const onRiderLocation=({latitude, longitude}:any)=>{

@@ -11,7 +11,7 @@ export const startOrderReadyConsumer=async()=>{
             console.log("Received Message", msg.content.toString());
             const event=JSON.parse(msg.content.toString());
             console.log("event type",event.type);
-            if(event.type!==" ORDER_READY_FOR_RIDER"){
+            if(event.type!=="ORDER_READY_FOR_RIDER"){
                 console.log("skipping non-order-ready-for-rider event");
                 channel.ack(msg);
                 return;

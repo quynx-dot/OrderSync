@@ -1,6 +1,5 @@
 import DataUriParser from "datauri/parser.js";
 import path from 'path';
-import { buffer } from "stream/consumers";
 
 const getBuffer=(file:any)=>{
     const parser=new DataUriParser()

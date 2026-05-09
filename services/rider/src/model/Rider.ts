@@ -32,6 +32,11 @@ const schema=new Schema<IRider>(
             required:true,
             trim:true,
         },
+        drivingLicenseNumber:{
+            type:String,
+            required:true,
+            trim:true,
+        },
         aadharNumber:{
             type:String,
             required:true,

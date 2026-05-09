@@ -154,8 +154,8 @@ export const getNearbyRestaurant=TryCatch(async(require,res)=>{
     },
     {
       $addFields:{
-        sistanceKm:{
-          $round:[{ $divide:["$distance", 1000]},2],
+        distanceKm:{
+          $round:[{ $divide:["$distance", 10000]},2],
         },
       },
     },

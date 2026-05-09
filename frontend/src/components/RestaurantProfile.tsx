@@ -24,16 +24,11 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
       const { data } = await axios.put(
         `${restaurantService}/api/restaurants/status`,
         { status: !isOpen },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
       toast.success(data.message);
       setIsOpen(data.restaurant.isOpen);
     } catch (error: any) {
-      console.log(error);
       toast.error(error.response?.data?.message || "Failed to update status");
     }
   };
@@ -44,45 +39,40 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
       const { data } = await axios.put(
         `${restaurantService}/api/restaurants/edit`,
         { name, description },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
       toast.success(data.message);
       onUpdate(data.restaurant);
       setEditMode(false);
     } catch (error) {
-      console.log(error);
       toast.error("Failed to update");
     } finally {
       setLoading(false);
     }
   };
-  const{setIsAuth, setUser}=useAppData()
-  const logoutHandler=async()=>{
+
+  const { setIsAuth, setUser } = useAppData();
+
+  const logoutHandler = async () => {
     await axios.put(
-        `${restaurantService}/api/restaurants/status`,
-        { status: false },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      localStorage.setItem("token","");
-      setIsAuth(false);
-      setUser(null);
-      toast.success("logged Out Successfully")
+      `${restaurantService}/api/restaurants/status`,
+      { status: false },
+      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+    );
+    // FIX: sync local isOpen state after closing restaurant on logout
+    setIsOpen(false);
+    localStorage.setItem("token", "");
+    setIsAuth(false);
+    setUser(null);
+    toast.success("Logged out successfully");
   };
+
   return (
     <div className="mx-auto max-w-xl rounded-xl bg-white shadow-sm overflow-hidden">
       {restaurant.image && (
         <img src={restaurant.image} alt="" className="h-48 w-full object-cover" />
       )}
       <div className="p-5 space-y-4">
-      
         <div className="flex items-start justify-between">
           <div>
             {editMode ? (
@@ -100,21 +90,11 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
             </div>
           </div>
           {isSeller && (
-            <button
-              onClick={() => setEditMode(!editMode)}
-              className="text-gray-500 hover:text-black"
-            >
+            <button onClick={() => setEditMode(!editMode)} className="text-gray-500 hover:text-black">
               <BiEdit size={18} />
             </button>
           )}
-            </div>
-      
-     
-        {/* {!isSeller && (
-            <h2 className="text-xl font-semibold">{restaurant.name}</h2>
-        )} */}
-
-        
+        </div>
 
         {editMode ? (
           <textarea
@@ -129,9 +109,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
         )}
 
         <div className="flex items-center justify-between pt-3 border-t">
-          <span
-            className={`text-sm font-medium ${isOpen ? "text-green-600" : "text-red-500"}`}
-          >
+          <span className={`text-sm font-medium ${isOpen ? "text-green-600" : "text-red-500"}`}>
             {isOpen ? "OPEN" : "CLOSED"}
           </span>
           <div className="flex gap-3">
@@ -148,21 +126,20 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
             {isSeller && (
               <button
                 onClick={toggleOpenStatus}
-                className={`rounded-lg px-4 py-1.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700
-                    : "bg-green-600 hover:bg-green-700"
+                className={`rounded-lg px-4 py-1.5 text-sm font-medium text-white ${
+                  isOpen ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"
                 }`}
               >
                 {isOpen ? "Close Restaurant" : "Open Restaurant"}
               </button>
             )}
             {isSeller && (
+              // FIX: logout button now uses a neutral gray color — not tied to isOpen.
+              // Previously it was bg-red-600 when open and bg-green-600 when closed,
+              // which was backwards and confusing.
               <button
                 onClick={logoutHandler}
-                className={`rounded-lg px-4 py-1.5 text-sm font-medium text-white ${
-                  isOpen
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-green-600 hover:bg-green-700"
-                }`}
+                className="rounded-lg px-4 py-1.5 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700"
               >
                 Logout
               </button>

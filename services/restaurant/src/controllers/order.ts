@@ -11,107 +11,71 @@ import { publishEvent } from "../config/order.publisher.js";
 export const createOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
     const user=req.user;
     if(!user){
-        return res.status(401).json({
-            message:"Unauthorized",
-        });
+        return res.status(401).json({message:"Unauthorized"});
     }
     const {paymentMethod,addressId}=req.body;
-   
     if(!addressId){
-        return res.status(400).json({
-            message:"Address is required",
-
-        });
+        return res.status(400).json({message:"Address is required"});
     }
-    const address=await Address.findOne({
-        _id:addressId,
-        userId:user._id,
-    });
-
-    console.log("address lookup:", { addressId, userId: user._id, found: !!address });
+    const address=await Address.findOne({_id:addressId,userId:user._id});
     if(!address){
-        return res.status(404).json({
-            message:"Address Not Found.",
-        });
+        return res.status(404).json({message:"Address Not Found."});
     }
-     const getDistanceKm=(
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number
-  ): number => {
-    const R = 6371;
-    const dLat = ((lat2 - lat1) * Math.PI) / 180;
-    const dLon = ((lon2 - lon1) * Math.PI) / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos((lat1 * Math.PI) / 180) *
-              Math.cos((lat2 * Math.PI) / 180) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return +( R * c).toFixed(2);
-  };
-
-   const cartItems = await Cart.find({ userId: user._id })
-    .populate<{ itemId: IMenuItem }>("itemId")
-    .populate<{ restaurantId: IRestaurant }>("restaurantId");
-
-console.log("Cart lookup:", { userId: user._id, cartCount: cartItems.length });
-
-if(cartItems.length === 0){
-    return res.status(400).json({ message: "cart is empty" });
-}
+    const getDistanceKm=(lat1:number,lon1:number,lat2:number,lon2:number):number=>{
+        const R=6371;
+        const dLat=((lat2-lat1)*Math.PI)/180;
+        const dLon=((lon2-lon1)*Math.PI)/180;
+        const a=Math.sin(dLat/2)*Math.sin(dLat/2)+
+                Math.cos((lat1*Math.PI)/180)*Math.cos((lat2*Math.PI)/180)*
+                Math.sin(dLon/2)*Math.sin(dLon/2);
+        const c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+        return+(R*c).toFixed(2);
+    };
+    const cartItems=await Cart.find({userId:user._id})
+        .populate<{itemId:IMenuItem}>("itemId")
+        .populate<{restaurantId:IRestaurant}>("restaurantId");
+    console.log("Cart lookup:",{userId:user._id,cartCount:cartItems.length});
+    if(cartItems.length===0){
+        return res.status(400).json({message:"cart is empty"});
+    }
     const firstCartItem=cartItems[0];
-    if(!firstCartItem || !firstCartItem.restaurantId){
-        return res.status(400).json({
-            message:"Invalid cart data."
-        });
+    if(!firstCartItem||!firstCartItem.restaurantId){
+        return res.status(400).json({message:"Invalid cart data."});
     }
     const restaurantId=firstCartItem.restaurantId._id;
     const restaurant=await Restaurant.findById(restaurantId);
     if(!restaurant){
-        return res.status(404).json({
-            message:"No restaurant with this id",
-
-        });
+        return res.status(404).json({message:"No restaurant with this id"});
     }
     if(!restaurant.isOpen){
-        return res.status(404).json({
-            message:"Sorry this restaurant is closed for now",
-        });
+        return res.status(404).json({message:"Sorry this restaurant is closed for now"});
     }
-     const distance= getDistanceKm(
+    const distance=getDistanceKm(
         address.location.coordinates[1],
         address.location.coordinates[0],
         restaurant.autoLocation.coordinates[1],
         restaurant.autoLocation.coordinates[0],
-     );
+    );
     let subtotal=0;
     const orderItems=cartItems.map((cart)=>{
         const item=cart.itemId;
-        if(!item){
-            throw new Error("Invalid cart item")
-        }
+        if(!item) throw new Error("Invalid cart item");
         const itemTotal=item.price*cart.quantity;
         subtotal+=itemTotal;
-        return {
-            itemId:item._id.toString(),
-            name:item.name,
-            price:item.price,
-            quantity:cart.quantity,
-        };
+        return{itemId:item._id.toString(),name:item.name,price:item.price,quantity:cart.quantity};
     });
-    const deliveryFee=subtotal<250 ?49:0;
+    const deliveryFee=subtotal<250?49:0;
     const platformFee=7;
     const totalAmount=subtotal+deliveryFee+platformFee;
     const expiresAt=new Date(Date.now()+15*60*1000);
-    const [longitude, latitude]=address.location.coordinates;
+    const [longitude,latitude]=address.location.coordinates;
     const riderAmount=Math.ceil(distance)*17;
     const order=await Order.create({
         userId:user._id.toString(),
         restaurantId:restaurantId.toString(),
         restaurantName:restaurant.name,
         distance,
-        riderAmount,  
+        riderAmount,
         riderId:null,
         items:orderItems,
         subtotal,
@@ -130,139 +94,87 @@ if(cartItems.length === 0){
         status:"placed",
         expiresAt,
     });
-  
-    res.json({
-        message:"Order Created Successfully",
-        orderId:order._id.toString(),
-        amount:totalAmount,
-    });     
+    res.json({message:"Order Created Successfully",orderId:order._id.toString(),amount:totalAmount});
 });
-export const fetchOrderForPayment=TryCatch(async(req, res)=>{
+
+export const fetchOrderForPayment=TryCatch(async(req,res)=>{
     if(req.headers["x-internal-key"]!==process.env.INTERNAL_SERVICE_KEY){
-        return res.status(403).json({
-            message:"Forbidden",
-        });
+        return res.status(403).json({message:"Forbidden"});
     }
     const order=await Order.findById(req.params.id);
     if(!order){
-        return res.status(404).json({
-            message:"Order Not Found",
-
-        });
+        return res.status(404).json({message:"Order Not Found"});
     }
     if(order.paymentStatus!=="pending"){
-        return res.status(404).json({
-            message:"Order already paid",
-        });
+        return res.status(404).json({message:"Order already paid"});
     }
-    
-    res.json({
-        orderId:order._id,
-        amount:order.totalAmount,
-        currency:"INR"
-    })
-})
+    res.json({orderId:order._id,amount:order.totalAmount,currency:"INR"});
+});
 
-export const fetchRestaurantOrders=TryCatch(async( req:AuthenticatedRequest,res)=>{
+export const fetchRestaurantOrders=TryCatch(async(req:AuthenticatedRequest,res)=>{
     const user=req.user;
     const {restaurantId}=req.params;
     if(!user){
-        return res.status(401).json({
-            message:"Unauthorized",
-        });
+        return res.status(401).json({message:"Unauthorized"});
     }
     if(!restaurantId){
-        return res.status(400).json({
-            message:"Restaurant id id required",
-        });
+        return res.status(400).json({message:"Restaurant id is required"});
     }
-    const limit=req.query.limit ? Number(req.query.limit):0;
+    const limit=req.query.limit?Number(req.query.limit):0;
+    const orders=await Order.find({restaurantId,paymentStatus:"paid"})
+        .sort({createdAt:-1})
+        .limit(limit);
+    return res.json({success:true,count:orders.length,orders});
+});
 
-    const orders=await Order.find({restaurantId, paymentStatus:"paid"}).sort({
-        createdAt: -1
-    }).limit(limit);
-    return res.json({
-        success:true,
-        count:orders.length,
-        orders,
-    });
-}
-);
-const ALLOWED_STATUSES=["accepted", "preparing", "ready_for_rider"] as const;
+const ALLOWED_STATUSES=["accepted","preparing","ready_for_rider"] as const;
+
 export const updateOrderStatus=TryCatch(async(req:AuthenticatedRequest,res)=>{
     const user=req.user;
     const {orderId}=req.params;
     const {status}=req.body;
     if(!user){
-        return res.status(401).json({
-            message:"Unauthorized",
-        });
+        return res.status(401).json({message:"Unauthorized"});
     }
     if(!ALLOWED_STATUSES.includes(status)){
-        return res.status(400).json({
-            message:"Invalid order status",
-        });
+        return res.status(400).json({message:"Invalid order status"});
     }
-    const order=await Order.findById(orderId)
+    const order=await Order.findById(orderId);
     if(!order){
-        return res.status(404).json({
-            message:"Order Not Found",
-        })
+        return res.status(404).json({message:"Order Not Found"});
     }
     if(order.paymentStatus!=="paid"){
-        return res.status(404).json({
-            message:"Order Not Completed",
-        });
+        return res.status(404).json({message:"Order Not Completed"});
     }
     const restaurant=await Restaurant.findById(order.restaurantId);
     if(!restaurant){
-        return res.status(404).json({
-            message:"Restaurant Not Found",
-        });
+        return res.status(404).json({message:"Restaurant Not Found"});
     }
     if(restaurant.ownerId!==user._id.toString()){
-        return res.status(401).json({
-            message:"You are not allowed to update this order."
-        });
+        return res.status(401).json({message:"You are not allowed to update this order."});
     }
     order.status=status;
-    await order.save()
-    await axios.put(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
+    await order.save();
+    await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
         event:"order:update",
         room:`user:${order.userId}`,
-        payload:{
-            orderId:order._id,
-            status:order.status,
-        },
-    },{
-        headers:{
-            "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
-        },
-    });
-    
-    //NOW ASSIGN RIDERS
+        payload:{orderId:order._id,status:order.status},
+    },{headers:{"x-internal-key":process.env.INTERNAL_SERVICE_KEY}});
     if(status==="ready_for_rider"){
-        console.log("Publishing Order ready for rider event for order",
-            order._id
-        );
+        console.log("Publishing Order ready for rider event for order",order._id);
         await publishEvent("ORDER_READY_FOR_RIDER",{
             orderId:order._id.toString(),
             restaurantId:restaurant._id.toString(),
             location:restaurant.autoLocation,
         });
-        console.log("Event Publisheed Successfully");
+        console.log("Event Published Successfully");
     }
-    res.json({
-        message:"order status updated successfully",
-        order,
-    });
-}
-)
+    res.json({message:"order status updated successfully",order});
+});
+
 export const getMyOrders=TryCatch(async(req:AuthenticatedRequest,res)=>{
     if(!req.user){
-        return res.status(401).json({
-            message:"Unauthorized",
-        });
+        return res.status(401).json({message:"Unauthorized"});
     }
     const orders=await Order.find({
         userId:req.user._id.toString(),
@@ -270,180 +182,120 @@ export const getMyOrders=TryCatch(async(req:AuthenticatedRequest,res)=>{
     }).sort({createdAt:-1});
     res.json({orders});
 });
+
 export const fetchSingleOrder=TryCatch(async(req:AuthenticatedRequest,res)=>{
     if(!req.user){
-        return res.status(401).json({
-            message:"Unauthorized",
-        });
+        return res.status(401).json({message:"Unauthorized"});
     }
     const order=await Order.findById(req.params.id);
     if(!order){
-        return res.status(404).json({
-            message:"Order not found",
-        });
+        return res.status(404).json({message:"Order not found"});
     }
-    if(order.userId !== req.user._id.toString()){
-        return res.status(401).json({
-            message:"You are not allowed to view this order",
-        });
+    if(order.userId!==req.user._id.toString()){
+        return res.status(401).json({message:"You are not allowed to view this order"});
     }
     res.json(order);
-})
+});
 
+// FIX: Previously accessed order?.riderId before checking if order was null,
+// causing a server crash when no order was found. Now we explicitly check
+// order !== null before accessing any of its fields.
 export const assignRiderToOrder=TryCatch(async(req,res)=>{
-    if(req.headers["x-internal-key"]!==process.env.INTERNAL_SERVICE_KEY ){
-        return res.status(403).json({
-            message:"Forbidden",
-        });
+    if(req.headers["x-internal-key"]!==process.env.INTERNAL_SERVICE_KEY){
+        return res.status(403).json({message:"Forbidden"});
     }
-    const {orderId, riderId, riderName, riderPhone}=req.body;
-    const orderAvailable= await Order.findOne({riderId, status:{$ne:"deliverd"}});
+    const {orderId,riderId,riderName,riderPhone}=req.body;
+
+    // Check if rider already has an active order
+    const orderAvailable=await Order.findOne({riderId,status:{$ne:"delivered"}});
     if(orderAvailable){
-        return res.status(400).json({
-            message:"You already have an order.",
-        });
+        return res.status(400).json({message:"You already have an order."});
     }
+
+    // FIX: null-check order before accessing .riderId
     const order=await Order.findById(orderId);
-    if(order?.riderId !==null){
-        return res.status(400).json({
-            message:"Order already taken."
-        });
+    if(!order){
+        return res.status(404).json({message:"Order not found."});
     }
+
+    // FIX: use != null (loose) to catch both null and undefined
+    if(order.riderId!=null){
+        return res.status(400).json({message:"Order already taken."});
+    }
+
     const orderUpdated=await Order.findOneAndUpdate(
-        { _id :orderId, riderId:null},
-        {
-            riderId,
-            riderName,
-            riderPhone,
-            status:"rider_assigned",
-        },{new:true}
+        {_id:orderId,riderId:null},
+        {riderId,riderName,riderPhone,status:"rider_assigned"},
+        {new:true}
     );
+
     await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
         event:"order:rider_assigned",
         room:`user:${order.userId}`,
-        payload:{
-           order
-        },
-    },{
-        headers:{
-            "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
-        },
-    });
-    
+        payload:{order},
+    },{headers:{"x-internal-key":process.env.INTERNAL_SERVICE_KEY}});
+
     await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
         event:"order:rider_assigned",
         room:`restaurant:${order.restaurantId}`,
-        payload:{
-           order
-        },
-    },{
-        headers:{
-            "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
-        },
-    });
-    res.json({
-        message:"Rider assigned successfully",
-        success:true,
-        order:orderUpdated,
-    });
+        payload:{order},
+    },{headers:{"x-internal-key":process.env.INTERNAL_SERVICE_KEY}});
 
+    res.json({message:"Rider assigned successfully",success:true,order:orderUpdated});
 });
+
 export const getCurrentOrderForRider=TryCatch(async(req,res)=>{
-     if(req.headers["x-internal-key"]!==process.env.INTERNAL_SERVICE_KEY ){
-        return res.status(403).json({
-            message:"Forbidden",
-        });
+    if(req.headers["x-internal-key"]!==process.env.INTERNAL_SERVICE_KEY){
+        return res.status(403).json({message:"Forbidden"});
     }
-    const {riderId}=req.query
+    const {riderId}=req.query;
     if(!riderId){
-        return res.status(400).json({
-            message:"Rider Id is required",
-        });
+        return res.status(400).json({message:"Rider Id is required"});
     }
     const order=await Order.findOne({
         riderId,
-        status:{$ne:"delevered"},
+        status:{$in:["rider_assigned","picked_up"]},
     }).populate("restaurantId");
-    if(!order){
-        return res.status(400).json({
-            message:"Order Already taken",
-        });
-    }
-    res.json(order);
+    res.json(order??null);
 });
+
 export const updateOrderStatusRider=TryCatch(async(req,res)=>{
- if(req.headers["x-internal-key"]!==process.env.INTERNAL_SERVICE_KEY ){
-        return res.status(403).json({
-            message:"Forbidden",
-        });
+    if(req.headers["x-internal-key"]!==process.env.INTERNAL_SERVICE_KEY){
+        return res.status(403).json({message:"Forbidden"});
     }
     const {orderId}=req.body;
     const order=await Order.findById(orderId);
     if(!order){
-        return res.status(404).json({
-            message:"order not found",
-        });
+        return res.status(404).json({message:"order not found"});
     }
     if(order.status==="rider_assigned"){
         order.status="picked_up";
         await order.save();
-        await axios.post(
-            `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
-            {
-                event:"order:rider_assigned",
-                room:`restaurant:${order.restaurantId},`,
-                payload:order,
-            },
-            {
-                headers:{
-                    "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
-                },
-            }
-        )
-         await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
-        event:"order:rider_assigned",
-        room:`user:${order.userId}`,
-        payload:{
-           order
-        },
-    },{
-        headers:{
-            "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
-        },
-    });
-    return res.json({
-        message:"Oder Updated Successfully"
-    });
+        await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
+            event:"order:rider_assigned",
+            room:`restaurant:${order.restaurantId}`,
+            payload:order,
+        },{headers:{"x-internal-key":process.env.INTERNAL_SERVICE_KEY}});
+        await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
+            event:"order:rider_assigned",
+            room:`user:${order.userId}`,
+            payload:{order},
+        },{headers:{"x-internal-key":process.env.INTERNAL_SERVICE_KEY}});
+        return res.json({message:"Order Updated Successfully"});
     }
     if(order.status==="picked_up"){
-         order.status="delivered";
+        order.status="delivered";
         await order.save();
-        await axios.post(
-            `${process.env.REALTIME_SERVICE}/api/v1/inteernal/emit`,
-            {
-                event:"order:rider_assigned",
-                room:`restaurant:${order.restaurantId},`,
-                payload:order,
-            },
-            {
-                headers:{
-                    "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
-                },
-            }
-        )
-         await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
-        event:"order:rider_assigned",
-        room:`user:${order.userId}`,
-        payload:{
-           order
-        },
-    },{
-        headers:{
-            "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
-        },
-    });
-    return res.json({
-        message:"Oder Updated Successfully"
-    });
+        await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
+            event:"order:rider_assigned",
+            room:`restaurant:${order.restaurantId}`,
+            payload:order,
+        },{headers:{"x-internal-key":process.env.INTERNAL_SERVICE_KEY}});
+        await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
+            event:"order:rider_assigned",
+            room:`user:${order.userId}`,
+            payload:{order},
+        },{headers:{"x-internal-key":process.env.INTERNAL_SERVICE_KEY}});
+        return res.json({message:"Order Updated Successfully"});
     }
-})
+});

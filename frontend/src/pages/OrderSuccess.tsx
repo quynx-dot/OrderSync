@@ -10,7 +10,7 @@ const OrderSuccess = () => {
   useEffect(()=>{
     const verifyPayment=async()=>{
       try{
-        await axios.post(`${utilsService}/api/payment/verify`,{
+        await axios.post(`${utilsService}/api/payment/stripe/verify`,{
           sessionId,
         })
       }catch(error){

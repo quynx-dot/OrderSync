@@ -3,9 +3,9 @@ import { useLocation, Navigate, Outlet} from "react-router-dom";
 
 
 const ProtectedRoute= () => {
-    const {isAuth, user, loading }= useAppData()
+    const {isAuth, user, loading }= useAppData();
     const location= useLocation();
-    if(loading) return null
+    if(loading) return null;
     
     if(!isAuth){
         return <Navigate to={'/login'} replace/>;

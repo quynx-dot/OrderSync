@@ -11,7 +11,7 @@ const signToken = (user: { _id: any; name: string; email: string; image: string;
   return jwt.sign(
     {
       user: {
-        _id: user._id,
+        _id: user._id.toString(),
         name: user.name,
         email: user.email,
         image: user.image,

@@ -6,7 +6,7 @@ let io: Server;
 export const initSocket=(server:http.Server)=>{
     io=new Server(server, {
         cors:{
-            origin:"*",
+            origin:"*"
         },
     });
     io.use((socket, next)=>{
@@ -36,6 +36,10 @@ export const initSocket=(server:http.Server)=>{
         socket.join(`user:${userId}`)
         if(user.restaurantId){
             socket.join(`restaurant:${user.restaurantId}`);
+        }
+        if(user.role==="rider"){
+            socket.join(`rider:${userId}`);
+            console.log(`🛵 rider joined room: rider:${userId}`);
         }
         console.log(`User connected: ${userId}`);
         console.log("Socket room: ",[...socket.rooms]);

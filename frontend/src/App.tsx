@@ -17,6 +17,7 @@ import OrderSuccess from "./pages/OrderSuccess";
 import Orders from "./pages/Orders";
 import OrderPage from "./pages/OrderPage";
 import RiderDashboard from "./pages/RiderDashboard";
+import Admin from "./pages/Admin";
 
 
 const App = () => {
@@ -24,46 +25,38 @@ const App = () => {
   if(loading){
     return <h1 className="text-2xl font-bold text-red-500 text-center mt-56">Loading...</h1>
   }
-  if(user && user.role==="seller"){
-    return <Restaurant/>
-  }
-  if(user && user.role==="rider"){
-    return <RiderDashboard/>
-  }
-
-  return (
+  // CHANGE the entire return to wrap everything in BrowserRouter first:
+return (
     <BrowserRouter>
-      <Navbar />
-      <Routes>
-        {/* Public routes */}
-        <Route element={<PublicRoute />}>
-          <Route path="/login" element={<Login />} />
-        </Route>
-
-        {/* Protected routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/"
-            element={
-              user?.role === "seller" ? <Navigate to="/restaurant" replace /> : <Home />
-            }
-          />
-          <Route path="/address" element={<AddAddressPage/>}/>
-          <Route path="/paymentsuccess/:paymentId" element={<PaymentSuccess />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/order/:id" element={<OrderPage />} />
-          <Route path="/ordersuccess" element={<OrderSuccess />} />
-          <Route path="/checkout" element={<CheckoutPage/>}/>
-          <Route path="/restaurants/:id" element={<RestaurantPage/>} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/select-role" element={<SelectRole />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/restaurant" element={<Restaurant />} />
-
-        </Route>
-      </Routes>
+        <Navbar />
+        <Routes>
+            <Route element={<PublicRoute />}>
+                <Route path="/login" element={<Login />} />
+            </Route>
+            <Route element={<ProtectedRoute />}>
+                <Route path="/" element={
+                    user?.role === "seller" ? <Navigate to="/restaurant" replace /> :
+                    user?.role === "rider"  ? <Navigate to="/rider" replace /> :
+                    user?.role === "admin"  ? <Navigate to="/admin-panel" replace /> :
+                    <Home />
+                } />
+                <Route path="/restaurant" element={<Restaurant />} />
+                <Route path="/rider" element={<RiderDashboard />} />
+                <Route path="/admin-panel" element={<Admin />} />
+                <Route path="/address" element={<AddAddressPage />} />
+                <Route path="/paymentsuccess/:paymentId" element={<PaymentSuccess />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/order/:id" element={<OrderPage />} />
+                <Route path="/ordersuccess" element={<OrderSuccess />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/restaurants/:id" element={<RestaurantPage />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/select-role" element={<SelectRole />} />
+                <Route path="/account" element={<Account />} />
+            </Route>
+        </Routes>
     </BrowserRouter>
-  );
+);
 };
 
 export default App;

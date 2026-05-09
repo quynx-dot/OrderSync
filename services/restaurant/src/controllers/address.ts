@@ -1,8 +1,6 @@
 import { AuthenticatedRequest } from "../middlewares/isAuth.js";
 import TryCatch from "../middlewares/trycatch.js";
 import Address from "../models/Address.js";
-Address
-
 
 export const addAddress=TryCatch(async(req:AuthenticatedRequest, res)=>{
     const user=req.user;

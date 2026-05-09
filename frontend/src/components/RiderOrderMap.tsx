@@ -5,7 +5,7 @@ import * as L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import "leaflet-routing-machine"
 import axios from "axios";
-import { realtimeService } from "../main";
+import { riderService } from "../main";
 
 declare module "leaflet"{
     namespace Routing{
@@ -24,97 +24,88 @@ const deliveryIcon=new L.DivIcon({
     iconSize:[30,30],
     className:" ",
 });
+
 interface Props{
     order:IOrder;
 }
-const Routing=({
-    from,
-    to
-}:{
-    from:[number, number],
-    to:[number, number]
-})=>{
+
+const Routing=({from,to}:{from:[number,number],to:[number,number]})=>{
     const map=useMap();
     useEffect(()=>{
         const control=L.Routing.control({
-        waypoints:[L.latLng(from),L.latLng(to)],
-        lineOptions:{
-            styles:[{color:"#E23744",weight:5}],
-
-        },
-        addWaypoints:false,
-        draggableWaypoints:false,
-        show:false,
-        createMarker:()=>null,
-        router:L.Routing.osrmv1({
-            serviceurl:"https://router.project-osrm.org/route/v1"
-        })
-    }).addTo(map);
-    return()=>{
-        map.removeControl(control);
-    };
-    },[from, to, map]);
+            waypoints:[L.latLng(from),L.latLng(to)],
+            lineOptions:{styles:[{color:"#E23744",weight:5}]},
+            addWaypoints:false,
+            draggableWaypoints:false,
+            show:false,
+            createMarker:()=>null,
+            router:L.Routing.osrmv1({serviceurl:"https://router.project-osrm.org/route/v1"})
+        }).addTo(map);
+        return()=>{ map.removeControl(control); };
+    },[from,to,map]);
     return null;
 };
 
 const RiderOrderMap = ({order}:Props) => {
-    const [riderLocation, setRiderLocation]=useState<[number,number]|null>(
-        null
-    );
-    if(order.deliveryAddress.latitude==null ||
-        order.deliveryAddress.longitude==null
-    ){
+    const [riderLocation, setRiderLocation]=useState<[number,number]|null>(null);
+
+    // FIX: useEffect is now unconditional — called before any return statement.
+    // Previously this useEffect appeared AFTER a conditional return null, which
+    // violates React's Rules of Hooks and crashes when coordinates are missing.
+    useEffect(()=>{
+        // Guard moved inside the effect instead of before the hook
+        if(order.deliveryAddress.latitude==null || order.deliveryAddress.longitude==null){
+            return;
+        }
+        const fetchLocation=()=>{
+            navigator.geolocation.getCurrentPosition(
+                (pos)=>{
+                    const latitude=pos.coords.latitude;
+                    const longitude=pos.coords.longitude;
+                    setRiderLocation([latitude,longitude]);
+                    axios.post(`${riderService}/api/rider/location/update`,{
+                        latitude,
+                        longitude,
+                        orderId:order._id,
+                    },{
+                        headers:{Authorization:`Bearer ${localStorage.getItem("token")}`},
+                    });
+                },
+                (err)=>console.log("Location Error:",err),
+                {enableHighAccuracy:true,maximumAge:5000,timeout:10000}
+            );
+        };
+        fetchLocation();
+        const interval=setInterval(fetchLocation,10000);
+        return()=>clearInterval(interval);
+    },[order._id]);
+
+    // Conditional returns are now AFTER all hooks
+    if(order.deliveryAddress.latitude==null || order.deliveryAddress.longitude==null){
         return null;
     }
-    const deliveryLocation:[number,number]=[order.deliveryAddress.latitude, order.deliveryAddress.longitude,];
-    useEffect(()=>{
-        const fetchLocation=()=>{
-            navigator.geolocation.getCurrentPosition((pos)=>{
-                const latitude=pos.coords.latitude;
-                const longitude=pos.coords.longitude;
-                setRiderLocation([latitude,longitude]);
-                axios.post(`${realtimeService}/api/v1/internal/emit`,{
-                    event:"rider:location",
-                    room:`user:${order.userId}`,
-                    payload:{latitude,longitude},
-                },{
-                    headers:{
-                        "x-internal-key":import.meta.env.VITE_INTERNAL_SERVICE_KEY,
-                    },
-                }
-            );
-            },(err)=>console.log("Location Error:", err),
-            {
-                enableHighAccuracy:true,
-                maximumAge:5000,
-                timeout:10000,
-            }
-        );   
-        };
-        fetchLocation()
-        const interval=setInterval(fetchLocation,10000)
-        return()=>clearInterval(interval); 
-    },[order.userId]);
     if(!riderLocation) return null;
-  return (
-    <div className="rounded-xl bg-white shadow-sm p-3">
-        <MapContainer 
-        center={riderLocation}
-        zoom={14}
-        className="h-87.5 w-full rounded-lg"
-        >
-            <TileLayer attribution="&copy; OpenStreetMap"
-             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-             <Marker position={riderLocation} icon={riderIcon}>
-                <Popup>You (Rider)</Popup>
-             </Marker>
-             <Marker position={deliveryLocation} icon={deliveryIcon}>
-                <Popup>Delivery Location (Rider)</Popup>
-             </Marker>
-             <Routing from={riderLocation} to={deliveryLocation}/>
-        </MapContainer>
-    </div>
-  )
-}
 
-export default RiderOrderMap
+    const deliveryLocation:[number,number]=[
+        order.deliveryAddress.latitude,
+        order.deliveryAddress.longitude,
+    ];
+
+    return (
+        <div className="rounded-xl bg-white shadow-sm p-3">
+            <MapContainer center={riderLocation} zoom={14} className="h-87.5 w-full rounded-lg">
+                <TileLayer attribution="&copy; OpenStreetMap"
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                <Marker position={riderLocation} icon={riderIcon}>
+                    <Popup>You (Rider)</Popup>
+                </Marker>
+                <Marker position={deliveryLocation} icon={deliveryIcon}>
+                    <Popup>Delivery Location</Popup>
+                </Marker>
+                <Routing from={riderLocation} to={deliveryLocation}/>
+            </MapContainer>
+        </div>
+    );
+};
+
+export default RiderOrderMap;

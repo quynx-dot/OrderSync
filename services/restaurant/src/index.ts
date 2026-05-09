@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
 import connectDB from './config/db.js';
 import restaurantRoutes from "./routes/restaurant.js"
 import itemRoutes from "./routes/menuitem.js"
@@ -11,7 +12,7 @@ import { connectRabbitMQ } from './config/rabbitmq.js';
 import cors from 'cors';
 import { startPaymentConsumer } from './config/payment.consume.js';
 
-dotenv.config();
+
 await connectRabbitMQ();
 startPaymentConsumer();
 

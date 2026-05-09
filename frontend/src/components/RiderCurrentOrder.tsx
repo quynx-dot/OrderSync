@@ -42,17 +42,14 @@ const RiderCurrentOrder = ({order,onStatusUpdate}:Props) => {
                <b>Total:</b>
                ₹{order.totalAmount}
             </p>
-            <p>
-               <b>Total:</b>
-               ₹{order.totalAmount}
-            </p>
+
             <p>
                <b>Your Earning:</b>
                ₹{order.riderAmount}
             </p>
             <p>
                <b>Status:</b>
-               <span className="capitalize text-blue-600">₹{order.status.replace("_"," ")}</span>
+               <span className="capitalize text-blue-600">{order.status.replace("_"," ")}</span>
             </p>
         </div>
         {order.deliveryAddress.mobile && (
