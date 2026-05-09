@@ -65,7 +65,7 @@ const Orders=()=>{
 
 
     return(
-        <div className="mx-auto ma-w-4xl px-4 py-6 space-y-6">
+        <div className="mx-auto max-w-4xl px-4 py-6 space-y-6">
              <h1 className="text-2xl font-bold">My Orders</h1>
             <section className="space-y-3">
                 <h2 className="text-lg font-semibold">Active Orders</h2>

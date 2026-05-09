@@ -65,7 +65,7 @@ const OrderCard = ({order, onStatusUpdate}:props) => {
     };
   return (
     <div className="rounded-xl bg-white p-4 shadow-sm space-y-3">
-        <div className="flex justiffy-between items-center">
+        <div className="flex justify-between items-center">
             <p className="text-sm font-medium"> Order #{order._id.slice(-6)}</p>
         <span className={`rounded-full px-3 py-1 text-xs font-medium ${statusColor(
             order.status

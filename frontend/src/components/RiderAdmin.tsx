@@ -24,7 +24,7 @@ const RiderAdmin= ({rider, onVerify}:{
         }
     };
   return (
-    <div className="rounded-xl bg-white p-4 shadow spacew-y-2">
+    <div className="rounded-xl bg-white p-4 shadow space-y-2">
         <img src={rider.picture} alt="" className="h-40 w-full object-cover rounded" />
         <h3>{rider.phoneNumber}</h3>
         <p className="text-sm text-gray-500">aadhar{rider.aadharNumber}</p>

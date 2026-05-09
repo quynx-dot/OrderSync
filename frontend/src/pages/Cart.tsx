@@ -54,7 +54,6 @@ const Cart = () => {
       );
       await fetchCart();
     } catch (error) {
-      // FIX: was showing 'Failed to increase quantity' — copy-paste error
       toast.error('Failed to decrease quantity');
     } finally {
       setLoadingItemId(null);

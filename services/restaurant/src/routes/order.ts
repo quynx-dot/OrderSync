@@ -18,5 +18,3 @@ router.get("/:id", isAuth, fetchSingleOrder);
 
 
 export default router;
-//API KEY=rzp_test_SdLSQPZrJw32u4
-//KEY SECRET=0KppjLbQKPlBUS973FvK9ZM2

@@ -1,5 +1,5 @@
 import type{IOrder} from "../types"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer,Marker, Popup,useMap } from "react-leaflet";
 import * as L from "leaflet"
 import "leaflet/dist/leaflet.css"
@@ -17,12 +17,12 @@ declare module "leaflet"{
 const riderIcon=new L.DivIcon({
     html:"🛵",
     iconSize:[30,30],
-    className:" ",
+    className:"",
 });
 const deliveryIcon=new L.DivIcon({
     html:"📦",
     iconSize:[30,30],
-    className:" ",
+    className:"",
 });
 
 interface Props{
@@ -31,6 +31,9 @@ interface Props{
 
 const Routing=({from,to}:{from:[number,number],to:[number,number]})=>{
     const map=useMap();
+    // Keep a ref to the control so we can safely remove it
+    const controlRef = useRef<any>(null);
+
     useEffect(()=>{
         const control=L.Routing.control({
             waypoints:[L.latLng(from),L.latLng(to)],
@@ -41,7 +44,20 @@ const Routing=({from,to}:{from:[number,number],to:[number,number]})=>{
             createMarker:()=>null,
             router:L.Routing.osrmv1({serviceurl:"https://router.project-osrm.org/route/v1"})
         }).addTo(map);
-        return()=>{ map.removeControl(control); };
+        controlRef.current = control;
+
+        return () => {
+            // Safely clear the drawn route lines before removing the control.
+            // If the map is already destroyed, _clearLines will throw because
+            // the internal layer group is null — we catch and swallow that error.
+            try {
+                control.setWaypoints([]);
+            } catch (_) { /* map already gone */ }
+            try {
+                map.removeControl(control);
+            } catch (_) { /* map already gone */ }
+            controlRef.current = null;
+        };
     },[from,to,map]);
     return null;
 };
@@ -49,11 +65,7 @@ const Routing=({from,to}:{from:[number,number],to:[number,number]})=>{
 const RiderOrderMap = ({order}:Props) => {
     const [riderLocation, setRiderLocation]=useState<[number,number]|null>(null);
 
-    // FIX: useEffect is now unconditional — called before any return statement.
-    // Previously this useEffect appeared AFTER a conditional return null, which
-    // violates React's Rules of Hooks and crashes when coordinates are missing.
     useEffect(()=>{
-        // Guard moved inside the effect instead of before the hook
         if(order.deliveryAddress.latitude==null || order.deliveryAddress.longitude==null){
             return;
         }
@@ -80,7 +92,6 @@ const RiderOrderMap = ({order}:Props) => {
         return()=>clearInterval(interval);
     },[order._id]);
 
-    // Conditional returns are now AFTER all hooks
     if(order.deliveryAddress.latitude==null || order.deliveryAddress.longitude==null){
         return null;
     }

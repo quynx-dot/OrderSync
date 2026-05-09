@@ -125,7 +125,7 @@ const MenuItems = ({items, onItemDeleted, isSeller}:MenuItemsProps) => {
                    disabled={!item.isAvailable || isLoading}
                     onClick={()=>addToCart(item.restaurantId, item._id)}
                     className={`flex items-center justify-center rounded-lg p-2 ${!item.isAvailable || isLoading
-                      ? "curssor-not-allowed text-gray-400"
+                      ? "cursor-not-allowed text-gray-400"
                       : "text-red-500 hover:bg-red-50"
                     }`}>{isLoading ? (
                       <VscLoading size={18} className="animate-spin"/>
@@ -138,9 +138,9 @@ const MenuItems = ({items, onItemDeleted, isSeller}:MenuItemsProps) => {
                 </div>
               </div>
            );
-      } )};
+      } )}
       </div>
-      );
+      )
     };
 
 

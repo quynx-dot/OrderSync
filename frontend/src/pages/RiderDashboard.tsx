@@ -290,7 +290,7 @@ useEffect(()=>{
         </div>
       )}
       {profile.isAvailable && inComingOrder.length>0 && (
-        <div className="mx-auto ma-w-md px-4 space-y-3">
+        <div className="mx-auto max-w-md px-4 space-y-3">
         <h3 className="font-semibold text-gray-700">Incoming orders</h3>
         {inComingOrder.map((id)=>(
             <RiderOrderRequest key={id} orderId={id} onAccepted={()=>{
@@ -300,7 +300,7 @@ useEffect(()=>{
         ))}
         </div>
       )}
-      {currentOrder && <div className="mx-auto max-w-md ox-4 space-y-4">
+      {currentOrder && <div className="mx-auto max-w-md px-4 space-y-4">
         <RiderCurrentOrder order={currentOrder} onStatusUpdate={fetchCurrentOrder}/>
         <RiderOrderMap order={currentOrder}/>
         </div>}

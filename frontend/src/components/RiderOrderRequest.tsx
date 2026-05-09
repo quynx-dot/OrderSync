@@ -34,7 +34,7 @@ const RiderOrderRequest = ({orderId, onAccepted}:Props) => {
             toast.success("Order Accepted");
             onAccepted();
         } catch (error:any) {
-            toast.error(error.response.data.mssage);
+            toast.error(error.response.data.message);
         }finally{
             setAccepting(false);
         }
@@ -47,7 +47,7 @@ const RiderOrderRequest = ({orderId, onAccepted}:Props) => {
         <p className="text-center text-xs font-semibold text-green-600">
             New Delivery Request
         </p>
-        <p className=" text-xs text-gray-600">
+        <p className="text-xs text-gray-600">
             Order ID:<b>{orderId.slice(-6)}</b>
         </p>
         <button disabled={accepting} 

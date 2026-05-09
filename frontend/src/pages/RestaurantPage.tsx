@@ -28,10 +28,10 @@ const RestaurantPage = () => {
             setLoading(false);
         }
     };
-      const fetchMenuItems=async(restaurantId:string)=>{
+    const fetchMenuItems=async(restaurantId:string)=>{
     try{
       const{data}=await axios.get(
-        `${restaurantService}/api/item/all/${id}`,
+        `${restaurantService}/api/item/all/${restaurantId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

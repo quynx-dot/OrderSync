@@ -15,7 +15,8 @@ const RiderCurrentOrder = ({order,onStatusUpdate}:Props) => {
                 {},
                 {
                     headers:{
-                        Authorization: `Bearer  ${localStorage.getItem("token")}`,
+                        // FIX: was "Bearer  " (double space) — caused 401 on some servers
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
                 }
             );
@@ -31,15 +32,15 @@ const RiderCurrentOrder = ({order,onStatusUpdate}:Props) => {
         <h1 className="font-semibold text-gray-800">Current Order</h1> 
         <div className="text-sm text-gray-600 space-y-1">
             <p>
-               <b>Pickup:</b>
+               <b> Pickup:</b>
                {order.restaurantName}
             </p>
             <p>
-               <b>Drop:</b>
+               <b> Drop:</b>
                {order.deliveryAddress.formattedAddress}
             </p>
             <p>
-               <b>Total:</b>
+               <b> Total:</b>
                ₹{order.totalAmount}
             </p>
 
@@ -48,7 +49,7 @@ const RiderCurrentOrder = ({order,onStatusUpdate}:Props) => {
                ₹{order.riderAmount}
             </p>
             <p>
-               <b>Status:</b>
+               <b> Status:</b>
                <span className="capitalize text-blue-600">{order.status.replace("_"," ")}</span>
             </p>
         </div>

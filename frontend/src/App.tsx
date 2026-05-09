@@ -12,7 +12,7 @@ import RestaurantPage from "./pages/RestaurantPage";
 import Cart from "./pages/Cart";
 import AddAddressPage from "./pages/Address";
 import CheckoutPage from "./pages/Checkout";
-import PaymentSuccess from "./pages/PaymentSucces";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import OrderSuccess from "./pages/OrderSuccess";
 import Orders from "./pages/Orders";
 import OrderPage from "./pages/OrderPage";

@@ -19,7 +19,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [city, setCity] = useState("Fetching Location ...");
 
-  async function fetchuser() {
+  async function fetchUser() {
     try {
       const token = localStorage.getItem("token");
       if (!token) return; // no token, skip the request entirely
@@ -55,7 +55,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     }
   }
   useEffect(() => {
-    fetchuser();
+    fetchUser();
   }, []);
 useEffect(() => {
     if(user && user.role === "customer"){

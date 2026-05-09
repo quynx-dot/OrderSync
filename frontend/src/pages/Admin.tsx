@@ -53,7 +53,7 @@ const Admin = () => {
         );
     }
   return (
-    <div className="mx-auto ma-w-6xl px-6 py-6 space-y-6">
+    <div className="mx-auto max-w-6xl px-6 py-6 space-y-6">
         <div className="text-2xl font-bold">Admin Dashboard</div>
         <div className="flex gap-4">
             <button onClick={()=>setTab("restaurant")}

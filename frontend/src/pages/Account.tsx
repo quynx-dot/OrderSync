@@ -29,15 +29,15 @@ export const Account = () => {
             </div>
             <div className="divide-y">
                 <div className="flex cursor-pointer items-center gap-4 p-5 hover:bg-gray-50" onClick={()=>navigate("/orders")}>
-                    <BiPackage className="h-5 w-5 text-res-500"/>
+                    <BiPackage className="h-5 w-5 text-red-500"/>
                     <span className="font-medium">Your Orders</span>
                 </div>
                 <div className="flex cursor-pointer items-center gap-4 p-5 hover:bg-gray-50" onClick={()=>navigate("/address")}>
-                    <BiMapPin className="h-5 w-5 text-res-500"/>
+                    <BiMapPin className="h-5 w-5 text-red-500"/>
                     <span className="font-medium">Addresses</span>
                 </div>
                 <div className="flex cursor-pointer items-center gap-4 p-5 hover:bg-gray-50" onClick={logoutHandler}>
-                    <BiLogOut className="h-5 w-5 text-res-500"/>
+                    <BiLogOut className="h-5 w-5 text-red-500"/>
                     <span className="font-medium">Logout</span>
                 </div>
             </div>
