@@ -11,6 +11,7 @@ import { connectRabbitMQ } from './config/rabbitmq.js';
 
 import cors from 'cors';
 import { startPaymentConsumer } from './config/payment.consume.js';
+import rateLimit from 'express-rate-limit';
 
 
 await connectRabbitMQ();
@@ -20,14 +21,31 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const orderLimiter=rateLimit({
+  windowMs:15*60*1000,
+  max:10,
+  standardHeaders:true,
+  legacyHeaders:false,
+  message:{message:"Too many order requests, please try again later."},
+});
+
+const standardLimiter=rateLimit({
+  windowMs:15*60*1000,
+  max:100,
+  standardHeaders:true,
+  legacyHeaders:false,
+  message:{messsage:"Too many requests, please try again later. "},
+});
+
 
 const PORT = process.env.PORT || 5001;
 
-app.use("/api/restaurants", restaurantRoutes);
-app.use("/api/item", itemRoutes);
-app.use("/api/cart", cartRoutes);
-app.use("/api/address", addressRoutes);
-app.use("/api/order", orderRoutes);
+app.use("/api/restaurants", standardLimiter, restaurantRoutes);
+app.use("/api/item", standardLimiter, itemRoutes);
+app.use("/api/cart",standardLimiter, cartRoutes);
+app.use("/api/address",standardLimiter, addressRoutes);
+app.use("/api/order/new", orderLimiter);
+app.use("/api/order", standardLimiter, orderRoutes);
  connectDB();
 app.listen(PORT, () => {
   console.log(`Restaurant service is running on port ${PORT}`);
