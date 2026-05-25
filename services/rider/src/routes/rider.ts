@@ -1,6 +1,6 @@
 import express from "express";
 import { acceptOrder, addRiderProfile, fetchMyCurrentOrder, fetchMyProfile, toggleRiderAvailability, updateOrderStatus, updateRiderLocation } from "../controllers/rider.js";
-import { isAuth } from "../middlewares/isAuth.js";
+import { isAuth, isRider } from "../middlewares/isAuth.js";
 import uploadFile from "../middlewares/multer.js";
 
 

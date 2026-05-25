@@ -51,11 +51,11 @@ export const isAuth=async(req:AuthenticatedRequest,res:Response,next:NextFunctio
     }
 };
 
-export const isSeller=async(req:AuthenticatedRequest,res:Response,next:NextFunction):Promise<void>=>{
-    const user=req.user
-    if(user&& user.role!=="seller"){
-        res.status(401).json({
-            message:"You are not authorized seller",
+export const isRider =async(req:AuthenticatedRequest,res:Response,next:NextFunction):Promise<void>=>{
+   
+    if(!req.user || req.user.role!=="rider"){
+        res.status(403).json({
+            message:"Access Denied : riders only",
         });
         return;
     }
