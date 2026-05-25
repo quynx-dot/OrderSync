@@ -6,6 +6,7 @@ import uploadRoutes from './routes/cloudinary.js'
 import paymentRoutes from './routes/payment.js'
 
 import { connectRabbitMQ } from './config/rabbitmq.js';
+import rateLimit from 'express-rate-limit';
 
 
 dotenv.config();
@@ -14,6 +15,15 @@ const app = express();
 app.use(express.json({limit:"50mb"}));
 app.use(express.urlencoded({limit:"50mb", extended:true}));
 app.use(cors());
+
+const paymentLimiter=rateLimit({
+  windowMs:15*60*1000,
+  max:10,
+  standardHeaders:true,
+  legacyHeaders:false,
+  message:{message:"Too many payment requests, please try again later."},
+});
+app.use("/api/payment",paymentLimiter);
 
 const{CLOUD_NAME, CLOUD_API_KEY, CLOUD_SECRET_KEY}=process.env;
 if(!CLOUD_NAME|| !CLOUD_API_KEY ||!CLOUD_SECRET_KEY){
