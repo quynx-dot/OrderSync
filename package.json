@@ -1,21 +1,26 @@
 {
-  "dependencies": {
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/mongodb": "^4.0.6",
-    "concurrently": "^9.2.1",
-    "cors": "^2.8.6",
-    "datauri": "^4.1.0",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mongodb": "^7.2.0",
-    "socket.io": "^4.8.3",
-    "typescript": "^6.0.3"
+  "name": "ordersync",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "services/shared",
+    "services/auth",
+    "services/restaurant",
+    "services/rider",
+    "services/utils",
+    "services/admin",
+    "services/realtime"
+  ],
+  "scripts": {
+    "build:shared": "npm run build --workspace=services/shared",
+    "dev:auth":       "npm run dev --workspace=services/auth",
+    "dev:restaurant": "npm run dev --workspace=services/restaurant",
+    "dev:rider":      "npm run dev --workspace=services/rider",
+    "dev:utils":      "npm run dev --workspace=services/utils",
+    "dev:admin":      "npm run dev --workspace=services/admin",
+    "dev:realtime":   "npm run dev --workspace=services/realtime"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/dotenv": "^6.1.1",
-    "@types/express": "^5.0.6",
-    "@types/socket.io": "^3.0.1"
+    "typescript": "^6.0.3"
   }
 }
