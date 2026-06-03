@@ -5,7 +5,6 @@ import getBuffer from "../config/datauri.js";
 import axios from 'axios';
 import jwt from "jsonwebtoken";
 
-console.log("Calling utils at:", process.env.UTILS_SERVICE);
 export const addRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => {
   const user = req.user;
   if (!user) {

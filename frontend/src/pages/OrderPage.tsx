@@ -50,13 +50,13 @@ const OrderPage = () => {
   },[socket]
   );
   const [riderLocation, setRiderLocation]=useState<[number, number]|null>(null)
-  useEffect(()=>{
-    if(!socket || !user?._id) return;
-    socket.emit("join", `user:${user._id}`);
-    return()=>{
-      socket.emit("leave",`user:${user._id}`)
-    }
-    },[socket, user?._id]);
+  // useEffect(()=>{
+  //   if(!socket || !user?._id) return;
+  //   socket.emit("join", `user:${user._id}`);
+  //   return()=>{
+  //     socket.emit("leave",`user:${user._id}`)
+  //   }
+  //   },[socket, user?._id]);
   useEffect(()=>{
       if(!socket) return;
       const onRiderLocation=({latitude, longitude}:any)=>{

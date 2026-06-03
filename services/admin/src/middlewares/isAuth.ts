@@ -1,6 +1,5 @@
 import{Request, Response,NextFunction} from 'express';
 import jwt,{JwtPayload} from 'jsonwebtoken';
-import { Auth } from 'mongodb';
 export interface IUser{
     _id:string;
     name: string;
