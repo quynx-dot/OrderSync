@@ -5,7 +5,7 @@ import { BiCheckCircle } from "react-icons/bi"
 import { BsArrowRight } from "react-icons/bs"
 
 
-const PaymentSucces = () => {
+const PaymentSuccess   = () => {
     const {paymentId}=useParams<{paymentId:string}>()
     const navigate=useNavigate()
     const {fetchCart}=useAppData()
@@ -40,4 +40,4 @@ const PaymentSucces = () => {
   </div>
 }
 
-export default PaymentSucces
+export default PaymentSuccess

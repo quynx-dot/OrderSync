@@ -16,8 +16,12 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
+    "@types/mongoose": "^5.11.96",
     "express-rate-limit": "^7.5.0",
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.6.3",
+    "pino": "^10.3.1",
+    "zod": "3.24.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

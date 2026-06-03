@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type{ IMenuItem, IRestaurant } from "../types";
+import type { IMenuItem, IRestaurant } from "../types";
 import axios from "axios";
 import { restaurantService } from "../main";
 import AddRestaurant from "../components/AddRestaurant";
@@ -8,125 +8,110 @@ import toast from "react-hot-toast";
 import MenuItems from "../components/MenuItems";
 import AddMenuItem from "../components/AddMenuItem";
 import RestaurantOrders from "../components/RestaurantOrders";
+import SalesDashboard from "../components/SalesDashboard";
 
-
-
-type SellerTab = "menu" | "add-item" | "sales";
+type SellerTab = "menu" | "add-item" | "orders" | "sales";
 
 const Restaurant = () => {
-  const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<SellerTab>("menu");
+    const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [tab, setTab] = useState<SellerTab>("orders");
+    const [menuItems, setMenuItems] = useState<IMenuItem[]>([]);
 
-  const fetchMyRestaurant = async () => {
-    try {
-      const { data } = await axios.get(`${restaurantService}/api/restaurants/my`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      setRestaurant(data.restaurant || null);
-      // Re-issue token if restaurantId wasn't in the JWT yet
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-        window.location.reload();
-      }
-    } catch (error: any) {
-      // ✅ 400 = no restaurant yet — this is expected, just show the AddRestaurant form
-      if (error.response?.status === 400) {
-        setRestaurant(null);
-      } else {
-        // Any other error (network, 500, etc.) — surface it to the user
-        console.error(error);
-        toast.error("Failed to load restaurant. Please try again.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchMyRestaurant();
-  }, []);
-  
-  const [menuItems, setMenuItems]=useState<IMenuItem[]>([]);
-  const fetchMenuItems=async(restaurantId:string)=>{
-    try{
-      const{data}=await axios.get(
-        `${restaurantService}/api/item/all/${restaurantId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+    const fetchMyRestaurant = async () => {
+        try {
+            const { data } = await axios.get(`${restaurantService}/api/restaurants/my`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            });
+            setRestaurant(data.restaurant || null);
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+                window.location.reload();
+            }
+        } catch (error: any) {
+            if (error.response?.status === 400) {
+                setRestaurant(null);
+            } else {
+                console.error(error);
+                toast.error("Failed to load restaurant. Please try again.");
+            }
+        } finally {
+            setLoading(false);
         }
-      );
-      setMenuItems(data);
-    }catch(error){
-      console.log(error);
+    };
+
+    const fetchMenuItems = async (restaurantId: string) => {
+        try {
+            const { data } = await axios.get(`${restaurantService}/api/item/all/${restaurantId}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            });
+            setMenuItems(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => { fetchMyRestaurant(); }, []);
+    useEffect(() => {
+        if (restaurant?._id) fetchMenuItems(restaurant._id);
+    }, [restaurant]);
+
+    if (loading) {
+        return (
+            <div className="flex min-h-screen items-center justify-center">
+                <p className="text-gray-500">Loading your restaurant...</p>
+            </div>
+        );
     }
-  };
 
-useEffect(()=>{
-  if(restaurant?._id){
-    fetchMenuItems(restaurant._id);
-  }
-},[restaurant]);
+    if (!restaurant) {
+        return <AddRestaurant fetchMyRestaurant={fetchMyRestaurant} />;
+    }
 
-  if (loading) {
+    const TABS: { key: SellerTab; label: string }[] = [
+        { key: "orders", label: "Live Orders" },
+        { key: "menu", label: "Menu" },
+        { key: "add-item", label: "Add Item" },
+        { key: "sales", label: "Sales" },
+    ];
+
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-gray-500">Loading your restaurant...</p>
-      </div>
+        <div className="min-h-screen bg-gray-50 px-4 py-6 space-y-6">
+            <RestaurantProfile restaurant={restaurant} onUpdate={setRestaurant} isSeller={true} />
+
+            <div className="rounded-xl bg-white shadow-sm">
+                <div className="flex border-b overflow-x-auto">
+                    {TABS.map((t) => (
+                        <button
+                            key={t.key}
+                            onClick={() => setTab(t.key)}
+                            className={`flex-1 min-w-max px-4 py-3 text-sm font-medium transition whitespace-nowrap ${
+                                tab === t.key
+                                    ? "border-b-2 border-red-500 text-red-500"
+                                    : "text-gray-500 hover:text-gray-700"
+                            }`}
+                        >
+                            {t.label}
+                        </button>
+                    ))}
+                </div>
+                <div className="p-5">
+                    {tab === "orders" && <RestaurantOrders restaurantId={restaurant._id} />}
+                    {tab === "menu" && (
+                        <MenuItems
+                            items={menuItems}
+                            onItemDeleted={() => fetchMenuItems(restaurant._id)}
+                            isSeller={true}
+                        />
+                    )}
+                    {tab === "add-item" && (
+                        <AddMenuItem onItemAdded={() => fetchMenuItems(restaurant._id)} />
+                    )}
+                    {tab === "sales" && <SalesDashboard />}
+                </div>
+            </div>
+        </div>
     );
-  }
-
-  if ( !restaurant) {
-    return <  AddRestaurant fetchMyRestaurant={fetchMyRestaurant} />;
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6 space-y-6">
-      <RestaurantProfile
-        restaurant={restaurant}
-        onUpdate={setRestaurant}
-        isSeller={true}
-      />
-      <RestaurantOrders restaurantId={restaurant._id} />
-      <div className="rounded-xl bg-white shadow-sm">
-        <div className="flex border-b">
-          {[
-            { key: "menu", label: "Menu Items" },
-            { key: "add-item", label: "Add Item" },
-            { key: "sales", label: "Sales" },
-          ].map((t) => (
-            <button
-              key={t.key}
-              onClick={() => setTab(t.key as SellerTab)}
-              className={`flex-1 px-4 py-3 text-sm font-medium transition ${
-                tab === t.key
-                  ? "border-b-2 border-red-500 text-red-500"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-        <div className="p-5">
-          {tab === "menu" && (
-            <MenuItems items={menuItems} 
-          onItemDeleted={()=> fetchMenuItems(restaurant._id)}
-          isSeller={true} />
-          )}
-          {tab === "add-item" &&(
-           <AddMenuItem onItemAdded={()=>fetchMenuItems(restaurant._id)}/>
-          )}
-         
-          {tab === "sales" && <p>Sales Page</p>}
-        </div>
-      </div>
-    </div>
-  );
 };
 
 export default Restaurant;

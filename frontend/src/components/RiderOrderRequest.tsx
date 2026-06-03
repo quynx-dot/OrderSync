@@ -53,7 +53,7 @@ const RiderOrderRequest = ({orderId, onAccepted}:Props) => {
         <button disabled={accepting} 
         onClick={acceptOrder}
         className="w-full rounded-lg bg-green-600 py-2 text-sm font-semibold  text-white hover:bg-green-700 disabled:opacity-50">
-            {accepting? "Accepting...":"Accept oder"}
+            {accepting? "Accepting...":"Accept order"}
         </button>
       
     </div>

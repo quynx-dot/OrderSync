@@ -281,7 +281,7 @@ useEffect(()=>{
                 Enable Sound Notification
             </p>
             <p className="text-sm text-blue-700">
-              Get notifid when new orders arrive.
+              Get notified when new orders arrive.
             </p>
           </div>
         </div>

@@ -1,13 +1,9 @@
-import express from 'express'
+import express from 'express';
+import {internalAuth} from "@ordersync/shared";
 import {getIO} from '../socket.js'
 
 const router=express.Router()
-router.post("/emit",(req,res)=>{
-    if(req.headers["x-internal-key"] !== process.env.INTERNAL_SERVICE_KEY){
-        return res.status(403).json({
-            message:"Forbidden",
-        });
-    }
+router.post("/emit",internalAuth,(req,res)=>{
     const {event, room, payload}=req.body;
     if(!event || !room){
         return res.status(400).json({
@@ -15,7 +11,7 @@ router.post("/emit",(req,res)=>{
         });
     }
     const io=getIO()
-    console.log(`📶 Emitting event ${event} to room ${room}`);
+    console.log(`Emitting event ${event} to room ${room}`);
     io.to(room).emit(event, payload ?? {})
     return res.json({success: true});
 });

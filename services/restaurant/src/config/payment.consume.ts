@@ -13,7 +13,10 @@ export const startPaymentConsumer = async () => {
                 channel.ack(msg);
                 return;
             }
+
             const { orderId } = event.data;
+
+            // Idempotent: only update if not already paid
             const order = await Order.findOneAndUpdate(
                 { _id: orderId, paymentStatus: { $ne: "paid" } },
                 {
@@ -22,29 +25,43 @@ export const startPaymentConsumer = async () => {
                 },
                 { new: true }
             );
+
             if (!order) {
+                // Already processed — ack and move on
                 channel.ack(msg);
                 return;
             }
+
+            // Clear the customer's cart
             await Cart.deleteMany({ userId: order.userId });
-            console.log("✅Order Placed:", order._id);
-            
-            await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
-                event:"order:new",
-                room:`restaurant:${order.restaurantId}`,
-                payload:{
-                    orderId:order._id,
+            console.log("✅ Order placed:", order._id);
+
+            // Notify restaurant of new order
+            await axios.post(
+                `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+                {
+                    event: "order:new",
+                    room: `restaurant:${order.restaurantId}`,
+                    payload: { orderId: order._id },
                 },
-            },{
-                headers:{
-                    "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
+                { headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY } }
+            );
+
+            // FIX: Also notify the customer so their Orders page updates immediately
+            await axios.post(
+                `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+                {
+                    event: "order:update",
+                    room: `user:${order.userId}`,
+                    payload: { orderId: order._id, status: order.status },
                 },
-            });
-           
+                { headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY } }
+            );
 
             channel.ack(msg);
         } catch (error) {
-            console.log("❌Payment consumer error:", error);
+            console.error("❌ Payment consumer error:", error);
+            // Don't ack — message will be requeued
         }
     });
 };
