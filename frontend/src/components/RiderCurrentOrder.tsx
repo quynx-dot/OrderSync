@@ -50,7 +50,7 @@ const RiderCurrentOrder = ({order,onStatusUpdate}:Props) => {
             </p>
             <p>
                <b> Status:</b>
-               <span className="capitalize text-blue-600">{order.status.replace("_"," ")}</span>
+               <span className="capitalize text-blue-600">{order.status.replaceAll("_"," ")}</span>
             </p>
         </div>
         {order.deliveryAddress.mobile && (

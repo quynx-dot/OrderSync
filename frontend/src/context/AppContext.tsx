@@ -1,9 +1,15 @@
-import { createContext, type ReactNode, useState, useEffect, useContext } from "react";
+import {
+  createContext,
+  type ReactNode,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import axios from "axios";
 import { authService, restaurantService } from "../main";
-import type{ LocationData, AppContextType, User,ICart } from "../types";
+import type { LocationData, AppContextType, User, ICart } from "../types";
 import { Toaster } from "react-hot-toast";
-
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -18,15 +24,16 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [location, setLocation] = useState<LocationData | null>(null);
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [city, setCity] = useState("Fetching Location ...");
+  const [cart, setCart] = useState<ICart[]>([]);
+  const [subTotal, setSubtotal] = useState(0);
+  const [quantity, setQuantity] = useState(0);
 
   async function fetchUser() {
     try {
       const token = localStorage.getItem("token");
-      if (!token) return; // no token, skip the request entirely
+      if (!token) return;
       const { data } = await axios.get(`${authService}/api/auth/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setUser(data);
       setIsAuth(true);
@@ -36,32 +43,34 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       setLoading(false);
     }
   }
-  const [cart,setCart]=useState<ICart[]>([])
-  const [subTotal,setSubtotal]=useState(0);
-  const[quantity,setQuantity]=useState(0);
-  async function fetchCart(){
-    if(!user || user.role!=="customer") return;
+
+  // FIX: useCallback gives fetchCart a stable identity so:
+  //   • useEffect([user, fetchCart]) doesn't run on every render
+  //   • PaymentSuccess / OrderSuccess can safely list it in their deps arrays
+  const fetchCart = useCallback(async () => {
+    if (!user || user.role !== "customer") return;
     try {
-      const {data}=await axios.get(`${restaurantService}/api/cart/all`,{
-        headers:{
-          Authorization:`Bearer ${localStorage.getItem("token")}`,
-        },
+      const { data } = await axios.get(`${restaurantService}/api/cart/all`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-       setCart(data.cart);
-        setSubtotal(data.subTotal || 0);
-        setQuantity(data.cartLength || 0);
-    }catch(error){
-        console.log("Error fetching cart:",error);
+      setCart(data.cart);
+      setSubtotal(data.subTotal || 0);
+      setQuantity(data.cartLength || 0);
+    } catch (error) {
+      console.log("Error fetching cart:", error);
     }
-  }
+  }, [user]);
+
   useEffect(() => {
     fetchUser();
   }, []);
-useEffect(() => {
-    if(user && user.role === "customer"){
-        fetchCart();
+
+  useEffect(() => {
+    if (user && user.role === "customer") {
+      fetchCart();
     }
-}, [user]);
+  }, [user, fetchCart]);
+
   useEffect(() => {
     if (!navigator.geolocation) {
       setCity("Location unavailable");
@@ -70,7 +79,6 @@ useEffect(() => {
     setLoadingLocation(true);
 
     navigator.geolocation.getCurrentPosition(
-      // ✅ success callback
       async (position) => {
         const { longitude, latitude } = position.coords;
         try {
@@ -85,9 +93,9 @@ useEffect(() => {
           });
           setCity(
             data.address.city ||
-            data.address.town ||
-            data.address.village ||
-            "Your location"
+              data.address.town ||
+              data.address.village ||
+              "Your location"
           );
         } catch (error) {
           setLocation({ latitude, longitude, formattedAddress: "Current Location" });
@@ -96,7 +104,6 @@ useEffect(() => {
           setLoadingLocation(false);
         }
       },
-      // ✅ error callback — was completely missing before
       (err) => {
         console.warn("Geolocation error:", err.message);
         setCity("Location denied");
@@ -107,7 +114,21 @@ useEffect(() => {
 
   return (
     <AppContext.Provider
-      value={{ isAuth, loading, setIsAuth, setLoading, setUser, user, location, loadingLocation, city, cart , fetchCart, quantity,subTotal}}
+      value={{
+        isAuth,
+        loading,
+        setIsAuth,
+        setLoading,
+        setUser,
+        user,
+        location,
+        loadingLocation,
+        city,
+        cart,
+        fetchCart,
+        quantity,
+        subTotal,
+      }}
     >
       {children}
       <Toaster />

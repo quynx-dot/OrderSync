@@ -27,10 +27,12 @@ export const isAuth = (req: AuthenticatedRequest, res: Response, next: NextFunct
     }
 };
 
-// 2. New Internal Security Middleware
+// 2. Internal service-to-service auth middleware.
+//    Uses INTERNAL_SERVICE_KEY env var (via x-internal-key header).
+//    All microservices must set the same INTERNAL_SERVICE_KEY value.
 export const internalAuth = (req: Request, res: Response, next: NextFunction): void => {
-    const secret = req.headers['x-internal-key'];
-    if (!secret || secret !== process.env.INTERNAL_SECRET) {
+    const secret = req.headers["x-internal-key"];
+    if (!secret || secret !== process.env.INTERNAL_SERVICE_KEY) {
         res.status(403).json({ message: "Forbidden" });
         return;
     }
@@ -43,5 +45,5 @@ export const requireRole = (role: IUser["role"]) => (req: AuthenticatedRequest, 
 };
 
 export const isSeller = requireRole("seller");
-export const isRider = requireRole("rider");
-export const isAdmin = requireRole("admin");
+export const isRider  = requireRole("rider");
+export const isAdmin  = requireRole("admin");

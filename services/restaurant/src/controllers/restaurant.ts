@@ -2,7 +2,7 @@ import { AuthenticatedRequest } from "../middlewares/isAuth.js";
 import TryCatch from "../middlewares/trycatch.js";
 import Restaurant from "../models/Restaurant.js";
 import getBuffer from "../config/datauri.js";
-import axios from 'axios';
+import axios from "axios";
 import jwt from "jsonwebtoken";
 
 export const addRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => {
@@ -31,11 +31,10 @@ export const addRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => 
     return res.status(500).json({ message: "Failed to create file buffer" });
   }
 
-  // ✅ Now sends the internal secret header so utils service can verify the caller
   const { data: uploadResult } = await axios.post(
     `${process.env.UTILS_SERVICE}/api/upload`,
     { buffer: fileBuffer.content },
-    { headers: { 'x-internal-secret': process.env.INTERNAL_SECRET } }
+    { headers: { "x-internal-secret": process.env.INTERNAL_SECRET } }
   );
 
   const restaurant = await Restaurant.create({
@@ -66,9 +65,23 @@ export const fetchMyRestaurant = TryCatch(async (req: AuthenticatedRequest, res)
   }
 
   if (!req.user.restaurantId) {
+    const jwtSecret = process.env.JWT_SEC;
+    if (!jwtSecret) {
+      return res.status(500).json({ message: "Server misconfiguration: JWT secret missing" });
+    }
+
     const token = jwt.sign(
-      { user: { ...req.user, restaurantId: restaurant._id } },
-      process.env.JWT_SEC as string,
+      {
+        user: {
+          _id: req.user._id,
+          name: req.user.name,
+          email: req.user.email,
+          image: req.user.image,
+          role: req.user.role,
+          restaurantId: restaurant._id.toString(),
+        },
+      },
+      jwtSecret,
       { expiresIn: "15d" }
     );
     return res.json({ restaurant, token });
@@ -119,53 +132,55 @@ export const updateRestaurant = TryCatch(async (req: AuthenticatedRequest, res) 
   res.json({ message: "Restaurant updated", restaurant });
 });
 
-export const getNearbyRestaurant=TryCatch(async(require,res)=>{
-  const {latitude, longitude, radius=5000, search=""}=require.query;
-  if(!latitude || !longitude){
+// FIX: renamed first parameter from `require` (a reserved word in CommonJS / Node)
+// to `req` — using `require` as a variable name risks shadowing the global and
+// will fail under certain bundler/linter configurations.
+export const getNearbyRestaurant = TryCatch(async (req, res) => {
+  const { latitude, longitude, radius = 5000, search = "" } = req.query;
+  if (!latitude || !longitude) {
     return res.status(400).json({
-      message:"Latitude and longitude are required",
+      message: "Latitude and longitude are required",
     });
   }
-  const query:any={
-    isVerified:true
+  const query: any = { isVerified: true };
+  if (search && typeof search === "string") {
+    query.name = { $regex: search, $options: "i" };
   }
-  if(search && typeof search=="string"){
-    query.name={$regex:search, $options:"i"}
-  }
-  const restaurants=await Restaurant.aggregate([
+  const restaurants = await Restaurant.aggregate([
     {
-      $geoNear:{
-        near:{
-          type:"Point",
-          coordinates:[Number(longitude),  Number(latitude)],
+      $geoNear: {
+        near: {
+          type: "Point",
+          coordinates: [Number(longitude), Number(latitude)],
         },
-        distanceField:"distance",
-        maxDistance:Number(radius),
-        spherical:true,
+        distanceField: "distance",
+        maxDistance: Number(radius),
+        spherical: true,
         query,
       },
     },
     {
-      $sort:{
-        isOpen:-1,
-        distance:1,
+      $sort: {
+        isOpen: -1,
+        distance: 1,
       },
     },
     {
-      $addFields:{
-        distanceKm:{
-          $round:[{ $divide:["$distance", 1000]},2],
+      $addFields: {
+        distanceKm: {
+          $round: [{ $divide: ["$distance", 1000] }, 2],
         },
       },
     },
   ]);
   res.json({
-    success:true,
-    count:restaurants.length,
+    success: true,
+    count: restaurants.length,
     restaurants,
   });
 });
-export const fetchSingleRestaurant= TryCatch(async(req, res)=>{
-  const restaurant=await Restaurant.findById(req.params.id);
+
+export const fetchSingleRestaurant = TryCatch(async (req, res) => {
+  const restaurant = await Restaurant.findById(req.params.id);
   res.json(restaurant);
 });

@@ -67,7 +67,6 @@ export const toggleRiderAvailability = TryCatch(async (req: AuthenticatedRequest
         return res.status(403).json({ message: "Your profile is pending verification" });
     }
 
-    // Don't allow going online if already on an active delivery
     if (isAvailable) {
         try {
             const { data: activeOrder } = await axios.get(
@@ -172,7 +171,6 @@ export const updateRiderLocation = TryCatch(async (req: AuthenticatedRequest, re
     const rider = await Rider.findOne({ userId: userId as string });
     if (!rider) return res.status(404).json({ message: "Rider not found" });
 
-    // Update rider's stored location
     await Rider.findByIdAndUpdate(rider._id, {
         location: { type: "Point", coordinates: [Number(longitude), Number(latitude)] },
         lastActiveAt: new Date(),
@@ -186,7 +184,6 @@ export const updateRiderLocation = TryCatch(async (req: AuthenticatedRequest, re
         );
         activeOrder = data;
     } catch {
-        // No active order — location update still succeeds
         return res.json({ success: true, message: "Location updated (no active order)" });
     }
 
@@ -209,12 +206,8 @@ export const updateRiderLocation = TryCatch(async (req: AuthenticatedRequest, re
     res.json({ success: true });
 });
 
-// ─── Internal: reset rider availability after delivery ────────────────────────
-
+// Protected by internalAuth middleware in the router — no manual header check needed.
 export const resetRiderAvailability = TryCatch(async (req, res) => {
-    if (req.headers["x-internal-key"] !== process.env.INTERNAL_SERVICE_KEY) {
-        return res.status(403).json({ message: "Forbidden" });
-    }
     const { riderId } = req.params;
     await Rider.findByIdAndUpdate(riderId, { isAvailable: true });
     res.json({ success: true });

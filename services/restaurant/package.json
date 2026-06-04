@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ordersync/shared": "*",
     "@types/amqplib": "^0.10.8",
     "amqplib": "^1.0.3",
     "axios": "^1.14.0",

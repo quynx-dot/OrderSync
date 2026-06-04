@@ -99,7 +99,7 @@ const OrderRow=({order,onClick,}:{order:IOrder;
     onClick={onClick}>
         <div className="flex justify-between items-center">
             <p className="text-sm font-medium">Order #{order._id.slice(-6)}</p>
-            <span className="text-xs cpitalize text-gray-500">{order.status}</span>
+            <span className="text-xs capitalize text-gray-500">{order.status}</span>
         </div>
     </div>
 }

@@ -15,7 +15,8 @@ interface Props {
 const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState(restaurant.name);
-  const [description, setDescription] = useState(restaurant.description);
+  // FIX: description is optional (string | undefined); fall back to "" to satisfy useState<string>
+  const [description, setDescription] = useState(restaurant.description ?? "");
   const [isOpen, setIsOpen] = useState(restaurant.isOpen);
   const [loading, setLoading] = useState(false);
 
@@ -59,7 +60,6 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
       { status: false },
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     );
-    // FIX: sync local isOpen state after closing restaurant on logout
     setIsOpen(false);
     localStorage.setItem("token", "");
     setIsAuth(false);
@@ -134,9 +134,6 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
               </button>
             )}
             {isSeller && (
-              // FIX: logout button now uses a neutral gray color — not tied to isOpen.
-              // Previously it was bg-red-600 when open and bg-green-600 when closed,
-              // which was backwards and confusing.
               <button
                 onClick={logoutHandler}
                 className="rounded-lg px-4 py-1.5 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700"

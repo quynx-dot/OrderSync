@@ -112,10 +112,8 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
     res.json({ message: "Order created successfully", orderId: order._id.toString(), amount: totalAmount });
 });
 
+// Route is already protected by internalAuth middleware — no manual header check needed.
 export const fetchOrderForPayment = TryCatch(async (req, res) => {
-    if (req.headers["x-internal-key"] !== process.env.INTERNAL_SERVICE_KEY) {
-        return res.status(403).json({ message: "Forbidden" });
-    }
     const order = await Order.findById(req.params.id);
     if (!order) return res.status(404).json({ message: "Order not found" });
     if (order.paymentStatus !== "pending") return res.status(400).json({ message: "Order already paid" });
@@ -160,7 +158,6 @@ export const updateOrderStatus = TryCatch(async (req: AuthenticatedRequest, res)
     order.status = status;
     await order.save();
 
-    // Notify customer of status change
     await emitToRealtime("order:update", `user:${order.userId}`, {
         orderId: order._id,
         status: order.status,
@@ -199,14 +196,10 @@ export const fetchSingleOrder = TryCatch(async (req: AuthenticatedRequest, res) 
     res.json(order);
 });
 
+// Route already protected by internalAuth middleware.
 export const assignRiderToOrder = TryCatch(async (req, res) => {
-    if (req.headers["x-internal-key"] !== process.env.INTERNAL_SERVICE_KEY) {
-        return res.status(403).json({ message: "Forbidden" });
-    }
-
     const { orderId, riderId, riderUserId, riderName, riderPhone } = req.body;
 
-    // Prevent assigning a rider that already has an active delivery
     const activeOrder = await Order.findOne({
         riderId,
         status: { $in: ["rider_assigned", "picked_up"] },
@@ -229,17 +222,14 @@ export const assignRiderToOrder = TryCatch(async (req, res) => {
         return res.status(400).json({ message: "Order was just taken by another rider" });
     }
 
-    // Notify customer and restaurant
     await emitToRealtime("order:rider_assigned", `user:${order.userId}`, { order: orderUpdated });
     await emitToRealtime("order:rider_assigned", `restaurant:${order.restaurantId}`, { order: orderUpdated });
 
     res.json({ message: "Rider assigned successfully", success: true, order: orderUpdated });
 });
 
+// Route already protected by internalAuth middleware.
 export const getCurrentOrderForRider = TryCatch(async (req, res) => {
-    if (req.headers["x-internal-key"] !== process.env.INTERNAL_SERVICE_KEY) {
-        return res.status(403).json({ message: "Forbidden" });
-    }
     const { riderId } = req.query;
     if (!riderId) return res.status(400).json({ message: "Rider ID is required" });
 
@@ -250,10 +240,8 @@ export const getCurrentOrderForRider = TryCatch(async (req, res) => {
     res.json(order ?? null);
 });
 
+// Route already protected by internalAuth middleware.
 export const updateOrderStatusRider = TryCatch(async (req, res) => {
-    if (req.headers["x-internal-key"] !== process.env.INTERNAL_SERVICE_KEY) {
-        return res.status(403).json({ message: "Forbidden" });
-    }
     const { orderId } = req.body;
     const order = await Order.findById(orderId);
     if (!order) return res.status(404).json({ message: "Order not found" });
@@ -272,7 +260,6 @@ export const updateOrderStatusRider = TryCatch(async (req, res) => {
         await emitToRealtime("order:update", `restaurant:${order.restaurantId}`, order);
         await emitToRealtime("order:update", `user:${order.userId}`, { order });
 
-        // FIX: Reset rider availability after delivery so they can receive new orders
         try {
             await axios.patch(
                 `${process.env.RIDER_SERVICE}/api/rider/internal/reset/${order.riderId}`,
@@ -280,7 +267,6 @@ export const updateOrderStatusRider = TryCatch(async (req, res) => {
                 { headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY } }
             );
         } catch {
-            // Non-fatal — log but don't fail the delivery confirmation
             console.warn("Could not reset rider availability after delivery");
         }
 
@@ -289,8 +275,6 @@ export const updateOrderStatusRider = TryCatch(async (req, res) => {
 
     return res.status(400).json({ message: "Order status cannot be updated from its current state" });
 });
-
-// ─── Sales endpoint for restaurant dashboard ──────────────────────────────────
 
 export const getRestaurantSales = TryCatch(async (req: AuthenticatedRequest, res) => {
     const user = req.user;
@@ -331,4 +315,3 @@ export const getRestaurantSales = TryCatch(async (req: AuthenticatedRequest, res
         recentOrders,
     });
 });
-

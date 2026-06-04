@@ -1,26 +1,20 @@
-import { useSearchParams } from "react-router-dom"
-import { useAppData } from "../context/AppContext"
+import { useSearchParams } from "react-router-dom";
+import { useAppData } from "../context/AppContext";
 import type { IRestaurant } from "../types";
 import { useEffect, useState } from "react";
 import { restaurantService } from "../main";
 import axios from "axios";
 import RestaurantCard from "../components/RestaurantCard";
 
-// FIX: The backend aggregation already returns distanceKm on every restaurant.
-// The frontend was re-computing distance client-side with getDistanceKm(),
-// which was redundant and ran on every render. Removed entirely.
-
 const Home = () => {
-  const { location } = useAppData();
+  const { location, loadingLocation } = useAppData();
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchRestaurants = async () => {
-    if (!location?.latitude || !location?.longitude) {
-      return;
-    }
+    if (!location?.latitude || !location?.longitude) return;
     try {
       setLoading(true);
       const { data } = await axios.get(`${restaurantService}/api/restaurants/all`, {
@@ -45,10 +39,30 @@ const Home = () => {
     fetchRestaurants();
   }, [location, search]);
 
-  if (loading || !location) {
+  // FIX: split into three distinct states so a permission denial doesn't
+  // show an infinite "Finding restaurants..." spinner.
+  if (loadingLocation) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
         <p className="text-gray-500">Finding restaurants near you...</p>
+      </div>
+    );
+  }
+
+  if (!location) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <p className="text-gray-500">
+          Please enable location access to see nearby restaurants.
+        </p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <p className="text-gray-500">Loading restaurants...</p>
       </div>
     );
   }
@@ -58,8 +72,6 @@ const Home = () => {
       {restaurants.length > 0 ? (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {restaurants.map((res) => (
-            // FIX: use res.distanceKm from the backend aggregation instead of
-            // recomputing it client-side. The $geoNear pipeline already adds this.
             <RestaurantCard
               key={res._id}
               id={res._id}

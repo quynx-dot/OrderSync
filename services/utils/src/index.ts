@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
 import cloudinary from "cloudinary";
 import cors from 'cors'
 import uploadRoutes from './routes/cloudinary.js'
@@ -9,7 +10,6 @@ import { connectRabbitMQ } from './config/rabbitmq.js';
 import rateLimit from 'express-rate-limit';
 
 
-dotenv.config();
 connectRabbitMQ();
 const app = express();
 app.use(express.json({limit:"50mb"}));

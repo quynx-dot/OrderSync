@@ -1,5 +1,5 @@
 import express from "express";
-import { isAuth, isSeller, internalAuth } from "@ordersync/shared"; // Import internalAuth
+import { isAuth, isSeller, internalAuth } from "@ordersync/shared";
 import {
     assignRiderToOrder,
     createOrder,
@@ -15,21 +15,23 @@ import {
 
 const router = express.Router();
 
-// 1. PUBLIC/CUSTOMER ROUTES (Protected by isAuth)
+// 1. CUSTOMER ROUTES
 router.get("/my", isAuth, getMyOrders);
 router.post("/new", isAuth, createOrder);
-router.get("/:id", isAuth, fetchSingleOrder);
 
-// 2. RESTAURANT OWNER ROUTES (Protected by isAuth and isSeller)
+// 2. RESTAURANT OWNER ROUTES
 router.get("/sales", isAuth, isSeller, getRestaurantSales);
 router.get("/restaurants/:restaurantId", isAuth, isSeller, fetchRestaurantOrders);
-router.put("/:orderId", isAuth, isSeller, updateOrderStatus);
 
-// 3. INTERNAL SERVICE ROUTES (Protected by internalAuth)
-// These are only called by your other microservices (e.g., Utils or Rider service)
-router.get("/payment/:id", internalAuth, fetchOrderForPayment); 
+// 3. INTERNAL SERVICE ROUTES — must come BEFORE "/:orderId" so Express
+//    doesn't treat "assign" or "update" as an orderId parameter.
+router.get("/payment/:id", internalAuth, fetchOrderForPayment);
 router.get("/current/rider", internalAuth, getCurrentOrderForRider);
 router.put("/assign/rider", internalAuth, assignRiderToOrder);
 router.put("/update/status/rider", internalAuth, updateOrderStatusRider);
+
+// 4. PARAMETERIZED ROUTES — must be LAST
+router.get("/:id", isAuth, fetchSingleOrder);
+router.put("/:orderId", isAuth, isSeller, updateOrderStatus);
 
 export default router;

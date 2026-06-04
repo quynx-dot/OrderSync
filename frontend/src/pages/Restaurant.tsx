@@ -18,28 +18,30 @@ const Restaurant = () => {
     const [tab, setTab] = useState<SellerTab>("orders");
     const [menuItems, setMenuItems] = useState<IMenuItem[]>([]);
 
-    const fetchMyRestaurant = async () => {
-        try {
-            const { data } = await axios.get(`${restaurantService}/api/restaurants/my`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-            });
-            setRestaurant(data.restaurant || null);
-            if (data.token) {
-                localStorage.setItem("token", data.token);
-                window.location.reload();
-            }
-        } catch (error: any) {
-            if (error.response?.status === 400) {
-                setRestaurant(null);
-            } else {
-                console.error(error);
-                toast.error("Failed to load restaurant. Please try again.");
-            }
-        } finally {
-            setLoading(false);
+   const fetchMyRestaurant = async () => {
+    try {
+        const { data } = await axios.get(`${restaurantService}/api/restaurants/my`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        setRestaurant(data.restaurant || null);
+        if (data.token) {
+            localStorage.setItem("token", data.token);
+            // Remove window.location.reload() — just update state instead
+            // The new token is saved; next request will use it automatically
         }
-    };
-
+    } catch (error: any) {
+        if (error.response?.status === 400) {
+            setRestaurant(null);
+        } else if (error.response?.status === 500) {
+            console.error("Server error:", error.response?.data?.message);
+            toast.error(error.response?.data?.message || "Server error. Check your environment variables.");
+        } else {
+            toast.error("Failed to load restaurant. Please try again.");
+        }
+    } finally {
+        setLoading(false);
+    }
+};
     const fetchMenuItems = async (restaurantId: string) => {
         try {
             const { data } = await axios.get(`${restaurantService}/api/item/all/${restaurantId}`, {
