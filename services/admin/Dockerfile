@@ -9,10 +9,11 @@ RUN npm run build --workspace=services/admin
 
 FROM node:22-alpine
 WORKDIR /app
-COPY --from=builder /app/services/admin/dist ./dist
-COPY --from=builder /app/services/admin/package.json ./
-COPY --from=builder /app/services/shared/dist ./node_modules/@ordersync/shared/dist
-COPY --from=builder /app/services/shared/package.json ./node_modules/@ordersync/shared/
-RUN npm install --only=production
+COPY package.json ./
+COPY --from=builder /app/services/shared ./services/shared
+COPY --from=builder /app/services/admin/dist ./services/admin/dist
+COPY --from=builder /app/services/admin/package.json ./services/admin/package.json
+RUN npm install --workspace=services/shared --workspace=services/admin --omit=dev
+WORKDIR /app/services/admin
 EXPOSE 5006
 CMD ["node", "dist/index.js"]
