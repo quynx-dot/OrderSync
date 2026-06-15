@@ -16,53 +16,14 @@ const paymentLimiter = rateLimit({
 });
 app.use("/api/payment", paymentLimiter);
 
-// const start = async () => {
-
-//   console.log("ALL ENV KEYS:", Object.keys(process.env).join(", "));
-
-//   const CLOUD_NAME = process.env.CLOUD_NAME;
-//   const CLOUD_API_KEY = process.env.CLOUD_API_KEY;
-//   const CLOUD_SECRET_KEY = process.env.CLOUD_SECRET_KEY;
-
-//   console.log("Cloudinary check:", { CLOUD_NAME, CLOUD_API_KEY, CLOUD_SECRET_KEY: CLOUD_SECRET_KEY ? "set" : "missing" });
-
-//   if (!CLOUD_NAME || !CLOUD_API_KEY || !CLOUD_SECRET_KEY) {
-//     throw new Error("Missing Cloudinary Environment Variables");
-//   }
-
-//   const cloudinary = await import('cloudinary');
-//   cloudinary.v2.config({
-//     cloud_name: CLOUD_NAME,
-//     api_key: CLOUD_API_KEY,
-//     api_secret: CLOUD_SECRET_KEY,
-//   });
-
-//   const { connectRabbitMQ } = await import('./config/rabbitmq.js');
-//   await connectRabbitMQ();
-
-//   const { default: uploadRoutes } = await import('./routes/cloudinary.js');
-//   const { default: paymentRoutes } = await import('./routes/payment.js');
-
-//   app.use("/api", uploadRoutes);
-//   app.use("/api/payment", paymentRoutes);
-
-//   const PORT = process.env.PORT || 5002;
-//   app.listen(PORT, () => {
-//     console.log(`Utils service is running on port ${PORT}`);
-//   });
-// };
-
-// start().catch(err => {
-//   console.error("Failed to start:", err);
-//   process.exit(1);
-// });
 const start = async () => {
-  const CLOUD_NAME = process.env.CLOUD_NAME ?? "";
-  const CLOUD_API_KEY = process.env.CLOUD_API_KEY ?? "";
-  const CLOUD_SECRET_KEY = process.env.CLOUD_SECRET_KEY ?? "";
+  const CLOUD_NAME = process.env.CLOUD_NAME;
+  const CLOUD_API_KEY = process.env.CLOUD_API_KEY;
+  const CLOUD_SECRET_KEY = process.env.CLOUD_SECRET_KEY;
 
-  const { connectRabbitMQ } = await import('./config/rabbitmq.js');
-  await connectRabbitMQ();
+  if (!CLOUD_NAME || !CLOUD_API_KEY || !CLOUD_SECRET_KEY) {
+    throw new Error("Missing Cloudinary Environment Variables");
+  }
 
   const cloudinary = await import('cloudinary');
   cloudinary.v2.config({
@@ -70,6 +31,9 @@ const start = async () => {
     api_key: CLOUD_API_KEY,
     api_secret: CLOUD_SECRET_KEY,
   });
+
+  const { connectRabbitMQ } = await import('./config/rabbitmq.js');
+  await connectRabbitMQ();
 
   const { default: uploadRoutes } = await import('./routes/cloudinary.js');
   const { default: paymentRoutes } = await import('./routes/payment.js');
@@ -80,7 +44,6 @@ const start = async () => {
   const PORT = process.env.PORT || 5002;
   app.listen(PORT, () => {
     console.log(`Utils service is running on port ${PORT}`);
-    console.log(`Cloudinary configured: ${CLOUD_NAME ? 'YES' : 'NO'}`);
   });
 };
 
