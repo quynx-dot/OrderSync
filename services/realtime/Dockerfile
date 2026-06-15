@@ -9,10 +9,11 @@ RUN npm run build --workspace=services/realtime
 
 FROM node:22-alpine
 WORKDIR /app
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/services/realtime/dist ./dist
 COPY --from=builder /app/services/realtime/package.json ./
-COPY --from=builder /app/services/shared ./node_modules/@ordersync/shared
+COPY --from=builder /app/services/shared/dist ./node_modules/@ordersync/shared/dist
+COPY --from=builder /app/services/shared/package.json ./node_modules/@ordersync/shared/
+COPY --from=builder /app/services/shared/dist/index.js ./node_modules/@ordersync/shared/index.js
 RUN npm install --only=production
 EXPOSE 5004
 CMD ["node", "dist/index.js"]
