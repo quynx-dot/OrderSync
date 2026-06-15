@@ -25,10 +25,13 @@ const paymentLimiter=rateLimit({
 });
 app.use("/api/payment",paymentLimiter);
 
-const{CLOUD_NAME, CLOUD_API_KEY, CLOUD_SECRET_KEY}=process.env;
-if(!CLOUD_NAME|| !CLOUD_API_KEY ||!CLOUD_SECRET_KEY){
-  throw new Error("Missing Cloudinary Environment Variables");
+const CLOUD_NAME = process.env.CLOUD_NAME;
+const CLOUD_API_KEY = process.env.CLOUD_API_KEY;
+const CLOUD_SECRET_KEY = process.env.CLOUD_SECRET_KEY;
 
+if(!CLOUD_NAME || !CLOUD_API_KEY || !CLOUD_SECRET_KEY){
+  console.error("Cloudinary vars:", { CLOUD_NAME, CLOUD_API_KEY, CLOUD_SECRET_KEY: CLOUD_SECRET_KEY ? "set" : "missing" });
+  throw new Error("Missing Cloudinary Environment Variables");
 }
 cloudinary.v2.config({
   cloud_name:CLOUD_NAME,
