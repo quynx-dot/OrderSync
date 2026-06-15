@@ -8,8 +8,7 @@ import { getRazorpay } from "../config/razorpay.js";
 import { verifyRazorpaySignature } from "../config/verifyRazorpay.js";
 import { publishPaymentSuccess } from "../config/payment.producer.js";
 
-// Stripe is initialised after dotenv.config() so STRIPE_SECRET_KEY is populated
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export const createRazorpayOrder = async (req: Request, res: Response) => {
   const { orderId } = req.body;
@@ -46,7 +45,7 @@ export const payWithStripe = async (req: Request, res: Response) => {
       `${process.env.RESTAURANT_SERVICE}/api/order/payment/${orderId}`,
       { headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY } }
     );
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       line_items: [
@@ -72,7 +71,7 @@ export const payWithStripe = async (req: Request, res: Response) => {
 export const verifyStripe = async (req: Request, res: Response) => {
   const { sessionId } = req.body;
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
     if (!session) {
       return res.status(404).json({ message: "Payment Verification Failed" });
     }
