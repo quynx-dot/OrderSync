@@ -4,7 +4,7 @@ dotenv.config();
 import { Request, Response } from "express";
 import axios from "axios";
 import Stripe from "stripe";
-import { razorpay } from "../config/razorpay.js";
+import { getRazorpay } from "../config/razorpay.js";
 import { verifyRazorpaySignature } from "../config/verifyRazorpay.js";
 import { publishPaymentSuccess } from "../config/payment.producer.js";
 
@@ -17,7 +17,7 @@ export const createRazorpayOrder = async (req: Request, res: Response) => {
     `${process.env.RESTAURANT_SERVICE}/api/order/payment/${orderId}`,
     { headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY } }
   );
-  const razorpayOrder = await razorpay.orders.create({
+  const razorpayOrder = await getRazorpay().orders.create({
     amount: data.amount * 100,
     currency: "INR",
     receipt: "orderId",
