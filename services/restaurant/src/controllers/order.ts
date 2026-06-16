@@ -234,7 +234,7 @@ export const getCurrentOrderForRider = TryCatch(async (req, res) => {
     if (!riderId) return res.status(400).json({ message: "Rider ID is required" });
 
     const order = await Order.findOne({
-        riderId,
+        riderId:String(riderId),
         status: { $in: ["rider_assigned", "picked_up"] },
     });
     res.json(order ?? null);
