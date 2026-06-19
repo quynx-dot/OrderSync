@@ -24,7 +24,6 @@ const Login = () => {
             setIsAuth(true);
             navigate("/");
         }catch(error){
-            console.log(error);
             toast.error("Problem while login");
             setLoading(false);
         }

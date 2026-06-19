@@ -13,7 +13,6 @@ const connectDB = async () => {
         
         // This will throw if the connection is truly broken
         const collections = await mongoose.connection.db?.listCollections().toArray();
-        console.log("Database Collections:", collections?.map(c => c.name));
         
     } catch (error) {
         console.error("CRITICAL CONNECTION ERROR:", error);
