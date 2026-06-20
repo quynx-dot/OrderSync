@@ -20,6 +20,10 @@ export const isAuth = (req: AuthenticatedRequest, res: Response, next: NextFunct
         const token = req.headers.authorization?.split(" ")[1];
         if (!token) { res.status(401).json({ message: "Login required" }); return; }
         const decoded = jwt.verify(token, process.env.JWT_SEC as string) as JwtPayload;
+        if (!decoded.user || typeof decoded.user !== "object") {
+            res.status(401).json({ message: "Invalid token payload" });
+         return;
+    }   
         req.user = decoded.user as IUser;
         next();
     } catch {
