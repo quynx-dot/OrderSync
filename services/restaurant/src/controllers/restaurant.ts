@@ -136,7 +136,7 @@ export const updateRestaurant = TryCatch(async (req: AuthenticatedRequest, res) 
 // to `req` — using `require` as a variable name risks shadowing the global and
 // will fail under certain bundler/linter configurations.
 export const getNearbyRestaurant = TryCatch(async (req, res) => {
-  const { latitude, longitude, radius = 5000, search = "" } = req.query;
+  const { latitude, longitude, radius = 25000, search = "" } = req.query;
   if (!latitude || !longitude) {
     return res.status(400).json({
       message: "Latitude and longitude are required",
