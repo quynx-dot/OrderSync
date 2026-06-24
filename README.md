@@ -2,7 +2,17 @@
 
 Food delivery platform built with microservices. Six independent Node.js services talk to each other over REST and RabbitMQ, with Socket.io for real-time updates. Customers order food, restaurants manage orders, riders deliver them.
 
-**Live:** https://ordersync.vercel.app
+**Live:** https://ordersync-green.vercel.app
+
+---
+
+## Screenshots
+
+![Home](screenshots/home.png)
+![Restaurant](screenshots/restaurant.png)
+![Cart](screenshots/cart.png)
+![Checkout](screenshots/checkout.png)
+![Rider Dashboard](screenshots/rider.png)
 
 ---
 
