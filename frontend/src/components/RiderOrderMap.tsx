@@ -34,31 +34,37 @@ const Routing=({from,to}:{from:[number,number],to:[number,number]})=>{
     // Keep a ref to the control so we can safely remove it
     const controlRef = useRef<any>(null);
 
-    useEffect(()=>{
-        const control=L.Routing.control({
+useEffect(()=>{
+    // @ts-ignore
+    if (!L.Routing) return;
+    let control: any;
+    try {
+        control = L.Routing.control({
             waypoints:[L.latLng(from),L.latLng(to)],
             lineOptions:{styles:[{color:"#E23744",weight:5}]},
             addWaypoints:false,
             draggableWaypoints:false,
             show:false,
             createMarker:()=>null,
+            // @ts-ignore
             router:L.Routing.osrmv1({serviceurl:"https://router.project-osrm.org/route/v1"})
         }).addTo(map);
         controlRef.current = control;
+    } catch(e) {
+        console.warn("Routing unavailable:", e);
+        return;
+    }
 
-        return () => {
-            // Safely clear the drawn route lines before removing the control.
-            // If the map is already destroyed, _clearLines will throw because
-            // the internal layer group is null — we catch and swallow that error.
-            try {
-                control.setWaypoints([]);
-            } catch (_) { /* map already gone */ }
-            try {
-                map.removeControl(control);
-            } catch (_) { /* map already gone */ }
-            controlRef.current = null;
-        };
-    },[from,to,map]);
+    return () => {
+        try {
+            control.setWaypoints([]);
+        } catch (_) {}
+        try {
+            map.removeControl(control);
+        } catch (_) {}
+        controlRef.current = null;
+    };
+},[from,to,map]);
     return null;
 };
 
