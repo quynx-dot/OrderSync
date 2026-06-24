@@ -9,7 +9,7 @@ import {
     updateRiderLocation,
     resetRiderAvailability,
 } from "../controllers/rider.js";
-import { isAuth } from "../middlewares/isAuth.js";
+import { isAuth, isRider } from "../middlewares/isAuth.js";
 import uploadFile from "../middlewares/multer.js";
 
 const router = express.Router();
@@ -31,11 +31,10 @@ const internalAuth = (
 router.post("/new", isAuth, uploadFile, addRiderProfile);
 router.get("/myprofile", isAuth, fetchMyProfile);
 router.patch("/toggle", isAuth, toggleRiderAvailability);
-router.post("/accept/:orderId", isAuth, acceptOrder);
-router.get("/order/current", isAuth, fetchMyCurrentOrder);
-router.put("/order/update/:orderId", isAuth, updateOrderStatus);
-router.post("/location/update", isAuth, updateRiderLocation);
-
+router.post("/accept/:orderId", isAuth, isRider, acceptOrder);
+router.get("/order/current", isAuth, isRider, fetchMyCurrentOrder);
+router.put("/order/update/:orderId", isAuth, isRider, updateOrderStatus);
+router.post("/location/update", isAuth, isRider, updateRiderLocation);
 // Internal route — protected by internalAuth, not isAuth
 router.patch("/internal/reset/:riderId", internalAuth, resetRiderAvailability);
 
