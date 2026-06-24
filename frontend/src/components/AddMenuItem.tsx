@@ -20,7 +20,7 @@ const AddMenuItem = ({onItemAdded}:{onItemAdded:()=> void}) => {
     };
     const handleSubmit=async()=>{
         if(!name || !price || !image){
-            alert("Name price and image is required");
+            toast.error("Name price and image is required");
             return;
         };
         const formData=new FormData()
