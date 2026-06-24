@@ -32,8 +32,12 @@ const Routing=({
     // Keep a ref so the cleanup can access the control
     const controlRef = useRef<any>(null);
 
-    useEffect(()=>{
-        const control=L.Routing.control({
+   useEffect(()=>{
+    // @ts-ignore
+    if (!L.Routing) return;
+    let control: any;
+    try {
+        control = L.Routing.control({
             waypoints:[L.latLng(from),L.latLng(to)],
             lineOptions:{
                 styles:[{color:"#E23744",weight:5}],
@@ -42,24 +46,27 @@ const Routing=({
             draggableWaypoints:false,
             show:false,
             createMarker:()=>null,
+            // @ts-ignore
             router:L.Routing.osrmv1({
                 serviceurl:"https://router.project-osrm.org/route/v1"
             })
         }).addTo(map);
         controlRef.current = control;
+    } catch(e) {
+        console.warn("Routing unavailable:", e);
+        return;
+    }
 
-        return () => {
-            // Clear waypoints first so the library doesn't try to removeLayer
-            // on an already-destroyed map internals.
-            try {
-                control.setWaypoints([]);
-            } catch (_) { /* map already gone */ }
-            try {
-                map.removeControl(control);
-            } catch (_) { /* map already gone */ }
-            controlRef.current = null;
-        };
-    },[from, to, map]);
+    return () => {
+        try {
+            control.setWaypoints([]);
+        } catch (_) {}
+        try {
+            map.removeControl(control);
+        } catch (_) {}
+        controlRef.current = null;
+    };
+},[from, to, map]);
     return null;
 };
 
