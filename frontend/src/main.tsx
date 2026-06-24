@@ -15,7 +15,6 @@ export const riderService = import.meta.env.VITE_RIDER_SERVICE ??"http://localho
 export const adminService = import.meta.env.VITE_ADMIN_SERVICE ??"http://localhost:5006";
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
-console.log("CLIENT ID:", googleClientId);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={googleClientId}>
