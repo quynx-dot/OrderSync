@@ -47,7 +47,7 @@ export const startPaymentConsumer = async () => {
                 { headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY } }
             );
 
-            // FIX: Also notify the customer so their Orders page updates immediately
+            // Notify the customer so their Orders page updates immediately
             await axios.post(
                 `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
                 {

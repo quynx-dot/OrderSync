@@ -8,9 +8,9 @@ const PaymentSuccess = () => {
   const { paymentId } = useParams<{ paymentId: string }>();
   const navigate = useNavigate();
   const { fetchCart } = useAppData();
+// fetchCart has a stable identity via useCallback in AppContext
 
-  // FIX: fetchCart added to dependency array — it now has a stable identity
-  // via useCallback in AppContext, so this won't cause an infinite loop.
+
   useEffect(() => {
     fetchCart();
   }, [fetchCart]);
