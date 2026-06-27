@@ -2,7 +2,7 @@
 const connectDB=async()=>{
     try {
         await mongoose.connect(process.env.MONGO_URI as string, {
-            dbName:"Zomato_Clone",
+            dbName: process.env.DB_NAME || "OrderSync",
         });
         console.log("MongoDB connected successfully");
     } catch (error) {
