@@ -1,6 +1,3 @@
-// OrderSync Seed Script
-// Usage: node seed.js <MONGO_URI>
-// Example: node seed.js "mongodb+srv://user:pass@cluster.mongodb.net"
 
 import mongoose from "mongoose";
 
@@ -13,7 +10,6 @@ if (!MONGO_URI) {
     process.exit(1);
 }
 
-// ─── Schemas ─────────────────────────────────────────────────────────────────
 
 const RestaurantSchema = new mongoose.Schema({
     name: String,
@@ -45,12 +41,20 @@ const MenuItem = mongoose.model("MenuItem", MenuItemSchema);
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
+const SEED_OWNER_IDS = [
+    "64a7f3b2c9e1d82f4a0b5c11",
+    "64a7f3b2c9e1d82f4a0b5c22",
+    "64a7f3b2c9e1d82f4a0b5c33",
+    "64a7f3b2c9e1d82f4a0b5c44",
+    "64a7f3b2c9e1d82f4a0b5c55",
+];
+
 const restaurants = [
     {
-        name: "Spice Garden",
+        name: "Aahar Express",
         description: "Authentic North Indian cuisine — rich gravies, tandoor breads, and classic curries.",
         image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800",
-        ownerId: "seed_owner_1",
+        ownerId: SEED_OWNER_IDS[0],
         phone: 9876543210,
         isVerified: true,
         isOpen: true,
@@ -69,10 +73,10 @@ const restaurants = [
         ],
     },
     {
-        name: "Dragon Wok",
+        name: "Wok & Roll",
         description: "Indo-Chinese street food and wok-tossed noodles done right.",
         image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800",
-        ownerId: "seed_owner_2",
+        ownerId: SEED_OWNER_IDS[1],
         phone: 9812345678,
         isVerified: true,
         isOpen: true,
@@ -91,10 +95,10 @@ const restaurants = [
         ],
     },
     {
-        name: "The Cafe Corner",
+        name: "Brew Stop",
         description: "All-day breakfast, sandwiches, and specialty coffee in a cozy setting.",
         image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800",
-        ownerId: "seed_owner_3",
+        ownerId: SEED_OWNER_IDS[2],
         phone: 9823456789,
         isVerified: true,
         isOpen: true,
@@ -113,10 +117,10 @@ const restaurants = [
         ],
     },
     {
-        name: "Dosa Darbar",
+        name: "Dosa Republic",
         description: "Crispy South Indian dosas, idlis, and filter coffee since 1985.",
         image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800",
-        ownerId: "seed_owner_4",
+        ownerId: SEED_OWNER_IDS[3],
         phone: 9834567890,
         isVerified: true,
         isOpen: false, // intentionally closed for demo variety
@@ -134,10 +138,10 @@ const restaurants = [
         ],
     },
     {
-        name: "Burger Bros",
+        name: "Smash Theory",
         description: "Smash burgers, loaded fries, and thick shakes. No salads, no apologies.",
         image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800",
-        ownerId: "seed_owner_5",
+        ownerId: SEED_OWNER_IDS[4],
         phone: 9845678901,
         isVerified: true,
         isOpen: true,
@@ -165,7 +169,7 @@ async function seed() {
         console.log("✅ Connected to MongoDB");
 
         // Clear existing seeded data only (don't touch real user data)
-        await Restaurant.deleteMany({ ownerId: { $in: ["seed_owner_1", "seed_owner_2", "seed_owner_3", "seed_owner_4", "seed_owner_5"] } });
+        await Restaurant.deleteMany({ ownerId: { $in: SEED_OWNER_IDS } });
         console.log("🗑️  Cleared old seed data");
 
         for (const r of restaurants) {
@@ -187,7 +191,7 @@ async function seed() {
         console.log("\n🎉 Seeding complete!");
         console.log(`   ${restaurants.length} restaurants created`);
         console.log(`   ${restaurants.reduce((acc, r) => acc + r.menuItems.length, 0)} menu items created`);
-        console.log("\nAll restaurants are verified and open (except Dosa Darbar — closed for variety)");
+        console.log("\nAll restaurants are verified and open (except Dosa Republic — closed for variety)");
 
     } catch (err) {
         console.error("❌ Seed failed:", err);
@@ -196,5 +200,5 @@ async function seed() {
         console.log("🔌 Disconnected from MongoDB");
     }
 }
-db.restaurants.createIndex({ "autoLocation": "2dsphere" })
+
 seed();
