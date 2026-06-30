@@ -15,6 +15,7 @@ const app = express();
 app.set("trust proxy", 1);
 app.use(cors());
 app.use(express.json());
+app.get("/health", (_req, res) => res.json({ status: "ok", service: "auth", ts: Date.now() }));
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,

@@ -19,6 +19,7 @@ if (!process.env.JWT_SEC)   { console.error("FATAL: JWT_SEC missing");   process
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.get("/health", (_req, res) => res.json({ status: "ok", service: "restaurant", ts: Date.now() }));
 
 const orderLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
