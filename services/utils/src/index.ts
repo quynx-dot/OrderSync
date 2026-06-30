@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit';
 
 const app = express();
 app.use(express.json({ limit: "50mb" }));
+app.get("/health", (_req, res) => res.json({ status: "ok", service: "utils", ts: Date.now() }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
 

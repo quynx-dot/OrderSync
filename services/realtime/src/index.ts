@@ -9,6 +9,7 @@ dotenv.config();
 const app=express();
 app.use(cors());
 app.use(express.json());
+app.get("/health", (_req, res) => res.json({ status: "ok", service: "realtime", ts: Date.now() }));
 app.use("/api/v1/internal", internalRoute)
 const server=http.createServer(app);
 initSocket(server);

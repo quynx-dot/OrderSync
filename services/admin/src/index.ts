@@ -11,6 +11,7 @@ const app = express();
 app.use(cors());
 // FIX: express.json() was missing — all PATCH request bodies were undefined
 app.use(express.json());
+app.get("/health", (_req, res) => res.json({ status: "ok", service: "admin", ts: Date.now() }));
 
 app.use("/api/v1", adminRoutes);
 
