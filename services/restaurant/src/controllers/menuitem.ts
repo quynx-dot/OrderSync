@@ -4,30 +4,32 @@ import TryCatch from "../middlewares/trycatch.js"
 import Restaurant from "../models/Restaurant.js"
 import MenuItems from "../models/MenuItems.js";
 import axios from "axios";
+import { addMenuItemSchema } from "@ordersync/shared";
 
-export const addMenuItem = TryCatch(async(req:AuthenticatedRequest, res)=>{
-    if(!req.user){
-        return res.status(401).json({
-            message:"Please Login",
-        });
+
+export const addMenuItem = TryCatch(async (req: AuthenticatedRequest, res) => {
+    if (!req.user) {
+        return res.status(401).json({ message: "Please Login" });
     }
-    const restaurant= await Restaurant.findOne({ ownerId:req.user._id});
-    if(!restaurant){
-        return res.status(404).json({
-            message:"No Restaurant Found",
-        });
+
+    const restaurant = await Restaurant.findOne({ ownerId: req.user._id });
+    if (!restaurant) {
+        return res.status(404).json({ message: "No Restaurant Found" });
     }
-    const {name, description, price}=req.body;
-    if(!name || !price){
+
+    // Zod validation — replaces manual if(!name || !price) check
+    const validation = addMenuItemSchema.safeParse(req.body);
+    if (!validation.success) {
         return res.status(400).json({
-            message:"Name and Price are required",
+            message: validation.error.errors[0]?.message ?? "Validation failed",
         });
-    };
-    
+    }
+    const { name, description, price } = validation.data;
+
     const file = req.file;
-      if (!file) {
+    if (!file) {
         return res.status(400).json({ message: "Please provide an image" });
-      }
+    }
     
       const fileBuffer = getBuffer(file);
       if (!fileBuffer?.content) {
@@ -41,7 +43,7 @@ export const addMenuItem = TryCatch(async(req:AuthenticatedRequest, res)=>{
       );
       const item=await MenuItems.create({
         name,
-        description,
+        ...(description !== undefined && { description }),
         price,
         restaurantId:restaurant._id,
         image:uploadResult.url,

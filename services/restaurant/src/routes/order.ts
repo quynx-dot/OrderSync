@@ -1,5 +1,5 @@
 import express from "express";
-import { isAuth, isSeller, internalAuth } from "@ordersync/shared";
+import { isAuth, isSeller, internalAuth,validate,createOrderSchema } from "@ordersync/shared";
 import {
     assignRiderToOrder,
     createOrder,
@@ -17,7 +17,7 @@ const router = express.Router();
 
 // 1. CUSTOMER ROUTES
 router.get("/my", isAuth, getMyOrders);
-router.post("/new", isAuth, createOrder);
+router.post("/new", isAuth, validate(createOrderSchema), createOrder);
 
 // 2. RESTAURANT OWNER ROUTES
 router.get("/sales", isAuth, isSeller, getRestaurantSales);

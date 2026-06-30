@@ -1,31 +1,37 @@
 import { AuthenticatedRequest } from "../middlewares/isAuth.js";
 import TryCatch from "../middlewares/trycatch.js";
 import Restaurant from "../models/Restaurant.js";
+import MenuItems from "../models/MenuItems.js";
 import getBuffer from "../config/datauri.js";
 import axios from "axios";
 import jwt from "jsonwebtoken";
+import { addRestaurantSchema } from "@ordersync/shared";
 
 export const addRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => {
-  const user = req.user;
-  if (!user) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+    const user = req.user;
+    if (!user) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
 
-  const existingRestaurant = await Restaurant.findOne({ ownerId: user._id });
-  if (existingRestaurant) {
-    return res.status(400).json({ message: "You already have a restaurant" });
-  }
+    const existingRestaurant = await Restaurant.findOne({ ownerId: user._id });
+    if (existingRestaurant) {
+        return res.status(400).json({ message: "You already have a restaurant" });
+    }
 
-  const { name, description, latitude, longitude, formattedAddress, phone } = req.body;
-  if (!name || !latitude || !longitude || !phone) {
-    return res.status(400).json({ message: "Please provide all details" });
-  }
+    // Zod validation — replaces manual check
+    const validation = addRestaurantSchema.safeParse(req.body);
+    if (!validation.success) {
+        return res.status(400).json({
+            message: validation.error.errors[0]?.message ?? "Validation failed",
+        });
+    }
+    const { name, description, latitude, longitude, formattedAddress, phone } = validation.data;
 
-  const file = req.file;
-  if (!file) {
-    return res.status(400).json({ message: "Please provide an image" });
-  }
-
+    const file = req.file;
+    if (!file) {
+        return res.status(400).json({ message: "Please provide an image" });
+    }
+  
   const fileBuffer = getBuffer(file);
   if (!fileBuffer?.content) {
     return res.status(500).json({ message: "Failed to create file buffer" });
@@ -39,7 +45,7 @@ export const addRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => 
 
   const restaurant = await Restaurant.create({
     name,
-    description,
+     ...(description !== undefined && { description }),
     phone,
     image: uploadResult.url,
     ownerId: user._id,
@@ -132,9 +138,7 @@ export const updateRestaurant = TryCatch(async (req: AuthenticatedRequest, res) 
   res.json({ message: "Restaurant updated", restaurant });
 });
 
-// FIX: renamed first parameter from `require` (a reserved word in CommonJS / Node)
-// to `req` — using `require` as a variable name risks shadowing the global and
-// will fail under certain bundler/linter configurations.
+
 export const getNearbyRestaurant = TryCatch(async (req, res) => {
   const { latitude, longitude, radius = 25000, search = "" } = req.query;
   if (!latitude || !longitude) {
