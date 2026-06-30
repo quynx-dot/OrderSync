@@ -4,8 +4,8 @@ export interface IOrder extends Document{
     restaurantId:string;
     restaurantName:string;
     riderId?:string | null;
-    riderPhone:Number|null;
-    riderName:String|null;
+    riderPhone:string|null;
+    riderName:string|null;
     distance:number;
     riderAmount:number;
     items:{
